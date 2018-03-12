@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.carteresto.igr230.carteresto.R;
 
+/**
+ * Ce Activity affichir tous les list du plat à la cart et la liste du menu du jour
+ * **/
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     @Override
