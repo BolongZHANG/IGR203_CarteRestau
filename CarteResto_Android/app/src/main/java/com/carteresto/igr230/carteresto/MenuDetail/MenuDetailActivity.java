@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.carteresto.igr230.carteresto.R;
 
+/**
+ * Affichier la presentation du menu du jour et les option associé à ce menu.
+ * **/
 public class MenuDetailActivity extends AppCompatActivity {
 
     @Override
