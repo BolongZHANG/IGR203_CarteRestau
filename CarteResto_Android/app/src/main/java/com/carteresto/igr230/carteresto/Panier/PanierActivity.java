@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.carteresto.igr230.carteresto.R;
 
+/**
+ * Ce activity affihier tous les info sur le panier et une fragment pour montrer des recommentaion.
+ * */
 public class PanierActivity extends AppCompatActivity {
 
     @Override
