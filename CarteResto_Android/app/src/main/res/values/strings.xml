@@ -13,4 +13,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="menu_detail_titre">Nom du menu</string>
+    <string name="menu_detail_prix">%1$.2f €</string>
+    <string name="menu_detail_button_minus">-</string>
+    <string name="menu_detail_button_plus">+</string>
+    <string name="menu_detail_number_zero">0</string>
+    <string name="menu_detail_presentation">Présentation</string>
+    <string name="menu_detail_description_text">Description du plat..</string>
+
 </resources>
