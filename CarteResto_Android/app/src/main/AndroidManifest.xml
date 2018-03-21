@@ -7,7 +7,11 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,36 +21,35 @@
         <activity
             android:name=".Login.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape"  >
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MenuPrincipale.MenuPrincipalActivity"
-            android:screenOrientation="landscape"
-            >
+        <activity
+            android:name=".MenuPrincipale.MenuPrincipalActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MenuDetail.MenuDetailActivity"
-            android:screenOrientation="landscape"  >
+        <activity
+            android:name=".MenuDetail.MenuDetailActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Panier.PanierActivity"
-            android:screenOrientation="landscape"  >
+        <activity
+            android:name=".Panier.PanierActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
     </application>
+
 
 </manifest>

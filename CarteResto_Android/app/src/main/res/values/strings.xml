@@ -13,4 +13,12 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="valide">Valide</string>
+    <string name="logo">LOGO</string>
+    <string name="prompt_table">Table number</string>
+    <string name="error_invalid_table">Numéro de table n\'est pas correct!</string>
+    <string name="title_no_dispo">Table no disponible</string>
+    <string name="msg_no_dispo">Cette table n\'est pas disponible. Vous voulez continuer         reentrée dans cette commande?</string>
+    <string name="title_dispo">Table disponible</string>
+    <string name="msg_dispo">Table est dispoble.</string>
 </resources>
