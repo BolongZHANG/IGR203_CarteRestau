@@ -8,8 +8,9 @@
         android:id="@+id/menu_detail_dish_preview"
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:background="@android:drawable/menuitem_background"
-        android:scaleType="centerCrop"/>
+        android:layout_margin="1dp"
+        android:scaleType="centerCrop"
+        android:background="#FFFFFF"/>
 
     <TextView
         android:id="@+id/menu_detail_dish_title"

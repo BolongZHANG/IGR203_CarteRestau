@@ -47,4 +47,9 @@
     <string name="menu_detail_validate_accept">Oui</string>
     <string name="menu_detail_validate_cancel">Non</string>
     <string name="menu_detail_validate_no_menu_added">Vous n\'avez ajouté aucun menu.</string>
+    <string name="menu_detail_note_dialog_title">Ajouter une note à votre menu</string>
+    <string name="menu_detail_note_dialog_save">Enregistrer</string>
+    <string name="menu_detail_note_dialog_cancel">Annuler</string>
+    <string name="menu_detail_note_dialog_void">Votre note est vide.</string>
+    <string name="menu_detail_note_dialog_note_saved">Note enregistrée.</string>
 </resources>

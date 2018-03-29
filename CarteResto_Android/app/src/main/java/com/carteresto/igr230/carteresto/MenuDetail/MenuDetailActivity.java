@@ -30,6 +30,7 @@ public class MenuDetailActivity extends AppCompatActivity {
     private TextView menuNumberView ;
     private ImageButton noteBtn ;
     private int lastQuantity = 0 ;
+    private String curNote ;
 
     // Dishes ListView
     private DishesListAdapter listAdapter ;
@@ -76,7 +77,7 @@ public class MenuDetailActivity extends AppCompatActivity {
         noteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showNoteDialog() ;
             }
         });
         validateBtn = (Button) findViewById(R.id.menu_detail_validate_btn) ;
@@ -168,5 +169,18 @@ public class MenuDetailActivity extends AppCompatActivity {
 
     public int getMaxQuantity() {
         return lastQuantity ;
+    }
+
+    public void showNoteDialog() {
+        NoteDialog noteDialog = new NoteDialog() ;
+        noteDialog.show(getFragmentManager(), getString(R.string.menu_detail_note_dialog_title)) ;
+    }
+
+    public void setNote(String note) {
+        this.curNote = note ;
+    }
+
+    public String getCurNote() {
+        return this.curNote ;
     }
 }
