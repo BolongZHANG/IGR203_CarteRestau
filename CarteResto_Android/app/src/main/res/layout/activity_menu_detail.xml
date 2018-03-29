@@ -11,71 +11,90 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="5"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
             android:layout_weight="2"
-            android:weightSum="10"
+            android:background="@android:drawable/screen_background_light_transparent"
             android:orientation="vertical"
-            android:background="#DDDDDD"
             android:padding="5sp"
-            android:layout_margin="10sp">
+            android:weightSum="10">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/yosenabe"/>
+                android:src="@drawable/yosenabe"
+                android:scaleType="fitCenter"/>
 
             <TextView
+                android:id="@+id/menu_detail_menu_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/menu_detail_titre"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/black"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/menu_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:text="@string/menu_detail_prix"
                     android:layout_alignParentStart="true"
-                    android:textSize="30sp"/>
+                    android:textColor="@color/colorAccent"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_alignParentEnd="true">
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/menu_detail_number_less"
+                        style="@android:style/Widget.Holo.Button.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_detail_button_minus"/>
+                        android:text="@string/menu_detail_button_minus"
+                        android:backgroundTint="@color/colorAccent"/>
 
                     <TextView
+                        android:id="@+id/menu_detail_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_detail_number_zero"/>
+                        android:layout_gravity="center"
+                        android:text="@string/menu_detail_number_zero"
+                        android:textSize="30sp"
+                        android:layout_marginStart="@dimen/activity_vertical_margin"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"/>
 
                     <Button
+                        android:id="@+id/menu_detail_number_more"
+                        style="@android:style/Widget.Holo.Button.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_detail_button_plus"/>
+                        android:text="@string/menu_detail_button_plus"
+                        android:backgroundTint="@color/colorAccent"/>
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="@dimen/activity_horizontal_margin"
+                        android:layout_height="match_parent" />
 
                     <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="?android:attr/buttonBarStyle"/>
-
+                        android:id="@+id/menu_detail_add_note"
+                        android:layout_width="45sp"
+                        android:layout_height="50sp"
+                        android:layout_gravity="center_vertical"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/note"
+                        android:backgroundTint="@color/colorAccent"/>
                 </LinearLayout>
 
             </RelativeLayout>
@@ -89,26 +108,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/menu_detail_presentation"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
-                <TextView
+                <ScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu_detail_description_text"/>
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_detail_description_text" />
+
+                </ScrollView>
 
             </LinearLayout>
+            <Button
+                android:id="@+id/menu_detail_validate_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:text="@string/menu_detail_validate_choice"
+                style="@style/Base.Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:layout_weight="3"
+            android:padding="@dimen/activity_vertical_margin">
 
+            <ExpandableListView
+                android:id="@+id/menu_detail_dishes_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+            </ExpandableListView>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
