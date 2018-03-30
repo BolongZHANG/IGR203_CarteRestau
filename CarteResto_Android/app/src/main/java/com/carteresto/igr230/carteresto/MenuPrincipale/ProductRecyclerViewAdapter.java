@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -68,6 +69,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         Glide.with(mContext /* context */)
                 .using(new FirebaseImageLoader())
                 .load(storage.getReferenceFromUrl(imageRef))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .into(holder.mImageView);
 
         holder.mAddButton.setOnClickListener(v -> mListener.add(product.getId()));

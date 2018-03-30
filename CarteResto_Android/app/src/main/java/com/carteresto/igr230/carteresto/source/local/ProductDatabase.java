@@ -6,13 +6,13 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.carteresto.igr230.carteresto.Model.CommandModel;
-import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 
 /**
  * Created by zhufa on 19/03/2018.
  */
 
-@Database(entities = {Product.class, CommandModel.class}, version = 1, exportSchema = false)
+@Database(entities = {ProductModel.class, CommandModel.class}, version = 1, exportSchema = false)
 public abstract class ProductDatabase extends RoomDatabase {
 
     /**

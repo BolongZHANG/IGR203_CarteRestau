@@ -14,7 +14,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created by zhufa on 18/03/2018.
  */
 
-
+@Entity
 public class Product extends ProductModel{
 
     static public final String VIN = "vin";
@@ -27,10 +27,7 @@ public class Product extends ProductModel{
     @StringDef({VIN, APERO, ENTREE, PLAT, DESSERT, MENU})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Types{}
-
-    @Ignore
     private int quantity;
-    @Ignore
     private String commentaire;
 
 
@@ -53,7 +50,12 @@ public class Product extends ProductModel{
     public String toString() {
 
         return "Product{" +
-                "quantity=" + quantity +
+                "id='" + getId() + '\'' +
+                ", type='" + getType() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", price=" + getPrice() +
+                ", image='" + getImage() + '\'' +
+                ", quantity=" + quantity +
                 ", commentaire='" + commentaire + '\'' +
                 '}';
     }

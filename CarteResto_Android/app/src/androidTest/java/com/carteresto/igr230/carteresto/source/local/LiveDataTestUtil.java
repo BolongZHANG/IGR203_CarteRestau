@@ -18,6 +18,7 @@ package com.carteresto.igr230.carteresto.source.local;/*
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -34,13 +35,14 @@ public class LiveDataTestUtil {
         Observer<T> observer = new Observer<T>() {
             @Override
             public void onChanged(@Nullable T o) {
+                Log.e("Test", "onChanged: " + o);
                 data[0] = o;
                 latch.countDown();
                // liveData.removeObserver(this);
             }
         };
         liveData.observeForever(observer);
-        latch.await(2, TimeUnit.SECONDS);
+        latch.await(10, TimeUnit.SECONDS);
         //noinspection unchecked
         return (T) data[0];
     }

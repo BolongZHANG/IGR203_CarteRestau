@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     private static final String ARG_TYPE = "type";
     private String mType = Product.VIN;
     private OnListFragmentInteractionListener mListener;
-    private GridLayoutManager mLayoutManager;
+    private StaggeredGridLayoutManager mLayoutManager;
     private ProductListViewModel viewModel;
     private ProductRecyclerViewAdapter mAdapter;
 
@@ -74,8 +75,8 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
             Context context = view.getContext();
             RecyclerView recyclerView =  view.findViewById(R.id.list);
             TextView textView = view.findViewById(R.id.textView);
-            mLayoutManager = new GridLayoutManager(context, 2);
-            mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+//            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(mLayoutManager);
 
             mAdapter = new ProductRecyclerViewAdapter(this, this);

@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "products")
-class ProductModel {
+public class ProductModel {
     @NonNull
     @PrimaryKey
     private String id;

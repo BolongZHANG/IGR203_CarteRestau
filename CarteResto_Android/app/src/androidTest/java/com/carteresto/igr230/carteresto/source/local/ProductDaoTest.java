@@ -1,12 +1,16 @@
 package com.carteresto.igr230.carteresto.source.local;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.carteresto.igr230.carteresto.Model.Command;
+import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.R;
 import com.google.gson.Gson;
@@ -40,7 +44,7 @@ public class ProductDaoTest {
     private ProductDao mProductDao;
     private ProductDatabase mDb;
 
-    List<Product> productList;
+    List<ProductModel> productList;
     @Before
     public void createDB() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
@@ -52,8 +56,7 @@ public class ProductDaoTest {
         InputStream is = context.getResources().openRawResource(R.raw.products);
         Reader reader = new InputStreamReader(is);
         Gson gson = new Gson();
-        productList = Arrays.asList(gson.fromJson(reader, Product[].class));
-
+        productList = Arrays.asList(gson.fromJson(reader, ProductModel[].class));
         Log.i(TAG, "createDB: size of data" + productList.size());
     }
 
@@ -62,76 +65,54 @@ public class ProductDaoTest {
         mDb.close();
     }
 
-    @Test
-    public void getAperoList() throws Exception {
-        mProductDao.insertProductList(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getAperoList());
-        assertNotNull(products);
-        assertFalse(products.isEmpty());
-        SimpleProduct product = products.get(0);
-
-        assertSimpleProduct(product, "1", "Samossas de crêpes jambon blanc-mascarpone",0, null,0);
-
-    }
-
-    @Test
-    public void getEntreeList() throws Exception {
-        mProductDao.insertProductList(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getEntreeList());
-        assertNotNull(products);
-        assertFalse(products.isEmpty());
-        SimpleProduct product = products.get(0);
-        assertSimpleProduct(product, "37", "Avocado toast",0, null,0);
-    }
-
-    @Test
-    public void getPlatList() throws Exception {
-
-        mProductDao.insertProductList(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getPlatList());
-        assertNotNull(products);
-        assertFalse(products.isEmpty());
-        SimpleProduct product = products.get(0);
-        assertSimpleProduct(product, "67", "Tourtes individuelles au boeuf et aux rognons",0, null,0);
-    }
-
-    @Test
-    public void getDessertList() throws Exception {
-        mProductDao.insertProductList(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getDessertList());
-        assertNotNull(products);
-        assertFalse(products.isEmpty());
-        SimpleProduct product = products.get(0);
-        assertSimpleProduct(product, "97", "Tarte à la mélasse",0, null,0);
-    }
-
-    @Test
-    public void getVinList() throws Exception {
-        mProductDao.insertAll(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getVinList());
-        assertNotNull(products);
-        assertTrue(products.isEmpty());
-    }
 
     @Test
     public void getProductById() throws Exception {
         mProductDao.insertProductList(productList);
-        Product product = LiveDataTestUtil.getValue(mProductDao.getProductById("27"));
+        LiveData<Product> productLiveData = mProductDao.getProductById("27");
+        LiveData<List<CommandModel>> commandLivedata = mProductDao.getCommandList();
+
+        List<CommandModel> commandList = LiveDataTestUtil.getValue(commandLivedata);
+        Product product = LiveDataTestUtil.getValue(productLiveData);
+
+        Log.e(TAG, "getProductById: Before:" + product );
+        Log.e(TAG, "getProductById: command list:" + commandList);
         assertEquals(product.getId(), "27");
         assertEquals(product.getName(), "Gimlet pickles");
         assertEquals(product.getType(), "apero");
+
+
+        mProductDao.insertCommand(new CommandModel("27", 13));
+        Log.d(TAG, "getProductById: command list:" + commandList);
+
+        product = LiveDataTestUtil.getValue(productLiveData);
+        commandList = LiveDataTestUtil.getValue(commandLivedata);
+
+        Log.e(TAG, "getProductById: After:" + product );
+        Log.e(TAG, "getProductById: command list:" + commandList);
+
+
+        commandLivedata = mProductDao.getCommandList();
+        commandList = LiveDataTestUtil.getValue(commandLivedata);
+        Log.e(TAG, "getProductById: new command list:" + commandList);
+
+
+        assertEquals(product.getId(), "27");
+        assertEquals(product.getName(), "Gimlet pickles");
+        assertEquals(product.getType(), "apero");
+        assertEquals(product.getQuantity(), 13);
 
     }
 
     @Test
     public void insertAll() throws Exception {
-        Log.d(TAG, "insertAll: size of list:" + productList.size());
-
-        mProductDao.insertProductList(productList);
-        List<Product> products =  LiveDataTestUtil.getValue(mDb.getProductDao().getAllProductsLiveData());
-
-        assertNotNull(products);
-        assertThat(products.size(), is(productList.size()));
+//        Log.d(TAG, "insertAll: size of list:" + productList.size());
+//
+//        mProductDao.insertProductList(productList);
+//        List<Product> products =  LiveDataTestUtil.getValue(mDb.getProductDao().getAllProductsLiveData());
+//
+//        assertNotNull(products);
+//        assertThat(products.size(), is(productList.size()));
     }
 
 
@@ -142,17 +123,39 @@ public class ProductDaoTest {
 
     @Test
     public void getListByType() throws Exception {
-
         mProductDao.insertProductList(productList);
-        List<Product> products = LiveDataTestUtil.getValue(mProductDao.getListByType(Product.PLAT));
+        LiveData<List<Product>> productsLivedata = mProductDao.getListByType(Product.PLAT);
+        List<Product> products = LiveDataTestUtil.getValue(productsLivedata);
         assertNotNull(products);
         for(Product product: products){
             Log.e(TAG, "getListByType: " + product);
+            assertEquals(product.getType(), Product.PLAT);
         }
+
+        String id = products.get(0).getId();
+        mProductDao.insertCommand(new CommandModel(id, 20));
+        products = LiveDataTestUtil.getValue(productsLivedata);
+        for(Product product: products){
+            Log.e(TAG, "getListByType: " + product);
+            assertEquals(product.getType(), Product.PLAT);
+            if(product.getId().equals(id)){
+                assertEquals(product.getQuantity(), 20);
+            }
+        }
+
 
     }
     @Test
     public void updateProduct() throws Exception {
+
+    }
+
+    @Test
+    public  void getProductList(){
+        mProductDao.insertProductList(productList);
+        mProductDao.insertCommand(new CommandModel("1",23));
+        List<Product> list = mProductDao.getProductList();
+        Log.e(TAG, "getProductList: " + list);
 
     }
 
@@ -178,8 +181,8 @@ public class ProductDaoTest {
         assertThat(product.getQuantity(), is(quantity));
         assertThat(product.getType(), is(type));
         assertThat(product.getCommentaire(), is(commentaire));
-
     }
+
 
 
 

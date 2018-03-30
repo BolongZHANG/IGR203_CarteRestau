@@ -7,8 +7,10 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.source.remote.FirebaseDatabaseService;
 
@@ -21,49 +23,26 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
  */
 @Dao
 public interface ProductDao {
-    @Query("SELECT id, name, price, image,type FROM products WHERE type = 'apero'")
-    LiveData<List<SimpleProduct>> getAperoList();
-
-    @Query("SELECT id, name, price, image,type FROM products WHERE type = 'entree'")
-    LiveData<List<SimpleProduct>> getEntreeList();
-
-    @Query("SELECT id, name, price, image,type FROM products WHERE type = 'plat'")
-    LiveData<List<SimpleProduct>> getPlatList();
-
-
-    @Query("SELECT id, name, price, image,type FROM products WHERE type = 'dessert'")
-    LiveData<List<SimpleProduct>> getDessertList();
-
-
-    @Query("SELECT id, name, price, image, type FROM products WHERE type = 'vin'")
-    LiveData<List<SimpleProduct>> getVinList();
-
-    @Query("SELECT * FROM products WHERE type =:type")
+    @Query("SELECT products.*, commands.* FROM products " +
+            "LEFT JOIN commands On products.id = commands.productId " +
+            "WHERE products.type =:type")
     LiveData<List<Product>> getListByType(@Product.Types String type);
 
-    @Query("SELECT * FROM products WHERE type =:type")
-    List<Product> getListByTypeFix(@Product.Types String type);
 
-
-    @Query("SELECT * FROM products WHERE type=:type")
-    LiveData<List<SimpleProduct>> getVinList(@Product.Types String type);
-
-    @Query("SELECT * FROM products WHERE id = :id")
+    @Query("SELECT products.*, commands.* FROM products " +
+            "LEFT JOIN commands On products.id = commands.productId " +
+            "WHERE products.id = :id")
     LiveData<Product> getProductById(String id);
 
 
     @Query("SELECT * FROM products WHERE id = :id")
-    Product getFixedProductById(String id);
-
-    @Query("SELECT * FROM products")
-    LiveData<List<Product>> getAllProductsLiveData();
+    ProductModel getFixedProductById(String id);
 
     @Query("SELECT * FROM products WHERE image = null")
-    LiveData<List<Product>> getAllNoImageProducts();
+    LiveData<List<ProductModel>> getAllNoImageProducts();
 
     @Query("SELECT * FROM products")
-    List<Product> getAllProducts();
-
+    List<ProductModel> getAllProducts();
 
     @Query("SELECT products.*, commands.* FROM products LEFT JOIN commands On products.id = commands.productId")
     List<Product> getProductList();
@@ -71,18 +50,29 @@ public interface ProductDao {
     @Query("SELECT COUNT(*) FROM products")
     int getSize();
 
-    @Insert(onConflict = REPLACE )
-    long insertProduct(Product product);
+    @Query("SELECT * FROM commands")
+    LiveData<List<CommandModel>> getCommandList();
 
-    @Insert(onConflict = REPLACE)
-    List<Long> insertProductList(List<Product> products);
 
-    @Insert(onConflict = REPLACE)
-    List<Long> insertCommand(List<Product> products);
+    @Query("SELECT * FROM commands WHERE commands.productId = :id")
+    CommandModel getCommand(String id);
+
+
+    @Insert(onConflict =  OnConflictStrategy.REPLACE )
+    long insertProduct(ProductModel product);
+
+    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    List<Long> insertProductList(List<ProductModel> productModels);
+
+    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    Long insertCommand(CommandModel product);
+
+    @Insert(onConflict =  OnConflictStrategy.REPLACE)
+    List<Long> insertCommandList(List<CommandModel> product);
 
 
     @Update
-    int updateProduct(Product products);
+    int updateProduct(ProductModel productsModel);
 
     @Update
     int updateCommand(CommandModel products);

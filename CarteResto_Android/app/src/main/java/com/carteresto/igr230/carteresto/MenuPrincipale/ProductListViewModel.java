@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.Product;
-import com.carteresto.igr230.carteresto.MyApplication;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.carteresto.igr230.carteresto.source.remote.FirebaseDatabaseService;
 
@@ -27,7 +27,7 @@ public class ProductListViewModel extends AndroidViewModel{
     private MutableLiveData<Command> cmdLiveData;
 
     @NonNull
-    private ProductsRepository repo;
+    private ProductsRepository mRepo;
     @NonNull
     private String cmdId;
     @NonNull
@@ -35,13 +35,13 @@ public class ProductListViewModel extends AndroidViewModel{
 
     public ProductListViewModel(@NonNull Application application) {
         super(application);
-        this.repo = ProductsRepository.getInstance(application);
-        this.cmdId = repo.getCmdId();
+        this.mRepo = ProductsRepository.getInstance(application);
+        this.cmdId = mRepo.getCmdId();
     }
 
     public LiveData<List<Product>> getPlatList(){
         if(productsLivedata == null){
-            productsLivedata = repo.getListByType(Product.PLAT);
+            productsLivedata = mRepo.getListByType(Product.PLAT);
         }
         Log.e("ViewModel", "ProductViewModel: Livedata：" + productsLivedata.getValue() +  " cmdid" + cmdId);
 
@@ -51,7 +51,7 @@ public class ProductListViewModel extends AndroidViewModel{
     public LiveData<List<Product>> getProductsListByType(@Product.Types String type){
         LiveData<List<Product>> products;
         if(!productMaps.containsKey(type)){
-            products = repo.getListByType(type);
+            products = mRepo.getListByType(type);
             productMaps.put(type, products);
             Log.d(TAG, "getProductsListByType: get new List live data" + products );
             return products;
@@ -65,43 +65,23 @@ public class ProductListViewModel extends AndroidViewModel{
 
     public LiveData<Command> getCMD(){
         if(cmdLiveData == null){
-            cmdLiveData = FirebaseDatabaseService.getCmd(repo.getCmdId());
+            cmdLiveData = FirebaseDatabaseService.getCmd(mRepo.getCmdId());
         }
 
         return cmdLiveData;
     }
 
     public void addProductQuantity(String id) {
-        Command command = getCMD().getValue();
-        if(command == null){
-            Log.e(TAG, "addProductQuantity: Can not get Command object from live data!");
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Product product = repo.getProductDao().getFixedProductById(id);
-                product.add();
-                repo.getProductDao().updateProduct(product);
-                Log.d(TAG, "run: Update product" + id);
-            }
-        }).start();
-
-        command.addProductQuantity(id);
-        cmdLiveData.postValue(command);
+        mRepo.addProductQuantity(id);
     }
 
     public void minusProductQuantity(String id) {
-        Command command = cmdLiveData.getValue();
-        if(command == null){
-            Log.e(TAG, "addProductQuantity: Can not get Command object from live data!");
-        }
-        command.minusProductQuantity(id);
-        cmdLiveData.postValue(command);
+        mRepo.minusProductQuantity(id);
     }
 
 
     //    public LiveData<List<Product>> getNormalPlatList(){
-//        return this.repo.getNormalListByType(Product.PLAT);
+//        return this.mRepo.getNormalListByType(Product.PLAT);
 //    }
 
 }

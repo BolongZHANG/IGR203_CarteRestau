@@ -57,7 +57,7 @@ public class ProductsRepositoryTest {
         Reader reader = new InputStreamReader(is);
         Gson gson = new Gson();
         List<Product> productList = Arrays.asList(gson.fromJson(reader, Product[].class));
-        mProductDao.insertAll(productList);
+//        mProductDao.insertAll(productList);
 
     }
 

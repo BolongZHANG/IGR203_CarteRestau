@@ -58,10 +58,8 @@ public class FirebaseDatabaseService {
     }
 
     @NonNull
-    static public FirebaseLiveData<Command> getCmd(String cmd){
-        Query ref = COMMAND_INFO.child(cmd);
-        FirebaseLiveData<Command> cmdLiveData = new FirebaseLiveData<Command>(ref, Command.class);
-        return cmdLiveData;
+    static public CommandLiveData getCmd(String cmdID){
+        return CommandLiveData.getInstance(cmdID);
     }
 //
 //    static public LiveData<Command> getTestCmd(String cmd){

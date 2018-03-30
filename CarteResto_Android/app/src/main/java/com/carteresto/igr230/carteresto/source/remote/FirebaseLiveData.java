@@ -23,8 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseLiveData<T> extends MutableLiveData<T> {
     private static final String TAG = "FirebaseQueryLiveData";
-    private final Query query;
-    private final MyValueEventListener listener = new MyValueEventListener();
+    protected final Query query;
+    protected MyValueEventListener listener = new MyValueEventListener();
     Class<T> kind;
     boolean isGeneType = false;
     GenericTypeIndicator<T> geneKind;

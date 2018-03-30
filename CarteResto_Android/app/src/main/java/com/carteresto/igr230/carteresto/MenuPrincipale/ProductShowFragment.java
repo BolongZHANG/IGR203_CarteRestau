@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
@@ -138,6 +139,8 @@ public class ProductShowFragment extends DialogFragment {
                     Glide.with(getContext() /* context */)
                             .using(new FirebaseImageLoader())
                             .load(storage.getReferenceFromUrl("gs://carterestoandroid.appspot.com/product/" + product.getId() + "/big.jpg"))
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .fitCenter()
                             .into(ivProduct);
                     return;
                 }

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.R;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -148,8 +149,8 @@ public class WelcomeActivity extends AppCompatActivity {
             Integer i = 1;
             try(FileReader fr = new FileReader(file)){
                 Gson gson = new Gson();
-                List<Product> proList = Arrays.asList(gson.fromJson(fr, Product[].class));
-                mRepo.getProductDao().insertAll(proList);
+                List<ProductModel> proList = Arrays.asList(gson.fromJson(fr, ProductModel[].class));
+                mRepo.getProductDao().insertProductList(proList);
 //                Log.d(TAG, "onSuccess: Init database with list size:" + proList.size());
 //                StorageReference storage = FirebaseStorage.getInstance("gs://carterestoandroid.appspot.com").getReference("product");
 //                String rootPath = getApplication().getFilesDir().getPath();

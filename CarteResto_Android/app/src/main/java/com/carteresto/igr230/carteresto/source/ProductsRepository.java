@@ -10,11 +10,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.carteresto.igr230.carteresto.Model.Command;
+import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.MyApplication;
 import com.carteresto.igr230.carteresto.source.local.ProductDao;
 import com.carteresto.igr230.carteresto.source.local.ProductDatabase;
+import com.carteresto.igr230.carteresto.source.remote.CommandLiveData;
 import com.carteresto.igr230.carteresto.source.remote.FirebaseDatabaseService;
+import com.carteresto.igr230.carteresto.source.remote.FirebaseLiveData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +39,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,8 +56,11 @@ public class ProductsRepository{
     static final String TAG = ProductsRepository.class.getSimpleName();
     private static ProductsRepository INSTANCE = null;
     private LiveData<List<Product>> tempLiveData;
+    private Executor diskIO;
+
 
     ProductDao productDao;
+    private CommandLiveData commandLiveData;
 
     public ProductDao getProductDao() {
         return productDao;
@@ -68,11 +78,11 @@ public class ProductsRepository{
 
                 try(FileReader fr = new FileReader(file)){
                     Gson gson = new Gson();
-                    List<Product> proList = Arrays.asList(gson.fromJson(fr, Product[].class));
+                    List<ProductModel> proList = Arrays.asList(gson.fromJson(fr, ProductModel[].class));
                     Log.d(TAG, "onSuccess: Init database with list size:" + proList.size());
                     new Thread( () -> {
                         Log.d(TAG, "onThread: Init database size:" + productDao.getSize());
-                        productDao.insertAll(proList);
+                        productDao.insertProductList(proList);
                         Log.d(TAG, "onThread: Init database size:" + productDao.getSize());
                     }).start();
 
@@ -101,9 +111,8 @@ public class ProductsRepository{
         this.productDao = checkNotNull(mDb.getProductDao());
         if(mApplication instanceof MyApplication){
             this.mApplication = (MyApplication) mApplication;
-            return;
         }
-
+        diskIO = Executors.newFixedThreadPool(3);
         Log.e(TAG, "ProductsRepository: The mApplication type is not correct");
 
     }
@@ -114,6 +123,7 @@ public class ProductsRepository{
         }
         return INSTANCE;
     }
+
     public static void destroyInstance() {
         INSTANCE = null;
     }
@@ -127,14 +137,14 @@ public class ProductsRepository{
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
                if(dataSnapshot.exists()){
-                   GenericTypeIndicator<List<Product>> type =
-                           new GenericTypeIndicator<List<Product>>(){};
-                   final List<Product> products = dataSnapshot.getValue(type);
+                   GenericTypeIndicator<List<ProductModel>> type =
+                           new GenericTypeIndicator<List<ProductModel>>(){};
+                   final List<ProductModel> products = dataSnapshot.getValue(type);
                    if(products != null){
                        new Runnable() {
                            @Override
                            public void run() {
-                               productDao.insertAll(products);
+                               productDao.insertProductList(products);
                            }
                        }.run();
                    }
@@ -194,13 +204,12 @@ public class ProductsRepository{
 
     /** Update database**/
     public LiveData<List<Product>> getNormalListByType(@Product.Types String type){
-        final String cmdId = getCmdId();
         LiveData<List<Product>> tmpLiveData = productDao.getListByType(type);
         return tmpLiveData;
     }
 
-    public LiveData<Command> getComand(String cmdID){
-        return FirebaseDatabaseService.getCmd(cmdID);
+    public CommandLiveData getComand(String cmdID){
+        return CommandLiveData.getInstance(cmdID);
     }
 
     public int productsSize(){
@@ -242,13 +251,16 @@ public class ProductsRepository{
     }
 
     @NonNull
-    public MutableLiveData<Command> getCommand(){
-        SharedPreferences settings = mApplication.getSharedPreferences("cmd", 0);
-        String cmdNumber = settings.getString("cmdID",null);
-        if(cmdNumber == null)
-            throw new IllegalStateException("You have to create Command firstly");
+    public CommandLiveData getCommand(){
+        if(commandLiveData == null){
+            SharedPreferences settings = mApplication.getSharedPreferences("cmd", 0);
+            String cmdNumber = settings.getString("cmdID",null);
+            if(cmdNumber == null)
+                throw new IllegalStateException("You have to create Command firstly");
+            commandLiveData = getComand(getCmdId());
+        }
 
-        return FirebaseDatabaseService.getCmd(getCmdId());
+        return commandLiveData;
     }
 
 
@@ -257,6 +269,7 @@ public class ProductsRepository{
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("cmdID",cmdId);
         editor.commit();
+        getCommand().updataProduct(productDao);
         Log.d(TAG, "setCmdId: Set cmd id：" + cmdId);
     }
 
@@ -272,5 +285,48 @@ public class ProductsRepository{
     public LiveData<Product> getProductTestById(String id) {
 
         return productDao.getProductById(id);
+    }
+
+
+    public LiveData<List<CommandModel>> getCommandModel(){
+        return productDao.getCommandList();
+    }
+
+
+    public void addProductQuantity(String id) {
+        Runnable add = new Runnable(){
+
+            @Override
+            public void run() {
+                CommandModel commandModel = productDao.getCommand(id);
+                if(commandModel == null) commandModel = new CommandModel(id,0);
+                int quantity = commandModel.getQuantity();
+                commandModel.setQuantity(quantity + 1);
+                productDao.insertCommand(commandModel);
+                getCommand().addProduct(id);
+
+            }
+        };
+
+        this.diskIO.execute(add);
+    }
+
+    public void minusProductQuantity(String id) {
+        Runnable minus = new Runnable(){
+
+            @Override
+            public void run() {
+                CommandModel commandModel = productDao.getCommand(id);
+                if(commandModel == null) commandModel = new CommandModel(id,0);
+                int quantity = commandModel.getQuantity();
+                quantity = (quantity <=1) ? 0 : quantity - 1;
+                commandModel.setQuantity(quantity);
+                productDao.insertCommand(commandModel);
+                getCommand().minusProduct(id);
+            }
+        };
+
+        this.diskIO.execute(minus);
+
     }
 }
