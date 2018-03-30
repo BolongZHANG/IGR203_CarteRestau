@@ -22,8 +22,16 @@ public class SimpleProduct {
                 '}';
     }
 
-    private String image;
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String image;
+    private String type;
     @NonNull
     public String getId() {
         return this.id;

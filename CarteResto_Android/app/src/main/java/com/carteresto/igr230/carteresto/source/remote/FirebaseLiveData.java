@@ -4,14 +4,12 @@ package com.carteresto.igr230.carteresto.source.remote;
  * Created by zhufa on 20/03/2018.
  */
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -23,8 +21,8 @@ import com.google.firebase.database.ValueEventListener;
  *
  */
 
-public class FirebaseLiveData<T> extends LiveData<T> {
-    private static final String LOG_TAG = "FirebaseQueryLiveData";
+public class FirebaseLiveData<T> extends MutableLiveData<T> {
+    private static final String TAG = "FirebaseQueryLiveData";
     private final Query query;
     private final MyValueEventListener listener = new MyValueEventListener();
     Class<T> kind;
@@ -37,12 +35,14 @@ public class FirebaseLiveData<T> extends LiveData<T> {
     }
 
     public FirebaseLiveData(Query query, Class<T> type) {
+        Log.d(TAG, "FirebaseLiveData: " + query.getRef().toString());
         this.query = query;
         kind = type;
         isGeneType = false;
     }
 
     public FirebaseLiveData(Query query, GenericTypeIndicator type) {
+        Log.d(TAG, "FirebaseLiveData: " + query.getRef().toString());
         this.query = query;
         geneKind = type;
         isGeneType = true;
@@ -50,13 +50,13 @@ public class FirebaseLiveData<T> extends LiveData<T> {
 
     @Override
     protected void onActive() {
-        Log.d(LOG_TAG, "onActive");
+        Log.d(TAG, "onActive");
         query.addValueEventListener(listener);
     }
 
     @Override
     protected void onInactive() {
-        Log.d(LOG_TAG, "onInactive");
+        Log.d(TAG, "onInactive");
         query.removeEventListener(listener);
     }
 
@@ -66,23 +66,38 @@ public class FirebaseLiveData<T> extends LiveData<T> {
         query.getRef().setValue(value);
     }
 
+    @Override
+    public void setValue(T value) {
+        super.setValue(value);
+        query.getRef().setValue(value);
+    }
 
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+            Log.d(TAG, "onDataChange: " + dataSnapshot.getRef().toString());
             if (dataSnapshot.exists()) {
+
                 if(isGeneType){
+                    if(geneKind == null) throw new IllegalArgumentException("You have to set the data type!");
                     postValue(dataSnapshot.getValue(geneKind));
+                    Log.i(TAG, "onDataChange:Gene Type:"
+                            + geneKind
+                            + " update:" + getValue());
                 }else{
-                    postValue(dataSnapshot.getValue(geneKind));
+                    if(kind == null) throw new IllegalArgumentException("You have to set the data type!");
+                    postValue(dataSnapshot.getValue(kind));
+                    Log.i(TAG, "onDataChange:Simple Type:"
+                            + kind.getCanonicalName()
+                            + " update:" + getValue());
                 }
-                Log.i(LOG_TAG, "onDataChange: update " + getValue());
+
             }
         }
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-            Log.e(LOG_TAG, "Can't listen to query " + query, databaseError.toException());
+            Log.e(TAG, "Can't listen to query " + query, databaseError.toException());
         }
     }
 }

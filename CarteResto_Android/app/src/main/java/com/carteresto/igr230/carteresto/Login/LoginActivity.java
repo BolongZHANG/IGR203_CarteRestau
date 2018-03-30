@@ -1,12 +1,18 @@
 package com.carteresto.igr230.carteresto.Login;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Application;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -28,6 +34,7 @@ import com.carteresto.igr230.carteresto.MenuPrincipale.MenuPrincipalActivity;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.MyApplication;
 import com.carteresto.igr230.carteresto.R;
+import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.carteresto.igr230.carteresto.source.remote.FirebaseDatabaseService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +43,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +80,10 @@ public class LoginActivity extends AppCompatActivity{
     MyHandler handler;
     static private String TAG = LoginActivity.class.getSimpleName();
 
+    @NonNull
+    DatabaseReference ref;
+    @NonNull
+    private LoginViewModel mLoginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +103,10 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mSignInButton.setOnClickListener(view -> attemptLogin());
         handler = new MyHandler(this);
+        ref = FirebaseDatabase.getInstance().getReference("Table info");
+        mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
     }
 
 
@@ -107,6 +116,34 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+
+//        // Here, thisActivity is the current activity
+//        if (ContextCompat.checkSelfPermission(this,
+//               permissions)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.READ_CONTACTS)) {
+//
+//                // Show an expanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//
+//                ActivityCompat.requestPermissions(thisActivity,
+//                        new String[]{Manifest.permission.READ_CONTACTS},
+//                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }
+
         if (requestCode == REQUEST_READ_CONTACTS) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             }
@@ -138,26 +175,21 @@ public class LoginActivity extends AppCompatActivity{
             return;
         }
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Table info/" + tableNb);
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Message msg = new Message();
-                String cmdId;
-                if(dataSnapshot.exists()){
+                if(dataSnapshot.hasChild(tableNb)){
                     Log.d(TAG, "onDataChange: Table " + tableNb + " is not free!");
                     msg.what = NO_DISPONIBLE;
-                    cmdId = dataSnapshot.getValue(String.class);
+                    msg.obj = dataSnapshot.child(tableNb).getValue(String.class);
                 }else{
                     Log.d(TAG, "onDataChange: Table " + tableNb + " is free!");
                     msg.what = DISPONIBLE;
-                    cmdId = application.getCmdNumber();
+
                 }
-
-                Command cmd = new Command(cmdId, tableNb);
-                msg.obj = cmd;
                 handler.sendMessage(msg);
-
             }
 
             @Override
@@ -165,6 +197,39 @@ public class LoginActivity extends AppCompatActivity{
                 Log.e(TAG, "onCancelled: Can not the info about the table!" );
             }
         });
+    }
+
+    private void dispoDemande() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setCancelable(true)
+                .setTitle(R.string.title_dispo)
+                .setMessage(R.string.msg_dispo)
+                .setNegativeButton(R.string.cancle, ((dialog, which) -> dialog.dismiss()))
+                .setPositiveButton(R.string.valide, (dialog, which) -> {
+                    String tableNb = mTableView.getText().toString();
+                    String cmdId = mLoginViewModel.createCmd(tableNb);
+                    ref.child(tableNb).setValue(cmdId);
+                    Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
+                    startActivity(intent);
+                });
+        alertDialog.show();
+    }
+
+    private void noDisponibleDemande(String cmdId) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setCancelable(false)
+                .setTitle(R.string.title_no_dispo)
+                .setMessage(R.string.msg_no_dispo)
+                .setNegativeButton(R.string.cancle, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.valide, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                            mLoginViewModel.setCmdId(cmdId);
+                            Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
+                            startActivity(intent);
+                    }
+                });
+        alertDialog.show();
     }
 
     private boolean isTableValid(String table) {
@@ -182,42 +247,14 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-
     public void handleMessage(final Message msg) {
         Log.d(TAG, "handleMessage: Message:" + msg);
-        final Command cmd = (Command) msg.obj;
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        if(msg.what == NO_DISPONIBLE){
-            alertDialog.setCancelable(true)
-                    .setTitle(R.string.title_no_dispo)
-                    .setMessage(R.string.msg_no_dispo)
-                    .setPositiveButton(R.string.valide, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if(which == DialogInterface.BUTTON_POSITIVE){
-                                Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
-                                application.setCmdNumber(cmd.getId());
-                                startActivity(intent);
-                            }
-                        }
-                    });
-        }else if(msg.what == DISPONIBLE ){
-            alertDialog.setCancelable(false)
-                    .setTitle(R.string.title_dispo)
-                    .setMessage(R.string.msg_dispo)
-                    .setPositiveButton(R.string.valide, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(which == DialogInterface.BUTTON_POSITIVE){
-                        Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
-                        FirebaseDatabaseService.setCmd(cmd);
-                        startActivity(intent);
-                    }
-                }
-            });
 
+        if(msg.what == NO_DISPONIBLE){
+            noDisponibleDemande((String)msg.obj);
+        }else if(msg.what == DISPONIBLE ){
+            dispoDemande();
         }
-        alertDialog.show();
     }
 
 }

@@ -64,7 +64,7 @@ public class ProductDaoTest {
 
     @Test
     public void getAperoList() throws Exception {
-        mProductDao.insertAll(productList);
+        mProductDao.insertProductList(productList);
         List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getAperoList());
         assertNotNull(products);
         assertFalse(products.isEmpty());
@@ -76,7 +76,7 @@ public class ProductDaoTest {
 
     @Test
     public void getEntreeList() throws Exception {
-        mProductDao.insertAll(productList);
+        mProductDao.insertProductList(productList);
         List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getEntreeList());
         assertNotNull(products);
         assertFalse(products.isEmpty());
@@ -87,7 +87,7 @@ public class ProductDaoTest {
     @Test
     public void getPlatList() throws Exception {
 
-        mProductDao.insertAll(productList);
+        mProductDao.insertProductList(productList);
         List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getPlatList());
         assertNotNull(products);
         assertFalse(products.isEmpty());
@@ -97,7 +97,7 @@ public class ProductDaoTest {
 
     @Test
     public void getDessertList() throws Exception {
-        mProductDao.insertAll(productList);
+        mProductDao.insertProductList(productList);
         List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getDessertList());
         assertNotNull(products);
         assertFalse(products.isEmpty());
@@ -115,11 +115,11 @@ public class ProductDaoTest {
 
     @Test
     public void getProductById() throws Exception {
-        mProductDao.insertAll(productList);
-        List<SimpleProduct> products = LiveDataTestUtil.getValue(mProductDao.getDessertList());
-        assertNotNull(products);
-        assertTrue(products.isEmpty());
-        
+        mProductDao.insertProductList(productList);
+        Product product = LiveDataTestUtil.getValue(mProductDao.getProductById("27"));
+        assertEquals(product.getId(), "27");
+        assertEquals(product.getName(), "Gimlet pickles");
+        assertEquals(product.getType(), "apero");
 
     }
 
@@ -127,8 +127,8 @@ public class ProductDaoTest {
     public void insertAll() throws Exception {
         Log.d(TAG, "insertAll: size of list:" + productList.size());
 
-        mProductDao.insertAll(productList);
-        List<Product> products =  LiveDataTestUtil.getValue(mDb.getProductDao().getAllProducts());
+        mProductDao.insertProductList(productList);
+        List<Product> products =  LiveDataTestUtil.getValue(mDb.getProductDao().getAllProductsLiveData());
 
         assertNotNull(products);
         assertThat(products.size(), is(productList.size()));
@@ -139,9 +139,23 @@ public class ProductDaoTest {
     public void insertProduct() throws Exception {
     }
 
+
+    @Test
+    public void getListByType() throws Exception {
+
+        mProductDao.insertProductList(productList);
+        List<Product> products = LiveDataTestUtil.getValue(mProductDao.getListByType(Product.PLAT));
+        assertNotNull(products);
+        for(Product product: products){
+            Log.e(TAG, "getListByType: " + product);
+        }
+
+    }
     @Test
     public void updateProduct() throws Exception {
+
     }
+
 
     private void assertSimpleProduct(SimpleProduct product, String id, String name,
                                      double price, String img, int quantity ) {
@@ -166,5 +180,7 @@ public class ProductDaoTest {
         assertThat(product.getCommentaire(), is(commentaire));
 
     }
+
+
 
 }

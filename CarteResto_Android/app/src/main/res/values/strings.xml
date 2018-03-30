@@ -21,4 +21,7 @@
     <string name="msg_no_dispo">Cette table n\'est pas disponible. Vous voulez continuer         reentrée dans cette commande?</string>
     <string name="title_dispo">Table disponible</string>
     <string name="msg_dispo">Table est dispoble.</string>
+    <string name="description">Description</string>
+    <string name="cancle">Annuler</string>
+    <string name="inite">Initialization du application</string>
 </resources>

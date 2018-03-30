@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="81dp"
         android:gravity="left|center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,8 +20,8 @@
 
         <ImageButton
             android:id="@+id/btn_waiter"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:cropToPadding="false"
@@ -30,8 +30,8 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:elevation="4dp"
@@ -40,7 +40,7 @@
 
         <SearchView
             android:layout_width="wrap_content"
-            android:layout_height="36dp">
+            android:layout_height="wrap_content">
 
         </SearchView>
     </LinearLayout>
@@ -99,8 +99,8 @@
 
         <Space
             android:id="@+id/space"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toTopOf="@id/btn_apero"
@@ -188,11 +188,13 @@
         android:id="@+id/bean_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/menu_list"
-        app:layout_constraintTop_toBottomOf="@id/top_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/top_toolbar"
+        android:orientation="horizontal" />
 
 
 </android.support.constraint.ConstraintLayout>

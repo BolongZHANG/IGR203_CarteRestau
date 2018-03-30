@@ -1,11 +1,13 @@
 package com.carteresto.igr230.carteresto.MenuPrincipale;
 
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,6 +17,8 @@ import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +26,9 @@ import butterknife.ButterKnife;
 /**
  * Ce Activity affichir tous les list du plat à la cart et la liste du menu du jour
  **/
-public class MenuPrincipalActivity extends AppCompatActivity implements View.OnClickListener , PlatFragment.OnListFragmentInteractionListener {
+public class MenuPrincipalActivity extends AppCompatActivity implements View.OnClickListener , ProductListFragment.OnListFragmentInteractionListener {
 
+    private static final String TAG = MenuPrincipalActivity.class.getSimpleName();
     @BindView(R.id.top_toolbar)
     LinearLayout topToolbar;
     @BindView(R.id.btn_menu)
@@ -43,50 +48,63 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.menu_list)
     ConstraintLayout menuList;
 
-    ArrayList<Button> btnList;
+    Map<Button, Fragment> btnMap;
+
+    ProductListFragment platFragment;
+    private FragmentManager mFragmentMan;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
         ButterKnife.bind(this);
+        mFragmentMan = this.getSupportFragmentManager();
+        btnMap = new HashMap<>();
+        btnMap.put(btnMenu, ProductListFragment.getInstance(Product.VIN));
+        btnMap.put(btnVin, ProductListFragment.getInstance(Product.VIN));
+        btnMap.put(btnPlat,ProductListFragment.getInstance(Product.PLAT));
+        btnMap.put(btnApero, ProductListFragment.getInstance(Product.APERO));
+        btnMap.put(btnEntree, ProductListFragment.getInstance(Product.ENTREE));
+        btnMap.put(btnDessert, ProductListFragment.getInstance(Product.DESSERT));
 
-        btnList = new ArrayList<>();
-        btnList.add(btnMenu);
-        btnList.add(btnVin);
-        btnList.add(btnPlat);
-        btnList.add(btnApero);
-        btnList.add(btnEntree);
-        btnList.add(btnDessert);
-
-        for(Button btn: btnList){
-            btn.setSelected(false);
-            btn.setOnClickListener(this);
+        for(Map.Entry<Button, Fragment> entry: btnMap.entrySet()){
+            entry.getKey().setSelected(false);
+            entry.getKey().setOnClickListener(this);
         }
 
-
-        // Create new fragment and transaction
-        PlatFragment newFragment = new PlatFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack
-        transaction.replace(R.id.bean_list, newFragment);
-        transaction.addToBackStack(null);
-
-// Commit the transaction
-        transaction.commit();
+        selectButton(btnApero);
 
 
     }
 
 
     void selectButton(Button button){
-        for(Button btn: btnList){
-            btn.setSelected(false);
+        Fragment from = null;
+        for(Map.Entry<Button, Fragment> entry: btnMap.entrySet()){
+            entry.getKey().setSelected(false);
+            entry.getKey().setOnClickListener(this);
+            if(entry.getValue().isVisible()) from = entry.getValue();
         }
-
         button.setSelected(true);
+
+        Fragment to = btnMap.get(button);
+        Log.i(TAG, "selectButton: From " + from + "to " + to );
+        switchContent(from, to);
+    }
+
+    public void switchContent(Fragment from, Fragment to) {
+        if(to.isVisible() || from == to) return;
+
+        FragmentTransaction transaction = mFragmentMan.beginTransaction().setCustomAnimations(
+                    android.R.anim.fade_in, android.R.anim.slide_out_right);
+        if (!to.isAdded()) {
+            if(from != null) transaction.hide(from).add(R.id.bean_list, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            else transaction.add(R.id.bean_list, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+        } else {
+            if(from != null) transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            else transaction.show(to).commit(); // 隐藏当前的fragment，显示下一个
+        }
     }
 
     @Override
