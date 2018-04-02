@@ -70,7 +70,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 .using(new FirebaseImageLoader())
                 .load(storage.getReferenceFromUrl(imageRef))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
                 .into(holder.mImageView);
 
         holder.mAddButton.setOnClickListener(v -> mListener.add(product.getId()));
