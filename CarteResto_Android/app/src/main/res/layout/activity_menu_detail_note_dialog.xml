@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/menu_detail_note_edit"
+            android:layout_width="match_parent"
+            android:layout_height="300sp"
+            android:gravity="bottom"/>
+
+        <Button
+            android:id="@+id/menu_detail_note_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/menu_detail_note_edit"
+            android:text="@string/menu_detail_note_dialog_cancel"
+            android:layout_alignParentStart="true"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+            android:id="@+id/menu_detail_note_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/menu_detail_note_edit"
+            android:text="@string/menu_detail_note_dialog_save"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorAccent"
+            style="@style/Base.Widget.AppCompat.Button.Colored"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

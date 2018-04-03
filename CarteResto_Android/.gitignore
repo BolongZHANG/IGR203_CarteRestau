@@ -62,7 +62,6 @@ fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
 
-*.iml
 .gradle
 /local.properties
 /.idea/workspace.xml
@@ -70,4 +69,6 @@ fastlane/readme.md
 .DS_Store
 /build
 /captures
-.externalNativeBuild
+*.properties
+/.idea/
+*.gradle

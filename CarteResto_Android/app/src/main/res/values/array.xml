@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_detail_starters_list">
+        <item> Saint-Jacques crues au brocolis</item>
+        <item> Religieuse de tomates</item>
+    </string-array>
+    <string-array name="menu_detail_main_dishes_list">
+        <item>Taboulé de quinoa cru</item>
+    </string-array>
+    <string-array name="menu_detail_deserts_list">
+        <item>Pavlova poire amande</item>
+        <item>Tartelettes chocolat poire</item>
+    </string-array>
+</resources>

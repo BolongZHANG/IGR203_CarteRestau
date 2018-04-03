@@ -24,4 +24,43 @@
     <string name="description">Description</string>
     <string name="cancle">Annuler</string>
     <string name="inite">Initialization du application</string>
+    <string name="menu_detail_titre">Menu international</string>
+    <string name="menu_detail_default_price">16,80 €</string>
+    <string name="menu_detail_button_minus">-</string>
+    <string name="menu_detail_button_plus">+</string>
+    <string name="menu_detail_number_zero">0</string>
+    <string name="menu_detail_presentation">Description</string>
+    <string name="menu_detail_description_text">
+        Un menu rempli de saveurs du monde entier.
+        \nBon appétit !
+    </string>
+    <string name="menu_detail_starters_header">Entrées</string>
+    <string name="menu_detail_main_dishes_header">Plats principaux</string>
+    <string name="menu_detail_deserts_header">Desserts</string>
+    <string name="menu_detail_more_impossible">Opération impossible</string>
+    <string name="menu_detail_more_impossible_message">Vous n\'avez droit qu\'à un seul plat à chaque étape du menu.
+    Si vous le souhaitez, vous pouvez ajouter un menu supplémentaire sur le panneau de gauche. Le nombre actuel est %1$d.</string>
+    <string name="menu_detail_more_impossible_positive_btn">OK</string>
+    <string name="menu_detail_less_menus_impossible">Impossible de diminuer le nombre de menus</string>
+    <string name="menu_detail_less_menus_impossible_message">
+        Veuillez vérifier que vous n\'avez pas choisi trop de plats par rapport au nombre de menus souhaité : retirez un choix de dans la catégorie <b>%1$s</b>.
+    </string>
+    <string name="menu_detail_validate_choice">Valider</string>
+    <string name="menu_detail_validate_error_title">Validation impossible</string>
+    <string name="menu_detail_validate_error_message">
+        Vous n\'avez pas choisi assez de plats par rapport au nombre de menus souhaité : rajoutez les choix manquants dans la catégorie %1$s.
+    </string>
+    <string name="menu_detail_validate_confirmation_title">Confirmer vos choix sur ce menu</string>
+    <string name="menu_detail_validate_confirmation_message">
+        Êtes-vous sûr(e) de vos choix ?
+    </string>
+    <string name="menu_detail_validate_ok">Choix enregistrés. Vous pouvez les consulter depuis votre panier.</string>
+    <string name="menu_detail_validate_accept">Oui</string>
+    <string name="menu_detail_validate_cancel">Non</string>
+    <string name="menu_detail_validate_no_menu_added">Vous n\'avez ajouté aucun menu.</string>
+    <string name="menu_detail_note_dialog_title">Ajouter une note à votre menu</string>
+    <string name="menu_detail_note_dialog_save">Enregistrer</string>
+    <string name="menu_detail_note_dialog_cancel">Annuler</string>
+    <string name="menu_detail_note_dialog_void">Votre note est vide.</string>
+    <string name="menu_detail_note_dialog_note_saved">Note enregistrée.</string>
 </resources>
