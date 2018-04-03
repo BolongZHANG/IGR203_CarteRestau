@@ -26,13 +26,18 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.SimplyProductViewHolder>{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final String TAG = ProductRecyclerViewAdapter.class.getSimpleName();
+    private static final int MENU = 0;
+    private static final int VIN = 1;
+    private static final int OTHER = 3;
     @NonNull
     private List<Product> mData = new ArrayList<>();
-    private Context mContext;
-    private Fragment mFragment;
+
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private QuantityModifyListener mListener;
 
@@ -43,40 +48,71 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     }
 
     public ProductRecyclerViewAdapter(Fragment fragment,  QuantityModifyListener listener) {
-        this.mFragment = fragment;
         this.mListener =  listener;
       }
 
     @Override
-    public SimplyProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.product_cardview, parent, false);
-        return new SimplyProductViewHolder(view);
-    }
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == MENU){
+                View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.menu_item_cardview, parent, false);
+                return new MenuViewHolder(view);
+            }
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_cardview, parent, false);
+            return new SimplyProductViewHolder(view);
+        }
 
     @Override
-    public void onBindViewHolder(final SimplyProductViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        String type = mData.get(position).getType();
         final Product product = mData.get(position);
-        holder.mItem = mData.get(position);
-        holder.mNameView.setText(product.getName());
-        holder.mPriceView.setText(product.getPrice() + " €");
-        holder.mQuantityView.setText(String.valueOf(product.getQuantity()));
+
+        if(type.equals(Product.MENU)){
+            MenuViewHolder menuHolder = (MenuViewHolder) holder;
+            menuHolder.mNameView.setText(product.getName());
+            menuHolder.mPriceView.setText(product.getPrice() + " €");
+            String imageRef =  "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/"
+                    + product.getId() +".jpg";
+            Log.d(TAG, "onBindViewHolder: load image:" + imageRef);
+
+            Glide.with(holder.itemView.getContext() /* context */)
+                    .using(new FirebaseImageLoader())
+                    .load(storage.getReferenceFromUrl(imageRef))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .fitCenter()
+                    .into(menuHolder.mImageView);
+            return ;
+        }
+
+        SimplyProductViewHolder mHolder = (SimplyProductViewHolder) holder;
+        mHolder.mNameView.setText(product.getName());
+        mHolder.mPriceView.setText(product.getPrice() + " €");
+        mHolder.mQuantityView.setText(String.valueOf(product.getQuantity()));
         //TODO save the image in the resource directory
         String imageRef =  "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/small.jpg";
         Log.d(TAG, "onBindViewHolder: load image:" + imageRef);
 
-        Glide.with(mContext /* context */)
+        Glide.with(holder.itemView.getContext() /* context */)
                 .using(new FirebaseImageLoader())
                 .load(storage.getReferenceFromUrl(imageRef))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.mImageView);
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .centerCrop()
+                .into(mHolder.mImageView);
 
-        holder.mAddButton.setOnClickListener(v -> mListener.add(product.getId()));
-        holder.mMinusButton.setOnClickListener(v->mListener.minus(product.getId()));
-        holder.mImageView.setOnClickListener(v -> mListener.showDialogue(product.getId()));
+        mHolder.mAddButton.setOnClickListener(v -> mListener.add(product.getId()));
+        mHolder.mMinusButton.setOnClickListener(v->mListener.minus(product.getId()));
+        mHolder.mImageView.setOnClickListener(v -> mListener.showDialogue(product.getId()));
     }
 
+
+    @Override
+    public int getItemViewType (int position) {
+        String type = mData.get(position).getType();
+        if(type.equals(Product.MENU)) return MENU;
+        if(type.equals(Product.VIN)) return VIN;
+        else return OTHER;
+    }
     @Override
     public int getItemCount() {
         return mData.size();
@@ -97,35 +133,32 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
 
     public class SimplyProductViewHolder extends RecyclerView.ViewHolder {
-        final View mView;
-        final TextView mNameView;
-        final TextView mPriceView;
-        final TextView mQuantityView;
-        final ImageView mImageView;
-        final FloatingActionButton mAddButton;
-        final FloatingActionButton mMinusButton;
-        Product mItem;
+        @BindView(R.id.name)
+        TextView mNameView;
+        @BindView(R.id.price)
+        TextView mPriceView;
+        @BindView(R.id.quantity)
+        TextView mQuantityView;
+        @BindView(R.id.productPhoto)
+        ImageView mImageView;
+        @BindView(R.id.add)
+        FloatingActionButton mAddButton;
+        @BindView(R.id.subtract)
+        FloatingActionButton mMinusButton;
 
         SimplyProductViewHolder(View view) {
             super(view);
-            mView = view;
-            mNameView = view.findViewById(R.id.name);
-            mPriceView = view.findViewById(R.id.price);
-            mQuantityView = view.findViewById(R.id.quantity);
-            mImageView = view.findViewById(R.id.productPhoto);
-            mAddButton = view.findViewById(R.id.add);
-            mMinusButton = view.findViewById(R.id.subtract);
+            ButterKnife.bind(this, view);
+
 
         }
 
         @Override
         public String toString() {
             return "ViewHolder{" +
-                    "mView=" + mView +
                     ", mNameView=" + mNameView.getText() +
                     ", mPriceView=" + mPriceView.getText() +
                     ", mQuantityView=" + mQuantityView.getText() +
-                    ", mItem=" + mItem +
                     '}';
         }
     }
@@ -162,4 +195,18 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     }
 
 
+    class MenuViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.name)
+        TextView mNameView;
+        @BindView(R.id.price)
+        TextView mPriceView;
+        @BindView(R.id.productPhoto)
+        ImageView mImageView;
+
+        MenuViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+
+        }
+    }
 }

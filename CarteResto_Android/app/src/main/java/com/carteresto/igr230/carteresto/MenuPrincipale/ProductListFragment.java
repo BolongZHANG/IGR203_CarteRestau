@@ -36,9 +36,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     private static final String ARG_TYPE = "type";
     private String mType = Product.VIN;
     private OnListFragmentInteractionListener mListener;
-    private StaggeredGridLayoutManager mLayoutManager;
     private ProductListViewModel viewModel;
-    private ProductRecyclerViewAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,11 +73,13 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
             Context context = view.getContext();
             RecyclerView recyclerView =  view.findViewById(R.id.list);
             TextView textView = view.findViewById(R.id.textView);
-            mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+            int count = mType.equals(Product.MENU) ? 1 :4;
+            int orientation = mType.equals(Product.MENU) ? StaggeredGridLayoutManager.HORIZONTAL:StaggeredGridLayoutManager.VERTICAL;
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(count, orientation);
 //            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(mLayoutManager);
 
-            mAdapter = new ProductRecyclerViewAdapter(this, this);
+        ProductRecyclerViewAdapter mAdapter = new ProductRecyclerViewAdapter(this, this);
 
         recyclerView.setAdapter(mAdapter);
 

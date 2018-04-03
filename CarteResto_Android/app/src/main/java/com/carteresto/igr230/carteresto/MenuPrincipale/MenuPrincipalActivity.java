@@ -61,7 +61,7 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
         ButterKnife.bind(this);
         mFragmentMan = this.getSupportFragmentManager();
         btnMap = new HashMap<>();
-        btnMap.put(btnMenu, ProductListFragment.getInstance(Product.VIN));
+        btnMap.put(btnMenu, ProductListFragment.getInstance(Product.MENU));
         btnMap.put(btnVin, ProductListFragment.getInstance(Product.VIN));
         btnMap.put(btnPlat,ProductListFragment.getInstance(Product.PLAT));
         btnMap.put(btnApero, ProductListFragment.getInstance(Product.APERO));

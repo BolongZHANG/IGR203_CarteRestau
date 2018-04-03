@@ -24,7 +24,7 @@ public class Product extends ProductModel{
     static public final String PLAT = "plat";
     static public final String DESSERT = "dessert";
 
-    @StringDef({VIN, APERO, ENTREE, PLAT, DESSERT})
+    @StringDef({VIN, APERO, ENTREE, PLAT, DESSERT, MENU})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Types{}
     private int quantity;

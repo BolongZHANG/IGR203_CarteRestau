@@ -53,10 +53,10 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
+        android:orientation="horizontal"
+        app:layoutManager="StaggeredGridLayoutManager"
         tools:context="com.carteresto.igr230.carteresto.MenuPrincipale.ProductListFragment"
-        tools:listitem="@layout/product_cardview"
-        android:orientation="horizontal">
+        tools:listitem="@layout/menu_item_cardview">
 
     </android.support.v7.widget.RecyclerView>
 
