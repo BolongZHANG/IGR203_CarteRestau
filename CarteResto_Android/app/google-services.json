@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "645854298273",
+    "firebase_url": "https://carterestoandroid.firebaseio.com",
+    "project_id": "carterestoandroid",
+    "storage_bucket": "carterestoandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645854298273:android:7c9919dc0d10a1eb",
+        "android_client_info": {
+          "package_name": "com.carteresto.igr230.carteresto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645854298273-a881lka8m4kveq4qr6305j8c3cd2gk3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carteresto.igr230.carteresto",
+            "certificate_hash": "d7baf15373a788e38bbc7725e9d5d42a37d693a7"
+          }
+        },
+        {
+          "client_id": "645854298273-q7namr169t1d8icsdep80jmqf5guadc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN5hU0EoesnKsfk46vhjO40Ew0US1kyLU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645854298273-q7namr169t1d8icsdep80jmqf5guadc1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
