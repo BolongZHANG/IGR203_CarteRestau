@@ -124,7 +124,7 @@ public class Command {
         menuList.put(mID, menu);
     }
 
-    public void removeMenu(@NonNull Menu menu) {
+    public void removeMenu(@NonNull MenuDuCarte menu) {
         String mID = "ID_" + menu.getId();
         menuList.remove(menu.getId());
     }

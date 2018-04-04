@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import com.carteresto.igr230.carteresto.Model.CommandModel;
-import com.carteresto.igr230.carteresto.Model.Menu;
+import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
@@ -36,7 +36,7 @@ public interface ProductDao {
     @Query("SELECT products.*, commands.* FROM products " +
             "LEFT JOIN commands On products.id = commands.productId " +
             "WHERE products.type = 'menu' AND products.id =:id")
-    LiveData<Menu> getMenuById(String id);
+    LiveData<MenuDuCarte> getMenuById(String id);
 
     @Query("SELECT products.id, products.name, products.type, products.price," +
             " menu_dishes.quantity, menu_dishes.comment" +

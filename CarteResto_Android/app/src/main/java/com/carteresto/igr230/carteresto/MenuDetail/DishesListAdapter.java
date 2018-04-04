@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -137,8 +138,8 @@ public class DishesListAdapter extends BaseExpandableListAdapter
             convertView = inflater.inflate(R.layout.activity_menu_detail_list_item, parent, false);
             viewHolder.dishPreview = (ImageButton) convertView.findViewById(R.id.menu_detail_dish_preview);
             viewHolder.dishName = (TextView) convertView.findViewById(R.id.menu_detail_dish_title);
-            viewHolder.dishLessQuantity = (Button) convertView.findViewById(R.id.menu_detail_dish_less_btn);
-            viewHolder.dishMoreQuantity = (Button) convertView.findViewById(R.id.menu_detail_dish_more_btn);
+            viewHolder.dishLessQuantity =  convertView.findViewById(R.id.menu_detail_dish_less_btn);
+            viewHolder.dishMoreQuantity =  convertView.findViewById(R.id.menu_detail_dish_more_btn);
             viewHolder.dishValueQuantity = (TextView) convertView.findViewById(R.id.menu_detail_dish_quantity_value);
             result = convertView;
             convertView.setTag(viewHolder);
@@ -289,7 +290,7 @@ public class DishesListAdapter extends BaseExpandableListAdapter
     private static class ViewHolder {
         ImageButton dishPreview;
         TextView dishName;
-        Button dishLessQuantity, dishMoreQuantity;
+        FloatingActionButton dishLessQuantity, dishMoreQuantity;
         TextView dishValueQuantity;
     }
 

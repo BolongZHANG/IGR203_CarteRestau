@@ -49,6 +49,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/AppTheme"
             android:name=".MenuDetail.MenuDetailActivity"
             android:screenOrientation="landscape">
             <intent-filter>

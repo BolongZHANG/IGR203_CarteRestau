@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu_detail_dish_item"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -18,13 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_margin="4dp"
         android:layout_toEndOf="@id/menu_detail_dish_preview"
         android:layout_toStartOf="@+id/menu_detail_dish_quantity"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
-        android:paddingRight="?android:expandableListPreferredChildPaddingLeft"
-        android:paddingTop="5dp"
-        android:textSize="20sp" />
+
+        android:padding="4dp"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        tools:text="This This This This This This This This This This This This " />
 
     <LinearLayout
         android:id="@id/menu_detail_dish_quantity"
@@ -34,13 +37,16 @@
         android:layout_centerVertical="true"
         android:orientation="horizontal">
 
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/menu_detail_dish_less_btn"
             style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:backgroundTint="@color/colorAccent"
-            android:text="@string/menu_detail_button_minus" />
+            android:src="@drawable/ic_remove_black_24dp"
+            android:tint="@android:color/white"
+            app:fabSize="mini" />
 
         <TextView
             android:id="@+id/menu_detail_dish_quantity_value"
@@ -52,13 +58,17 @@
             android:text="@string/menu_detail_number_zero"
             android:textSize="30sp" />
 
-        <Button
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/menu_detail_dish_more_btn"
             style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:backgroundTint="@color/colorAccent"
-            android:text="@string/menu_detail_button_plus" />
+            android:src="@drawable/ic_add_black_24dp"
+            android:text="@string/menu_detail_button_plus"
+            android:tint="@android:color/white"
+            app:fabSize="mini" />
     </LinearLayout>
 
 </RelativeLayout>

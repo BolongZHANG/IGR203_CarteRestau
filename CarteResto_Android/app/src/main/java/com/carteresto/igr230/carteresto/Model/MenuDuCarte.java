@@ -5,7 +5,7 @@ package com.carteresto.igr230.carteresto.Model;
  * @version 1.0
  * @author ZHUF angda
  * ***/
-public class Menu extends ProductModel {
+public class MenuDuCarte extends ProductModel {
     private int quantity;
     private String comment;
 //    List<SimpleProduct> dishes;
@@ -35,7 +35,7 @@ public class Menu extends ProductModel {
     }
 
 
-    public void copyWithoutList(Menu menu) {
+    public void copyWithoutList(MenuDuCarte menu) {
         super.copyOf(menu);
         quantity = menu.quantity;
         comment = menu.comment;

@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="com.carteresto.igr230.carteresto.MenuPrincipale.MenuPrincipalActivity">
 
 
     <LinearLayout
         android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="48dp"
         android:gravity="left|center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"

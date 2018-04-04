@@ -1,26 +1,31 @@
 package com.carteresto.igr230.carteresto.MenuDetail;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
+
 import android.util.Log;
-import android.widget.Button;
+
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.carteresto.igr230.carteresto.Model.Menu;
+import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -41,20 +46,22 @@ import butterknife.OnClick;
 public class MenuDetailActivity extends AppCompatActivity {
 
     static final String TAG = MenuDetailActivity.class.getSimpleName();
+    @BindView(R.id.appbar)
+    AppBarLayout appBarLayout;
     @BindView(R.id.menu_detail_menu_title)
     TextView menuNameView;
     @BindView(R.id.menu_detail_price)
     TextView priceView;
     @BindView(R.id.menu_detail_number_less)
-    Button menuNumberLessBtn;
+    FloatingActionButton menuNumberLessBtn;
     @BindView(R.id.menu_detail_number)
     TextView menuNumberView;
     @BindView(R.id.menu_detail_number_more)
-    Button menuNumberMoreBtn;
+    FloatingActionButton menuNumberMoreBtn;
     @BindView(R.id.menu_detail_add_note)
-    ImageButton noteBtn;
+    FloatingActionButton noteBtn;
     @BindView(R.id.menu_detail_validate_btn)
-    Button validateBtn;
+    FloatingActionButton validateBtn;
     @BindView(R.id.menu_detail_dishes_list)
     ExpandableListView dishesListView;
     // Validation button
@@ -63,6 +70,8 @@ public class MenuDetailActivity extends AppCompatActivity {
     TextView description;
     @BindView(R.id.img_menu)
     ImageView imgMenu;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     // Left panel widgets
     private int lastQuantity = 0;
     private String curNote;
@@ -73,6 +82,9 @@ public class MenuDetailActivity extends AppCompatActivity {
     private MenuViewModel viewModel;
     private FirebaseStorage storage;
     private String menuID;
+    private boolean appBarExpanded;
+    private Menu collapsedMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,18 +93,37 @@ public class MenuDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         menuID = intent.getStringExtra("id");
         viewModel = ViewModelProviders.of(this).get(MenuViewModel.class);
-
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_chevron_left_black_24dp);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //TODO
 //        Intent intent = getIntent();
 //        String id = intent.getStringExtra("type");
 //        Log.d(TAG, "onCreate: MenuID:" + id);
-//
+
+    appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            //  Vertical offset == 0 indicates appBar is fully  expanded.
+            if (Math.abs(verticalOffset) > 200) {
+                appBarExpanded = false;
+                invalidateOptionsMenu();
+                validateBtn.hide();
+            } else {
+                appBarExpanded = true;
+                validateBtn.show();
+                invalidateOptionsMenu();
+            }
+        }
+    });
 
         storage = FirebaseStorage.getInstance();
 
-        viewModel.getMenu(menuID).observe(this, new Observer<Menu>() {
+        viewModel.getMenu(menuID).observe(this, new Observer<MenuDuCarte>() {
             @Override
-            public void onChanged(@Nullable Menu menu) {
+            public void onChanged(@Nullable MenuDuCarte menu) {
                 if (menu == null) {
                     Log.e(TAG, "onChanged: Can not get menu info");
                     return;
@@ -138,7 +169,7 @@ public class MenuDetailActivity extends AppCompatActivity {
                 .setMessage(R.string.menu_detail_validate_confirmation_message);
     }
 
-    private void prepareMenuData(Menu menu) {
+    private void prepareMenuData(MenuDuCarte menu) {
         lastQuantity = menu.getQuantity();
         menuNameView.setText(menu.getName());
         menuNumberView.setText(String.valueOf(menu.getQuantity()));
@@ -253,5 +284,44 @@ public class MenuDetailActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        collapsedMenu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (collapsedMenu != null
+                && (!appBarExpanded || collapsedMenu.size() != 1)) {
+            //collapsed
+            collapsedMenu.add("Valide")
+                    .setIcon(R.drawable.ic_check_black_24dp)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        } else {
+            //expanded
+        }
+        return super.onPrepareOptionsMenu(collapsedMenu);
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+        }
+        if (item.getTitle() == "Add") {
+            Toast.makeText(this, "clicked add", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

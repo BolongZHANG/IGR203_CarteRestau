@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.carteresto.igr230.carteresto.Model.Menu;
+import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.carteresto.igr230.carteresto.source.remote.CommandLiveData;
@@ -16,7 +16,7 @@ import java.util.List;
 public class MenuViewModel extends AndroidViewModel {
     static String TAG = MenuViewModel.class.getSimpleName();
     private CommandLiveData cmdLiveData;
-    private LiveData<Menu> menuLiveData;
+    private LiveData<MenuDuCarte> menuLiveData;
     private LiveData<List<SimpleProduct>> menuDishesLivedata;
     private String menuID = "-1";
     @NonNull
@@ -46,7 +46,7 @@ public class MenuViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<Menu> getMenu(@NonNull String id) {
+    public LiveData<MenuDuCarte> getMenu(@NonNull String id) {
         if (!menuID.equals(id) || menuLiveData == null) {
             Log.d(TAG, "getMenu: Get new Menu id:" + id);
             menuID = id;
