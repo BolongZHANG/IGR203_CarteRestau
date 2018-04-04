@@ -139,8 +139,7 @@ public class ProductShowFragment extends DialogFragment {
                     Glide.with(getContext() /* context */)
                             .using(new FirebaseImageLoader())
                             .load(storage.getReferenceFromUrl("gs://carterestoandroid.appspot.com/product/" + product.getId() + "/big.jpg"))
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .fitCenter()
+                            .diskCacheStrategy(DiskCacheStrategy.RESULT)
                             .into(ivProduct);
                     return;
                 }

@@ -22,10 +22,19 @@ public class Command {
     private String id;
     @NonNull
     private String tableNb;
-    private Map<String, Integer> productList = new HashMap<>();
-    private Map<String, Integer> menuList = new HashMap<>();
+    private Map<String, SimpleProduct> productList = new HashMap<>();
+    private Map<String, SimpleMenu> menuList = new HashMap<>();
     private double totalPrice;
+    private String status;
 
+    public Command(@NonNull String cmdID, @NonNull String table) {
+        this.id = checkNotNull(cmdID);
+        this.tableNb = checkNotNull(table);
+    }
+
+    public Command() {
+
+    }
 
     @Override
     public String toString() {
@@ -38,18 +47,6 @@ public class Command {
                 ", status='" + status + '\'' +
                 '}';
     }
-
-    private String status;
-
-    public Command(@NonNull String cmdID, @NonNull String table){
-        this.id = checkNotNull(cmdID);
-        this.tableNb = checkNotNull(table);
-    }
-
-    public Command(){
-
-    }
-
 
     public String getId() {
         return id;
@@ -67,19 +64,19 @@ public class Command {
         this.tableNb = tableNb;
     }
 
-    public Map<String, Integer> getProductList() {
+    public Map<String, SimpleProduct> getProductList() {
         return productList;
     }
 
-    public void setProductList(Map<String, Integer> productList) {
+    public void setProductList(Map<String, SimpleProduct> productList) {
         this.productList = productList;
     }
 
-    public Map<String, Integer> getMenuList() {
+    public Map<String, SimpleMenu> getMenuList() {
         return menuList;
     }
 
-    public void setMenuList(Map<String, Integer> menuList) {
+    public void setMenuList(Map<String, SimpleMenu> menuList) {
         this.menuList = menuList;
     }
 
@@ -91,38 +88,54 @@ public class Command {
         this.totalPrice = totalPrice;
     }
 
-    public void addProductQuantity(String id){
+    public void addProductQuantity(SimpleProduct simpleProduct) {
         Log.d(TAG, "addProductQuantity: add 1 id:" + id);
         String mID = "ID_" + id;
-        if(productList.containsKey(mID)){
-            int qantity = productList.get(mID);
-            productList.put(mID, qantity+1);
-        }else{
-            productList.put(mID, 1);
+        if (productList.containsKey(mID)) {
+            SimpleProduct product = productList.get(mID);
+            int qantity = productList.get(mID).getQuantity();
+            productList.put(mID, product);
+        } else {
+            throw new IllegalArgumentException("The product id is not in the command, please add it firstly!");
         }
     }
 
-
-
-    public void minusProductQuantity(String id){
-        String mID = "ID_" + id;
-        Log.d(TAG, "minusProductQuantity: minus 1 id:" + id);
-        if(productList.containsKey(mID)){
-            Log.d(TAG, "minusProductQuantity: minus 1 id:" + id);
-            int qantity = productList.get(mID);
-            productList.put(mID, qantity>1 ? qantity-1: 0);
-        }
+    public void updateProduct(SimpleProduct product) {
+        Log.d(TAG, "addProductQuantity");
+        String mID = "ID_" + product.getId();
+        if (product.getQuantity() > 0) productList.put(mID, product);
+        else productList.remove(mID);
     }
 
-    public void setProductQuantity(String id, int quantity){
+
+    public void minusProduct(SimpleProduct product) {
         String mID = "ID_" + id;
-        productList.put(mID, quantity);
+        if (!productList.containsKey(mID)) return;
+        Log.d(TAG, "minusProductQuantity: minus quantity to " + product.getQuantity()
+                + "id:" + id);
+        product.minus();
+        if (product.getQuantity() == 0) productList.remove(mID);
+        else productList.put(mID, product);
     }
 
-    public int getProductQuantity(String id){
+
+    public void updateMenu(@NonNull SimpleMenu menu) {
+        String mID = "ID_" + menu.getId();
+        menuList.put(mID, menu);
+    }
+
+    public void removeMenu(@NonNull Menu menu) {
+        String mID = "ID_" + menu.getId();
+        menuList.remove(menu.getId());
+    }
+
+    public int getProductQuantity(String id) {
         String mID = "ID_" + id;
-        Integer quantity = productList.get(mID);
-        return quantity == null ? 0: quantity;
+        if (productList.containsKey(mID))
+            return productList.get(mID).getQuantity();
+        else
+            return 0;
     }
 
 }
+

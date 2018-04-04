@@ -6,21 +6,27 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import com.carteresto.igr230.carteresto.Model.Product;
-
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "commands",
         foreignKeys = @ForeignKey(entity = ProductModel.class,
-        parentColumns = "id",
-        childColumns = "productId",
-        onDelete = CASCADE))
+                parentColumns = "id",
+                childColumns = "productId",
+                onDelete = CASCADE))
 
 public class CommandModel {
     @NonNull
     @PrimaryKey
     private String productId;
     private Integer quantity;
+    private String comment;
+
+    @Ignore
+    public CommandModel(String productId, Integer quantity, String comment) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.comment = comment;
+    }
 
     @Ignore
     public CommandModel(String productId, Integer quantity) {
@@ -28,9 +34,17 @@ public class CommandModel {
         this.quantity = quantity;
     }
 
-    public CommandModel() {
+
+    @Ignore
+    public CommandModel(SimpleProduct simpleProduct) {
+        this.productId = simpleProduct.getId();
+        this.quantity = simpleProduct.getQuantity();
+        this.comment = simpleProduct.getComment();
     }
 
+
+    public CommandModel() {
+    }
 
     public String getProductId() {
         return productId;
@@ -40,8 +54,6 @@ public class CommandModel {
         this.productId = productId;
     }
 
-    private String commentaire;
-
     public Integer getQuantity() {
         return quantity;
     }
@@ -50,12 +62,12 @@ public class CommandModel {
         this.quantity = quantity;
     }
 
-    public String getCommentaire() {
-        return commentaire;
+    public String getComment() {
+        return comment;
     }
 
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 
@@ -64,7 +76,7 @@ public class CommandModel {
         return "CommandModel{" +
                 "productId='" + productId + '\'' +
                 ", quantity=" + quantity +
-                ", commentaire='" + commentaire + '\'' +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 }

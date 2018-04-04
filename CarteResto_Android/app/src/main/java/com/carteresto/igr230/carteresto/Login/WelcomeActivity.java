@@ -13,28 +13,22 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
-import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.R;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,10 +64,8 @@ public class WelcomeActivity extends AppCompatActivity {
         mRepo = ProductsRepository.getInstance(getApplication());
 
 
-        Initialization calcul=new Initialization();
+        Initialization calcul = new Initialization();
         calcul.execute();
-
-
 
 
     }
@@ -85,7 +77,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private class Initialization extends AsyncTask<Void, Pair<Integer, String>, Void> implements OnSuccessListener<FileDownloadTask.TaskSnapshot> {
-        private Pair<Integer, String> msg = new Pair<>(0,"");
+        private Pair<Integer, String> msg = new Pair<>(0, "");
+
+        public Initialization() {
+            super();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
 //            downLoadJson();
@@ -98,11 +95,6 @@ public class WelcomeActivity extends AppCompatActivity {
             super.onPreExecute();
             mProgressBar.setVisibility(View.VISIBLE);
             Snackbar.make(mProgressBar, R.string.inite, Snackbar.LENGTH_SHORT);
-        }
-
-
-        public Initialization() {
-            super();
         }
 
         @Override
@@ -147,7 +139,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         private void createDataBase(File file) {
             Integer i = 1;
-            try(FileReader fr = new FileReader(file)){
+            try (FileReader fr = new FileReader(file)) {
                 Gson gson = new Gson();
                 List<ProductModel> proList = Arrays.asList(gson.fromJson(fr, ProductModel[].class));
                 mRepo.getProductDao().insertProductList(proList);
@@ -186,11 +178,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }catch(Exception e){
+            } catch (Exception e) {
 
             }
         }
-
 
 
         @Override
@@ -198,7 +189,6 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
         }
-
 
 
         @Override

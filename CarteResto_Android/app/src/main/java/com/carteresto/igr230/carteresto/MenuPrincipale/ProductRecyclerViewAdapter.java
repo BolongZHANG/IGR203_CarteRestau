@@ -1,12 +1,9 @@
 package com.carteresto.igr230.carteresto.MenuPrincipale;
 
-import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.util.DiffUtil;
-
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,14 +19,13 @@ import com.carteresto.igr230.carteresto.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = ProductRecyclerViewAdapter.class.getSimpleName();
     private static final int MENU = 0;
@@ -41,39 +37,33 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private QuantityModifyListener mListener;
 
-    public interface QuantityModifyListener{
-        void add(String id);
-        void minus(String id);
-        void showDialogue(String id);
+    public ProductRecyclerViewAdapter(Fragment fragment, QuantityModifyListener listener) {
+        this.mListener = listener;
     }
-
-    public ProductRecyclerViewAdapter(Fragment fragment,  QuantityModifyListener listener) {
-        this.mListener =  listener;
-      }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == MENU){
-                View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.menu_item_cardview, parent, false);
-                return new MenuViewHolder(view);
-            }
+        if (viewType == MENU) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.product_cardview, parent, false);
-            return new SimplyProductViewHolder(view);
+                    .inflate(R.layout.menu_item_cardview, parent, false);
+            return new MenuViewHolder(view);
         }
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.product_cardview, parent, false);
+        return new SimplyProductViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         String type = mData.get(position).getType();
         final Product product = mData.get(position);
 
-        if(type.equals(Product.MENU)){
+        if (type.equals(Product.MENU)) {
             MenuViewHolder menuHolder = (MenuViewHolder) holder;
             menuHolder.mNameView.setText(product.getName());
             menuHolder.mPriceView.setText(product.getPrice() + " €");
-            String imageRef =  "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/"
-                    + product.getId() +".jpg";
+            String imageRef = "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/"
+                    + product.getId() + ".jpg";
             Log.d(TAG, "onBindViewHolder: load image:" + imageRef);
 
             Glide.with(holder.itemView.getContext() /* context */)
@@ -82,7 +72,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .fitCenter()
                     .into(menuHolder.mImageView);
-            return ;
+            menuHolder.mImageView.setOnClickListener(v -> mListener.showDialogue(product.getId()));
+            return;
         }
 
         SimplyProductViewHolder mHolder = (SimplyProductViewHolder) holder;
@@ -90,7 +81,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         mHolder.mPriceView.setText(product.getPrice() + " €");
         mHolder.mQuantityView.setText(String.valueOf(product.getQuantity()));
         //TODO save the image in the resource directory
-        String imageRef =  "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/small.jpg";
+        String imageRef = "gs://carterestoandroid.appspot.com/product/" + product.getId() + "/small.jpg";
         Log.d(TAG, "onBindViewHolder: load image:" + imageRef);
 
         Glide.with(holder.itemView.getContext() /* context */)
@@ -101,27 +92,27 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 .into(mHolder.mImageView);
 
         mHolder.mAddButton.setOnClickListener(v -> mListener.add(product.getId()));
-        mHolder.mMinusButton.setOnClickListener(v->mListener.minus(product.getId()));
+        mHolder.mMinusButton.setOnClickListener(v -> mListener.minus(product.getId()));
         mHolder.mImageView.setOnClickListener(v -> mListener.showDialogue(product.getId()));
-    }
 
+    }
 
     @Override
-    public int getItemViewType (int position) {
+    public int getItemViewType(int position) {
         String type = mData.get(position).getType();
-        if(type.equals(Product.MENU)) return MENU;
-        if(type.equals(Product.VIN)) return VIN;
+        if (type.equals(Product.MENU)) return MENU;
+        if (type.equals(Product.VIN)) return VIN;
         else return OTHER;
     }
+
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
-
     public void setData(List<Product> data) {
         Log.d(TAG, "setData: update the list data");
-        if(this.mData != null){
+        if (this.mData != null) {
             ProductDiffCallback productDiffCallback = new ProductDiffCallback(this.mData, data);
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(productDiffCallback);
             mData.clear();
@@ -131,6 +122,14 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+
+    public interface QuantityModifyListener {
+        void add(String id);
+
+        void minus(String id);
+
+        void showDialogue(String id);
+    }
 
     public class SimplyProductViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.name)

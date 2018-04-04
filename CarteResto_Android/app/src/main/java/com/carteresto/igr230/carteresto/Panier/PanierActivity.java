@@ -14,8 +14,6 @@ import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,7 +36,7 @@ public class PanierActivity extends AppCompatActivity {
         viewModel.getProduct().observe(this, new Observer<Product>() {
             @Override
             public void onChanged(@Nullable Product product) {
-                if(product != null)
+                if (product != null)
                     text.setText(product.toString());
             }
         });

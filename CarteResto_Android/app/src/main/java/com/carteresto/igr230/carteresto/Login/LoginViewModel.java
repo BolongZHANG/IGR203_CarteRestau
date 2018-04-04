@@ -20,7 +20,7 @@ class LoginViewModel extends AndroidViewModel {
         return mRepo.createCmd(table);
     }
 
-    public void setCmdId(String id){
+    public void setCmdId(String id) {
         mRepo.setCmdId(id);
     }
 }

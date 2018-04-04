@@ -1,14 +1,13 @@
 package com.carteresto.igr230.carteresto.MenuPrincipale;
 
 
-import android.support.v4.app.DialogFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -17,11 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.carteresto.igr230.carteresto.MenuDetail.MenuDetailActivity;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 
-import java.util.List;
 import java.util.Objects;
 
 
@@ -47,7 +46,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ProductListFragment getInstance( @Product.Types String type) {
+    public static ProductListFragment getInstance(@Product.Types String type) {
         ProductListFragment fragment = new ProductListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TYPE, type);
@@ -70,14 +69,14 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plat_list, container, false);
-            Context context = view.getContext();
-            RecyclerView recyclerView =  view.findViewById(R.id.list);
-            TextView textView = view.findViewById(R.id.textView);
-            int count = mType.equals(Product.MENU) ? 1 :4;
-            int orientation = mType.equals(Product.MENU) ? StaggeredGridLayoutManager.HORIZONTAL:StaggeredGridLayoutManager.VERTICAL;
+        Context context = view.getContext();
+        RecyclerView recyclerView = view.findViewById(R.id.list);
+        TextView textView = view.findViewById(R.id.textView);
+        int count = mType.equals(Product.MENU) ? 1 : 4;
+        int orientation = mType.equals(Product.MENU) ? StaggeredGridLayoutManager.HORIZONTAL : StaggeredGridLayoutManager.VERTICAL;
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(count, orientation);
 //            mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(mLayoutManager);
 
         ProductRecyclerViewAdapter mAdapter = new ProductRecyclerViewAdapter(this, this);
 
@@ -101,7 +100,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e(TAG, "onCreateView: " + viewModel.getPlatList() );
+        Log.e(TAG, "onCreateView: " + viewModel.getPlatList());
 
 
     }
@@ -137,8 +136,15 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
 
     @Override
     public void showDialogue(String id) {
-        ProductShowFragment fragment = ProductShowFragment.newInstance(id);
-        fragment.show(Objects.requireNonNull(getFragmentManager()), "product-" + id);
+        if (mType.equals(Product.MENU)) {
+            Intent intent = new Intent(getActivity(), MenuDetailActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        } else {
+            ProductShowFragment fragment = ProductShowFragment.newInstance(id);
+            fragment.show(Objects.requireNonNull(getFragmentManager()), "product-" + id);
+        }
+
     }
 
 

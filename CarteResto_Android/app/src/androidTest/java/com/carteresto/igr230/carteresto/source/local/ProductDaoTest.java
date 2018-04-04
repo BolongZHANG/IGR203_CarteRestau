@@ -7,11 +7,9 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
-import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.R;
 import com.google.gson.Gson;
 
@@ -26,12 +24,8 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -41,10 +35,10 @@ import static org.junit.Assert.assertTrue;
 public class ProductDaoTest {
 
     static final String TAG = ProductDaoTest.class.getSimpleName();
+    List<ProductModel> productList;
     private ProductDao mProductDao;
     private ProductDatabase mDb;
 
-    List<ProductModel> productList;
     @Before
     public void createDB() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();
@@ -75,7 +69,7 @@ public class ProductDaoTest {
         List<CommandModel> commandList = LiveDataTestUtil.getValue(commandLivedata);
         Product product = LiveDataTestUtil.getValue(productLiveData);
 
-        Log.e(TAG, "getProductById: Before:" + product );
+        Log.e(TAG, "getProductById: Before:" + product);
         Log.e(TAG, "getProductById: command list:" + commandList);
         assertEquals(product.getId(), "27");
         assertEquals(product.getName(), "Gimlet pickles");
@@ -88,7 +82,7 @@ public class ProductDaoTest {
         product = LiveDataTestUtil.getValue(productLiveData);
         commandList = LiveDataTestUtil.getValue(commandLivedata);
 
-        Log.e(TAG, "getProductById: After:" + product );
+        Log.e(TAG, "getProductById: After:" + product);
         Log.e(TAG, "getProductById: command list:" + commandList);
 
 
@@ -127,7 +121,7 @@ public class ProductDaoTest {
         LiveData<List<Product>> productsLivedata = mProductDao.getListByType(Product.PLAT);
         List<Product> products = LiveDataTestUtil.getValue(productsLivedata);
         assertNotNull(products);
-        for(Product product: products){
+        for (Product product : products) {
             Log.e(TAG, "getListByType: " + product);
             assertEquals(product.getType(), Product.PLAT);
         }
@@ -135,55 +129,30 @@ public class ProductDaoTest {
         String id = products.get(0).getId();
         mProductDao.insertCommand(new CommandModel(id, 20));
         products = LiveDataTestUtil.getValue(productsLivedata);
-        for(Product product: products){
+        for (Product product : products) {
             Log.e(TAG, "getListByType: " + product);
             assertEquals(product.getType(), Product.PLAT);
-            if(product.getId().equals(id)){
+            if (product.getId().equals(id)) {
                 assertEquals(product.getQuantity(), 20);
             }
         }
 
 
     }
+
     @Test
     public void updateProduct() throws Exception {
 
     }
 
     @Test
-    public  void getProductList(){
+    public void getProductList() {
         mProductDao.insertProductList(productList);
-        mProductDao.insertCommand(new CommandModel("1",23));
+        mProductDao.insertCommand(new CommandModel("1", 23));
         List<Product> list = mProductDao.getProductList();
         Log.e(TAG, "getProductList: " + list);
 
     }
-
-
-    private void assertSimpleProduct(SimpleProduct product, String id, String name,
-                                     double price, String img, int quantity ) {
-        assertNotNull(product);
-        assertThat(product.getId(), is(id));
-        assertThat(product.getName(), is(name));
-        assertThat(product.getQuantity(), is(quantity));
-        assertEquals(product.getPrice(), price, 0.001);
-        assertEquals(product.getImage(), img);
-    }
-
-
-    private void assertProduct(Product product, String id, String name,String type, String commentaire,
-                                     double price, String img, int quantity ) {
-        assertNotNull(product);
-        assertThat(product.getId(), is(id));
-        assertThat(product.getName(), is(name));
-        assertEquals(product.getImage(), img);
-        assertEquals(product.getPrice(), price, 0.001);
-        assertThat(product.getQuantity(), is(quantity));
-        assertThat(product.getType(), is(type));
-        assertThat(product.getCommentaire(), is(commentaire));
-    }
-
-
 
 
 }

@@ -1,9 +1,9 @@
 package com.carteresto.igr230.carteresto.MenuPrincipale;
 
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +16,6 @@ import android.widget.Space;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Ce Activity affichir tous les list du plat à la cart et la liste du menu du jour
  **/
-public class MenuPrincipalActivity extends AppCompatActivity implements View.OnClickListener , ProductListFragment.OnListFragmentInteractionListener {
+public class MenuPrincipalActivity extends AppCompatActivity implements View.OnClickListener, ProductListFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = MenuPrincipalActivity.class.getSimpleName();
     @BindView(R.id.top_toolbar)
@@ -63,12 +62,12 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
         btnMap = new HashMap<>();
         btnMap.put(btnMenu, ProductListFragment.getInstance(Product.MENU));
         btnMap.put(btnVin, ProductListFragment.getInstance(Product.VIN));
-        btnMap.put(btnPlat,ProductListFragment.getInstance(Product.PLAT));
+        btnMap.put(btnPlat, ProductListFragment.getInstance(Product.PLAT));
         btnMap.put(btnApero, ProductListFragment.getInstance(Product.APERO));
         btnMap.put(btnEntree, ProductListFragment.getInstance(Product.ENTREE));
         btnMap.put(btnDessert, ProductListFragment.getInstance(Product.DESSERT));
 
-        for(Map.Entry<Button, Fragment> entry: btnMap.entrySet()){
+        for (Map.Entry<Button, Fragment> entry : btnMap.entrySet()) {
             entry.getKey().setSelected(false);
             entry.getKey().setOnClickListener(this);
         }
@@ -79,30 +78,32 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    void selectButton(Button button){
+    void selectButton(Button button) {
         Fragment from = null;
-        for(Map.Entry<Button, Fragment> entry: btnMap.entrySet()){
+        for (Map.Entry<Button, Fragment> entry : btnMap.entrySet()) {
             entry.getKey().setSelected(false);
             entry.getKey().setOnClickListener(this);
-            if(entry.getValue().isVisible()) from = entry.getValue();
+            if (entry.getValue().isVisible()) from = entry.getValue();
         }
         button.setSelected(true);
 
         Fragment to = btnMap.get(button);
-        Log.i(TAG, "selectButton: From " + from + "to " + to );
+        Log.i(TAG, "selectButton: From " + from + "to " + to);
         switchContent(from, to);
     }
 
     public void switchContent(Fragment from, Fragment to) {
-        if(to.isVisible() || from == to) return;
+        if (to.isVisible() || from == to) return;
 
         FragmentTransaction transaction = mFragmentMan.beginTransaction().setCustomAnimations(
-                    android.R.anim.fade_in, android.R.anim.slide_out_right);
+                android.R.anim.fade_in, android.R.anim.slide_out_right);
         if (!to.isAdded()) {
-            if(from != null) transaction.hide(from).add(R.id.bean_list, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            if (from != null)
+                transaction.hide(from).add(R.id.bean_list, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
             else transaction.add(R.id.bean_list, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
         } else {
-            if(from != null) transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            if (from != null)
+                transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，add下一个到Activity中
             else transaction.show(to).commit(); // 隐藏当前的fragment，显示下一个
         }
     }

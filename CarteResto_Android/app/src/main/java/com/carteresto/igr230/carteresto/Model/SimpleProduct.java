@@ -1,6 +1,5 @@
 package com.carteresto.igr230.carteresto.Model;
 
-import android.arch.persistence.room.Ignore;
 import android.support.annotation.NonNull;
 
 /**
@@ -10,12 +9,31 @@ import android.support.annotation.NonNull;
 public class SimpleProduct {
     @NonNull
     private String id;
+    @NonNull
+    private String name;
+    private String type;
+    private double price;
+    private int quantity;
+    private String comment;
+
+
+    public SimpleProduct() {
+
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     @Override
     public String toString() {
         return "SimpleProduct{" +
                 "id='" + id + '\'' +
-                ", image='" + image + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
@@ -30,8 +48,6 @@ public class SimpleProduct {
         this.type = type;
     }
 
-    private String image;
-    private String type;
     @NonNull
     public String getId() {
         return this.id;
@@ -39,21 +55,6 @@ public class SimpleProduct {
 
     public void setId(@NonNull String id) {
         this.id = id;
-    }
-
-    @NonNull
-
-    private String name;
-    private double price;
-    @Ignore
-    private int quantity;
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(@NonNull String image) {
-        this.image = image;
     }
 
     @NonNull
@@ -79,6 +80,14 @@ public class SimpleProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void add() {
+        quantity++;
+    }
+
+    public void minus() {
+        quantity = (quantity == 0) ? 0 : quantity - 1;
     }
 
 

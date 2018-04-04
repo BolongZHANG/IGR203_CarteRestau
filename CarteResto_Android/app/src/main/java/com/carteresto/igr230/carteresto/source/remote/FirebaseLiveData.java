@@ -14,11 +14,11 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-/** This class is used to store all the information from firebase realtime database.
+/**
+ * This class is used to store all the information from firebase realtime database.
  * If the infomation in the firebase realtime database is changed. The value stored in
  * this live data will also changed.
  * Created by zhufa on 09/03/2018.
- *
  */
 
 public class FirebaseLiveData<T> extends MutableLiveData<T> {
@@ -29,10 +29,6 @@ public class FirebaseLiveData<T> extends MutableLiveData<T> {
     boolean isGeneType = false;
     GenericTypeIndicator<T> geneKind;
     private ChildEventListener childEventListener;
-
-    public void setChildEventListener(ChildEventListener listener){
-        childEventListener = listener;
-    }
 
     public FirebaseLiveData(Query query, Class<T> type) {
         Log.d(TAG, "FirebaseLiveData: " + query.getRef().toString());
@@ -46,6 +42,10 @@ public class FirebaseLiveData<T> extends MutableLiveData<T> {
         this.query = query;
         geneKind = type;
         isGeneType = true;
+    }
+
+    public void setChildEventListener(ChildEventListener listener) {
+        childEventListener = listener;
     }
 
     @Override
@@ -78,14 +78,16 @@ public class FirebaseLiveData<T> extends MutableLiveData<T> {
             Log.d(TAG, "onDataChange: " + dataSnapshot.getRef().toString());
             if (dataSnapshot.exists()) {
 
-                if(isGeneType){
-                    if(geneKind == null) throw new IllegalArgumentException("You have to set the data type!");
+                if (isGeneType) {
+                    if (geneKind == null)
+                        throw new IllegalArgumentException("You have to set the data type!");
                     postValue(dataSnapshot.getValue(geneKind));
                     Log.i(TAG, "onDataChange:Gene Type:"
                             + geneKind
                             + " update:" + getValue());
-                }else{
-                    if(kind == null) throw new IllegalArgumentException("You have to set the data type!");
+                } else {
+                    if (kind == null)
+                        throw new IllegalArgumentException("You have to set the data type!");
                     postValue(dataSnapshot.getValue(kind));
                     Log.i(TAG, "onDataChange:Simple Type:"
                             + kind.getCanonicalName()

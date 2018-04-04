@@ -29,8 +29,8 @@ class ProductViewModel extends AndroidViewModel {
     }
 
 
-    public MutableLiveData<Command> getCmd(){
-        if(mCommand == null){
+    public MutableLiveData<Command> getCmd() {
+        if (mCommand == null) {
             mCommand = FirebaseDatabaseService.getCmd(mRepo.getCmdId());
         }
 
@@ -38,13 +38,13 @@ class ProductViewModel extends AndroidViewModel {
     }
 
     @Deprecated
-    public String getCmdNumber(){
+    public String getCmdNumber() {
         return mRepo.getCmdId();
     }
 
 
-    public LiveData<Product> getProductById(String id){
-        if(mProduct == null || !mId.equals(id)){
+    public LiveData<Product> getProductById(String id) {
+        if (mProduct == null || !mId.equals(id)) {
             Log.d(TAG, "getProductById: Get new product, id:" + id);
             mId = id;
             mProduct = mRepo.getProductById(id);
@@ -52,8 +52,8 @@ class ProductViewModel extends AndroidViewModel {
         return mProduct;
     }
 
-    public LiveData<Product> getTestProduct(String id){
-        if(mProduct == null || !mId.equals(id)){
+    public LiveData<Product> getTestProduct(String id) {
+        if (mProduct == null || !mId.equals(id)) {
             Log.d(TAG, "getProductById: Get new product, id:" + id);
             mId = id;
             mProduct = mRepo.getProductTestById(id);

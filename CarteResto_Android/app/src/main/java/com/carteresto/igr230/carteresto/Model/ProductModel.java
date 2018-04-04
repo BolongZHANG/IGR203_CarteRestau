@@ -11,6 +11,11 @@ public class ProductModel {
     private String id;
     @NonNull
     private String type;
+    private String name;
+    private double price;
+    private String description;
+    private String ingredients;
+
 
     @NonNull
     public String getId() {
@@ -21,6 +26,7 @@ public class ProductModel {
         this.id = id;
     }
 
+
     @Override
     public String toString() {
         return "ProductModel{" +
@@ -30,7 +36,6 @@ public class ProductModel {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", ingredients='" + ingredients + '\'' +
-                ", image='" + image + '\'' +
                 '}';
     }
 
@@ -77,21 +82,9 @@ public class ProductModel {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @NonNull
 
-    private String name;
-    private double price;
-    private String description;
-    private String ingredients;
-    private String image;
 
     public String getIngredients() {
         return ingredients;
@@ -100,7 +93,6 @@ public class ProductModel {
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
-
 
 
     @NonNull
@@ -112,4 +104,14 @@ public class ProductModel {
         this.type = type;
     }
 
+
+    public void copyOf(ProductModel model) {
+        this.id = model.getId();
+        this.name = model.getName();
+        this.type = model.getType();
+        this.price = model.getPrice();
+        this.description = model.getDescription();
+        this.ingredients = model.getIngredients();
+
+    }
 }

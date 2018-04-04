@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:contentDescription="@string/logo"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/logo"
         app:srcCompat="@drawable/logo" />
 
 
@@ -75,8 +75,8 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/sign_in_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

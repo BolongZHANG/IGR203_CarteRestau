@@ -1,13 +1,5 @@
 package com.carteresto.igr230.carteresto;
 
-import android.content.Context;
-import android.support.annotation.NonNull;
-
-import com.carteresto.igr230.carteresto.Model.Product;
-import com.carteresto.igr230.carteresto.source.ProductsRepository;
-import com.carteresto.igr230.carteresto.source.local.ProductDatabase;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by zhufa on 21/03/2018.
  */

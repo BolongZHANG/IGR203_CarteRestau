@@ -38,7 +38,7 @@ public class LiveDataTestUtil {
                 Log.e("Test", "onChanged: " + o);
                 data[0] = o;
                 latch.countDown();
-               // liveData.removeObserver(this);
+                // liveData.removeObserver(this);
             }
         };
         liveData.observeForever(observer);

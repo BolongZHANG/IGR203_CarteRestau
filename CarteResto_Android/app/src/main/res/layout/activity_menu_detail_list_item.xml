@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/menu_detail_dish_item"
+    android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:id="@+id/menu_detail_dish_item">
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/menu_detail_dish_preview"
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_margin="1dp"
-        android:scaleType="centerCrop"
-        android:background="#FFFFFF"/>
+        android:background="#FFFFFF"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/menu_detail_dish_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
-        android:paddingRight="?android:expandableListPreferredChildPaddingLeft"
+        android:layout_centerVertical="true"
         android:layout_toEndOf="@id/menu_detail_dish_preview"
         android:layout_toStartOf="@+id/menu_detail_dish_quantity"
-        android:layout_centerVertical="true"/>
+        android:paddingBottom="5dp"
+        android:paddingLeft="?android:expandableListPreferredItemPaddingLeft"
+        android:paddingRight="?android:expandableListPreferredChildPaddingLeft"
+        android:paddingTop="5dp"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:id="@id/menu_detail_dish_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:orientation="horizontal"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/menu_detail_dish_less_btn"
             style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_detail_button_minus"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/menu_detail_button_minus" />
 
         <TextView
             android:id="@+id/menu_detail_dish_quantity_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/menu_detail_number_zero"
-            android:textSize="30sp"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_vertical_margin"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"/>
+            android:text="@string/menu_detail_number_zero"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/menu_detail_dish_more_btn"
             style="@android:style/Widget.Holo.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_detail_button_plus"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/menu_detail_button_plus" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,29 +1,19 @@
 package com.carteresto.igr230.carteresto.Login;
 
-import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Application;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.database.Cursor;
-
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -31,11 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.carteresto.igr230.carteresto.MenuPrincipale.MenuPrincipalActivity;
-import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.MyApplication;
 import com.carteresto.igr230.carteresto.R;
-import com.carteresto.igr230.carteresto.source.ProductsRepository;
-import com.carteresto.igr230.carteresto.source.remote.FirebaseDatabaseService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +30,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.ref.WeakReference;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +38,7 @@ import butterknife.ButterKnife;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
-    MyApplication application;
+public class LoginActivity extends AppCompatActivity {
     static final int NO_DISPONIBLE = 0;
     static final int DISPONIBLE = 1;
     static final String PASSWORD = "123456789";
@@ -61,7 +46,8 @@ public class LoginActivity extends AppCompatActivity{
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    static private String TAG = LoginActivity.class.getSimpleName();
+    MyApplication application;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -74,12 +60,9 @@ public class LoginActivity extends AppCompatActivity{
     EditText mPasswordView;
     @BindView(R.id.sign_in_button)
     Button mSignInButton;
-    @BindView( R.id.login_form)
+    @BindView(R.id.login_form)
     View mLoginFormView;
-
     MyHandler handler;
-    static private String TAG = LoginActivity.class.getSimpleName();
-
     @NonNull
     DatabaseReference ref;
     @NonNull
@@ -158,7 +141,7 @@ public class LoginActivity extends AppCompatActivity{
      */
     private void attemptLogin() {
 
-         // Store values at the time of the login attempt.
+        // Store values at the time of the login attempt.
         final String tableNb = mTableView.getText().toString();
         final String password = mPasswordView.getText().toString();
 
@@ -180,11 +163,11 @@ public class LoginActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Message msg = new Message();
-                if(dataSnapshot.hasChild(tableNb)){
+                if (dataSnapshot.hasChild(tableNb)) {
                     Log.d(TAG, "onDataChange: Table " + tableNb + " is not free!");
                     msg.what = NO_DISPONIBLE;
                     msg.obj = dataSnapshot.child(tableNb).getValue(String.class);
-                }else{
+                } else {
                     Log.d(TAG, "onDataChange: Table " + tableNb + " is free!");
                     msg.what = DISPONIBLE;
 
@@ -194,7 +177,7 @@ public class LoginActivity extends AppCompatActivity{
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: Can not the info about the table!" );
+                Log.e(TAG, "onCancelled: Can not the info about the table!");
             }
         });
     }
@@ -224,25 +207,25 @@ public class LoginActivity extends AppCompatActivity{
                 .setPositiveButton(R.string.valide, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            mLoginViewModel.setCmdId(cmdId);
-                            Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
-                            startActivity(intent);
+                        mLoginViewModel.setCmdId(cmdId);
+                        Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
+                        startActivity(intent);
                     }
                 });
         alertDialog.show();
     }
 
     private boolean isTableValid(String table) {
-        if( !android.text.TextUtils.isDigitsOnly(table)){
+        if (!android.text.TextUtils.isDigitsOnly(table)) {
             return false;
         }
         int tableNb = Integer.valueOf(table);
-        return  tableNb >0 || tableNb <=20;
+        return tableNb > 0 || tableNb <= 20;
     }
 
     private boolean isPasswordValid(String password) {
-        if(password.equals(PASSWORD))
-        return password.length() > 4;
+        if (password.equals(PASSWORD))
+            return password.length() > 4;
         else return false;
     }
 
@@ -250,16 +233,16 @@ public class LoginActivity extends AppCompatActivity{
     public void handleMessage(final Message msg) {
         Log.d(TAG, "handleMessage: Message:" + msg);
 
-        if(msg.what == NO_DISPONIBLE){
-            noDisponibleDemande((String)msg.obj);
-        }else if(msg.what == DISPONIBLE ){
+        if (msg.what == NO_DISPONIBLE) {
+            noDisponibleDemande((String) msg.obj);
+        } else if (msg.what == DISPONIBLE) {
             dispoDemande();
         }
     }
 
 }
 
-class MyHandler extends Handler{
+class MyHandler extends Handler {
     private final WeakReference<LoginActivity> mActivity;
 
     MyHandler(LoginActivity activity) {
@@ -267,8 +250,7 @@ class MyHandler extends Handler{
     }
 
     @Override
-    public void handleMessage(Message msg)
-    {
+    public void handleMessage(Message msg) {
         super.handleMessage(msg);
         LoginActivity activity = mActivity.get();
         if (activity != null) {

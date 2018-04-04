@@ -1,20 +1,15 @@
 package com.carteresto.igr230.carteresto.source.remote;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.Product;
-import com.carteresto.igr230.carteresto.Model.SimpleProduct;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +19,7 @@ import java.util.List;
  */
 
 public class FirebaseDatabaseService {
+    static final String TAG = FirebaseDatabaseService.class.getSimpleName();
     private static DatabaseReference PRODUCTS_INFO =
             FirebaseDatabase.getInstance().getReference("Products Info");
 
@@ -31,36 +27,40 @@ public class FirebaseDatabaseService {
             FirebaseDatabase.getInstance().getReference("Command Info");
 
     private static DatabaseReference TABLE_INFO =
-            FirebaseDatabase.getInstance().getReference("TABLE Info");
+            FirebaseDatabase.getInstance().getReference("Table Info");
 
     /**
      * get list of product
-     * **/
-    static public LiveData<List<Product>> getListByType(@Product.Types String typeName){
+     **/
+    static public LiveData<List<Product>> getListByType(@Product.Types String typeName) {
         Query ref = PRODUCTS_INFO.orderByChild("type").equalTo(typeName);
-        GenericTypeIndicator<ArrayList<Product>> type = new GenericTypeIndicator<ArrayList<Product>>(){};
+        GenericTypeIndicator<ArrayList<Product>> type = new GenericTypeIndicator<ArrayList<Product>>() {
+        };
         FirebaseLiveData<List<Product>> aperoList = new FirebaseLiveData<>(ref, type);
         return aperoList;
     }
 
 
-    static public LiveData<Product> getProductById(String id){
+    static public LiveData<Product> getProductById(String id) {
         Query ref = PRODUCTS_INFO.orderByChild("id").equalTo(id);
         FirebaseLiveData<Product> productLiveData = new FirebaseLiveData<>(ref, Product.class);
         return productLiveData;
     }
 
-    static public FirebaseLiveData<List<Product>> getAllProductsLiveData(){
+    static public FirebaseLiveData<List<Product>> getAllProductsLiveData() {
         Query ref = PRODUCTS_INFO;
-        GenericTypeIndicator<ArrayList<Product>> type = new GenericTypeIndicator<ArrayList<Product>>(){};
+        GenericTypeIndicator<ArrayList<Product>> type = new GenericTypeIndicator<ArrayList<Product>>() {
+        };
         FirebaseLiveData<List<Product>> productList = new FirebaseLiveData<>(ref, type);
         return productList;
     }
 
     @NonNull
-    static public CommandLiveData getCmd(String cmdID){
+    static public CommandLiveData getCmd(String cmdID) {
         return CommandLiveData.getInstance(cmdID);
     }
+
+
 //
 //    static public LiveData<Command> getTestCmd(String cmd){
 //        Query ref = COMMAND_INFO.child(cmd);
@@ -84,7 +84,8 @@ public class FirebaseDatabaseService {
 //        return cmdLiveData;
 //    }
 
-    static public void setCmd(@NonNull Command command){
+    static public void setCmd(@NonNull Command command) {
+        Log.d(TAG, "setCmd: cmdID" + command.getId() + " table:" + command.getTableNb());
         COMMAND_INFO.child(command.getId()).setValue(command);
         TABLE_INFO.child(String.valueOf(command.getTableNb())).setValue(command.getId());
     }
@@ -93,7 +94,6 @@ public class FirebaseDatabaseService {
 //        Command command = new Command(cmdID);
 //        return
 //    }
-
 
 
 }

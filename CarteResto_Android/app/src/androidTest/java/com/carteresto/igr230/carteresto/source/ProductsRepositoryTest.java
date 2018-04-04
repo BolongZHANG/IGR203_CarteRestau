@@ -1,6 +1,5 @@
 package com.carteresto.igr230.carteresto.source;
 
-import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.persistence.room.Room;
@@ -30,8 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by zhufa on 26/03/2018.
@@ -83,17 +82,18 @@ public class ProductsRepositoryTest {
     }
 
     @Test
-    public void getCommand(){
+    public void getCommand() {
         String id = "032828b3-c4c8-4f52-a8a8-41538e361bb4";
         try {
             Command cmd = LiveDataTestUtil.getValue(FirebaseDatabaseService.getCmd(id));
             assertNotNull(cmd);
-            Log.e(TAG, "getCommand: " + cmd );
+            Log.e(TAG, "getCommand: " + cmd);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
     }
+
     @Test
     public void getListByType() throws Exception {
         String cmdId = "032828b3-c4c8-4f52-a8a8-41538e361bb4";
@@ -103,8 +103,8 @@ public class ProductsRepositoryTest {
 
             LiveData<List<Product>> outputList = Transformations.map(cmdLiveData, inputCmd -> {
                 Map<String, Integer> quantityMap = inputCmd.getProductList();
-                for( Product product: inputList){
-                    if(quantityMap.containsKey(product.getId())){
+                for (Product product : inputList) {
+                    if (quantityMap.containsKey(product.getId())) {
                         product.setQuantity(quantityMap.get(product.getId()));
                     }
                 }
@@ -117,15 +117,15 @@ public class ProductsRepositoryTest {
 
         List<Product> list = LiveDataTestUtil.getValue(productsLiveData);
         assertNotNull(list);
-        Log.e(TAG, "getListByType: " +list );
+        Log.e(TAG, "getListByType: " + list);
 
         Command cmd = LiveDataTestUtil.getValue(FirebaseDatabaseService.getCmd(cmdId));
         cmd.addProductQuantity("67");
         FirebaseDatabaseService.setCmd(cmd);
 
         list = LiveDataTestUtil.getValue(productsLiveData);
-        Log.e(TAG, "update getListByType: " +list );
-        assertEquals(list.get(0).getQuantity(),1);
+        Log.e(TAG, "update getListByType: " + list);
+        assertEquals(list.get(0).getQuantity(), 1);
 
     }
 
