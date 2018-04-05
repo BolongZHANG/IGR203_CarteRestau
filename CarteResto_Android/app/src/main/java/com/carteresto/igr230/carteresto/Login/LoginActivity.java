@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mSignInButton.setOnClickListener(view -> attemptLogin());
         handler = new MyHandler(this);
-        ref = FirebaseDatabase.getInstance().getReference("Table info");
+        ref = FirebaseDatabase.getInstance().getReference("Table Info");
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
     }
 

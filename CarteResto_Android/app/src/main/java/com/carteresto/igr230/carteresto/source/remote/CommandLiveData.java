@@ -5,6 +5,7 @@ import android.util.Log;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
+import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.SimpleMenu;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.source.local.ProductDao;
@@ -73,8 +74,17 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
         });
     }
 
+    public void addMenus(SimpleMenu simpleMenu){
+        Command command = getValue();
+        if (command != null) {
+            command.updateMenu(simpleMenu);
+            postValue(command);
+        }
+    }
 
-    public void updateMenus(ProductDao dao) {
+
+
+    public void updateMenuDataBase(ProductDao dao) {
         query.getRef().child("menuList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,6 +97,7 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
                         Map<String, SimpleMenu> list = dataSnapshot.getValue(type);
                         if (list == null) return;
                         for (Map.Entry<String, SimpleMenu> entry : list.entrySet()) {
+                            Log.d(TAG, "run: Loading SimpleMenu:" + entry.getValue());
                             dao.insertCommand(new CommandModel(entry.getValue()));
                             dao.insertMenuDishes(MenuDishesModel.getListByMenu(entry.getValue()));
                         }

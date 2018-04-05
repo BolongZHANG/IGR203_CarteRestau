@@ -82,6 +82,7 @@ public interface ProductDao {
     List<Long> insertCommandList(List<CommandModel> product);
 
 
+
     @Update
     int updateProduct(ProductModel productsModel);
 
@@ -91,10 +92,13 @@ public interface ProductDao {
     @Update
     int updateMenuDish(MenuDishesModel menuDishesModel);
 
-    @Insert
+    @Update
+    int updateMenuDishes(List<MenuDishesModel> menuDishesModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insertMenuDish(MenuDishesModel menuDishesModel);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long[] insertMenuDishes(List<MenuDishesModel> menuDishesModel);
 
 

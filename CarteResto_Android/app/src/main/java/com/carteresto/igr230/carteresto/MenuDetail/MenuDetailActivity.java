@@ -1,6 +1,7 @@
 package com.carteresto.igr230.carteresto.MenuDetail;
 
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -156,6 +157,7 @@ public class MenuDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(MenuDetailActivity.this, R.string.menu_detail_validate_ok, Toast.LENGTH_LONG).show();
+                viewModel.updateMenu(listAdapter.getListDataChild(), lastQuantity, curNote);
                 finish();
             }
         });
@@ -240,6 +242,7 @@ public class MenuDetailActivity extends AppCompatActivity {
     public void showNoteDialog() {
         NoteDialog noteDialog = new NoteDialog();
         noteDialog.show(getFragmentManager(), getString(R.string.menu_detail_note_dialog_title));
+
     }
 
     public void setNote(String note) {
@@ -275,13 +278,15 @@ public class MenuDetailActivity extends AppCompatActivity {
     @OnClick(R.id.menu_detail_validate_btn)
     public void onValide() {
         if (lastQuantity == 0) {
-            Toast.makeText(MenuDetailActivity.this, R.string.menu_detail_validate_no_menu_added, Toast.LENGTH_SHORT).show();
+            Snackbar.make(validateBtn, R.string.menu_detail_validate_no_menu_added,Snackbar.LENGTH_LONG).show();
             return;
         }
         if (listAdapter.isChoiceComplete()) {
             AlertDialog confirmDialog = confirmDialogBuilder.create();
             confirmDialog.show();
         }
+
+
     }
 
 
@@ -317,11 +322,13 @@ public class MenuDetailActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
         }
-        if (item.getTitle() == "Add") {
-            Toast.makeText(this, "clicked add", Toast.LENGTH_SHORT).show();
+        if (item.getTitle() == "Valide") {
+            onValide();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

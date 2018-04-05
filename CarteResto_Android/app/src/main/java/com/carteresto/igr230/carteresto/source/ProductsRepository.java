@@ -13,6 +13,7 @@ import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
+import com.carteresto.igr230.carteresto.Model.SimpleMenu;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.MyApplication;
 import com.carteresto.igr230.carteresto.source.local.ProductDao;
@@ -321,7 +322,7 @@ public class ProductsRepository {
         editor.putString("cmdID", cmdId);
         editor.commit();
         getCommand().updateProducts(productDao);
-        getCommand().updateMenus(productDao);
+        getCommand().updateMenuDataBase(productDao);
         Log.d(TAG, "setCmdId: Set cmd id：" + cmdId);
     }
 
@@ -370,5 +371,21 @@ public class ProductsRepository {
 
         this.diskIO.execute(minus);
 
+    }
+
+    public void updataMenu(SimpleMenu smenu, List<MenuDishesModel> relationList) {
+        Runnable updataMenu = new Runnable() {
+
+            @Override
+            public void run() {
+                getCommand().addMenus(smenu);
+                getProductDao().updateMenuDishes(relationList);
+                getProductDao().insertCommand(new CommandModel(smenu.getId()
+                        , smenu.getQuantity()
+                        , smenu.getComment()));
+            }
+        };
+
+        this.diskIO.execute(updataMenu);
     }
 }

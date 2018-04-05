@@ -20,6 +20,8 @@ import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -112,6 +114,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public void setData(List<Product> data) {
         Log.d(TAG, "setData: update the list data");
+
+
         if (this.mData != null) {
             ProductDiffCallback productDiffCallback = new ProductDiffCallback(this.mData, data);
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(productDiffCallback);

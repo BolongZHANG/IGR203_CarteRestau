@@ -44,8 +44,17 @@ public class MenuDishesModel {
         this.menuID = menuID;
         this.quantity = quantity;
         this.comment = comment;
-
     }
+
+
+    @Ignore
+    public MenuDishesModel(String productID, String menuID, int quantity) {
+        this.productID = productID;
+        this.menuID = menuID;
+        this.quantity = quantity;
+        this.comment = comment;
+    }
+
 
     static public List<MenuDishesModel> getListByMenu(SimpleMenu simpleMenu) {
         Map<String, SimpleProduct> map = simpleMenu.getDishesList();

@@ -101,7 +101,7 @@ public class Command {
     }
 
     public void updateProduct(SimpleProduct product) {
-        Log.d(TAG, "addProductQuantity");
+        Log.d(TAG, "update product quantity");
         String mID = "ID_" + product.getId();
         if (product.getQuantity() > 0) productList.put(mID, product);
         else productList.remove(mID);
@@ -120,8 +120,10 @@ public class Command {
 
 
     public void updateMenu(@NonNull SimpleMenu menu) {
+        Log.d(TAG, "update menu quantity");
         String mID = "ID_" + menu.getId();
-        menuList.put(mID, menu);
+        if (menu.getQuantity() > 0) menuList.put(mID, menu);
+        else menuList.remove(mID);
     }
 
     public void removeMenu(@NonNull MenuDuCarte menu) {
