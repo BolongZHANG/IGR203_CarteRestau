@@ -129,6 +129,7 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
                     Log.e(TAG, "onChanged: Can not get menu info");
                     return;
                 }
+                Log.e(TAG, "onChanged: get menu info:" + menu);
                 prepareMenuData(menu);
 
             }

@@ -146,6 +146,7 @@ public class ProductsRepository {
                     List<ProductModel> proList = Arrays.asList(gson.fromJson(fr, ProductModel[].class));
                     Log.d(TAG, "onSuccess: Init database with list size:" + proList.size());
                     new Thread(() -> {
+                        productDao.clearCommand();
                         Log.d(TAG, "onThread: Init database size:" + productDao.getProductsSize());
                         productDao.insertProductList(proList);
                         Log.d(TAG, "onThread: Init database size:" + productDao.getProductsSize());
@@ -380,12 +381,13 @@ public class ProductsRepository {
 
             @Override
             public void run() {
-                getCommand().updateMenuDataBase(productDao);
+                Log.e(TAG, "run: smenu:" + smenu + "\n\t relationList:" + relationList);
+                getProductDao().updateMenu(smenu,relationList);
                 getCommand().addMenus(smenu);
-                getProductDao().updateMenuDishes(relationList);
-                getProductDao().insertCommand(new CommandModel(smenu.getId()
-                        , smenu.getQuantity()
-                        , smenu.getComment()));
+                getCommand().updateMenuDataBase(productDao);
+
+
+
             }
         };
 

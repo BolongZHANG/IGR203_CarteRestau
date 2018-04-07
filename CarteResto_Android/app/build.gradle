@@ -76,6 +76,7 @@ dependencies {
 
     implementation 'com.google.guava:guava:24.1-android'
     implementation 'com.idescout.sql:sqlscout-server:4.0'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

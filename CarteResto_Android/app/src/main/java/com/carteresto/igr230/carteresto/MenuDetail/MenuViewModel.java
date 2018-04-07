@@ -59,6 +59,7 @@ public class MenuViewModel extends AndroidViewModel {
             menuLiveData = mRepo.getProductDao().getMenuById(id);
         }
 
+
         return menuLiveData;
     }
 
@@ -77,6 +78,7 @@ public class MenuViewModel extends AndroidViewModel {
             productList.addAll(products);
         }
         Log.d(TAG, "updateMenu: Get product list in menus" + productList);
+        Log.d(TAG, "updateMenu: Get product list in menus" + smenu);
         for(SimpleProduct simpleProduct: productList){
             smenu.putDish("ID_" + simpleProduct.getId(),simpleProduct);
             relationList.add(new MenuDishesModel(simpleProduct.getId()
