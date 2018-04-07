@@ -10,40 +10,51 @@
 
     <LinearLayout
         android:id="@+id/top_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="left|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="right"
+        android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:foregroundGravity="center">
+
+
+        </SearchView>
+
+        <ImageButton
+            android:id="@+id/btn_panier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:elevation="4dp"
+            android:foregroundGravity="center"
+            app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
+            tools:layout_editor_absoluteX="1280dp" />
 
 
         <ImageButton
             android:id="@+id/btn_waiter"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="36dp"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:cropToPadding="false"
             android:elevation="4dp"
-            app:srcCompat="@drawable/ic_waiter" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:elevation="4dp"
-            app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
-            tools:layout_editor_absoluteX="1280dp" />
-
-        <SearchView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </SearchView>
+            android:foregroundGravity="center"
+            app:srcCompat="@drawable/ic_waiter"
+            tools:layout_editor_absoluteX="56dp" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -189,8 +200,8 @@
         android:id="@+id/bean_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -12,6 +12,7 @@
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_chevron_left_black_24dp</item>
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -17,14 +17,23 @@ import com.carteresto.igr230.carteresto.R;
 public class NoteDialog extends DialogFragment {
 
 
-    private MenuDetailActivity parent;
+    private NoteListener parent;
+
+    public NoteDialog(NoteListener listener){
+        super();
+        parent = listener;
+    }
+
+    public NoteDialog(){
+        super();
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.activity_menu_detail_note_dialog, container, false);
-        parent = (MenuDetailActivity) getActivity();
         Button cancelBtn = (Button) v.findViewById(R.id.menu_detail_note_cancel_btn);
         Button saveBtn = (Button) v.findViewById(R.id.menu_detail_note_save_btn);
         final EditText noteEdit = (EditText) v.findViewById(R.id.menu_detail_note_edit);

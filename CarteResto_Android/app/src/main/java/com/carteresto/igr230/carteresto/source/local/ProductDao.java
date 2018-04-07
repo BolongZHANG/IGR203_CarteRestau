@@ -93,7 +93,7 @@ public interface ProductDao {
     int updateMenuDish(MenuDishesModel menuDishesModel);
 
     @Update
-    int updateMenuDishes(List<MenuDishesModel> menuDishesModel);
+    void updateMenuDishes(List<MenuDishesModel> menuDishesModel);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insertMenuDish(MenuDishesModel menuDishesModel);

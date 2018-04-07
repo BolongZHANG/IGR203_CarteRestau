@@ -44,7 +44,7 @@ import butterknife.OnClick;
 /**
  * Affichier la presentation du menu du jour et les option associé à ce menu.
  **/
-public class MenuDetailActivity extends AppCompatActivity {
+public class MenuDetailActivity extends AppCompatActivity implements NoteListener {
 
     static final String TAG = MenuDetailActivity.class.getSimpleName();
     @BindView(R.id.appbar)
@@ -190,9 +190,9 @@ public class MenuDetailActivity extends AppCompatActivity {
 
     private void initeListData() {
         listDataHeader = new ArrayList<String>();
-        listDataHeader.add(getString(R.string.menu_detail_starters_header));
-        listDataHeader.add(getString(R.string.menu_detail_main_dishes_header));
-        listDataHeader.add(getString(R.string.menu_detail_deserts_header));
+        listDataHeader.add(getString(R.string.starters));
+        listDataHeader.add(getString(R.string.main_dishes));
+        listDataHeader.add(getString(R.string.deserts));
         List<SimpleProduct> starters = new ArrayList<SimpleProduct>();
         List<SimpleProduct> mainDishes = new ArrayList<SimpleProduct>();
         List<SimpleProduct> deserts = new ArrayList<SimpleProduct>();
@@ -240,7 +240,7 @@ public class MenuDetailActivity extends AppCompatActivity {
     }
 
     public void showNoteDialog() {
-        NoteDialog noteDialog = new NoteDialog();
+        NoteDialog noteDialog = new NoteDialog(this);
         noteDialog.show(getFragmentManager(), getString(R.string.menu_detail_note_dialog_title));
 
     }
@@ -279,8 +279,10 @@ public class MenuDetailActivity extends AppCompatActivity {
     public void onValide() {
         if (lastQuantity == 0) {
             Snackbar.make(validateBtn, R.string.menu_detail_validate_no_menu_added,Snackbar.LENGTH_LONG).show();
+            viewModel.updateMenu(listAdapter.getListDataChild(), lastQuantity, curNote);
             return;
         }
+
         if (listAdapter.isChoiceComplete()) {
             AlertDialog confirmDialog = confirmDialogBuilder.create();
             confirmDialog.show();

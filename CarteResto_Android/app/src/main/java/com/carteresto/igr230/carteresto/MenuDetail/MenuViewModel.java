@@ -79,9 +79,9 @@ public class MenuViewModel extends AndroidViewModel {
         Log.d(TAG, "updateMenu: Get product list in menus" + productList);
         for(SimpleProduct simpleProduct: productList){
             smenu.putDish("ID_" + simpleProduct.getId(),simpleProduct);
-            relationList.add(new MenuDishesModel(menu.getId()
-                                , simpleProduct.getId()
-                                , lastQuantity));
+            relationList.add(new MenuDishesModel(simpleProduct.getId()
+                                , menu.getId()
+                                , simpleProduct.getQuantity() ));
         }
 
         mRepo.updataMenu(smenu, relationList);

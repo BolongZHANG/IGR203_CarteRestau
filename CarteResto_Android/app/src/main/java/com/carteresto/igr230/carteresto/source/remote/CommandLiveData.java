@@ -1,5 +1,6 @@
 package com.carteresto.igr230.carteresto.source.remote;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.carteresto.igr230.carteresto.Model.Command;
@@ -44,12 +45,24 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
         if (command != null) {
             command.updateProduct(simpleProduct);
             postValue(command);
+            return;
         }
+        Log.e(TAG, "updateProduct: can not update product:" + simpleProduct);
+    }
+
+    public void updateMenu(SimpleMenu simpleMenu){
+        Command command = getValue();
+        if (command != null) {
+            command.updateMenu(simpleMenu);
+            postValue(command);
+            return;
+        }
+        Log.e(TAG, "updateMenu: Can not update menu" + simpleMenu);
     }
 
 
     public void updateProducts(ProductDao dao) {
-        query.getRef().child("productList").addValueEventListener(new ValueEventListener() {
+        query.getRef().child("productMap").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 new Thread(new Runnable() {
@@ -85,7 +98,7 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
 
 
     public void updateMenuDataBase(ProductDao dao) {
-        query.getRef().child("menuList").addValueEventListener(new ValueEventListener() {
+        query.getRef().child("menuMap").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 new Thread(new Runnable() {
@@ -111,6 +124,17 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
             }
         });
 
+    }
+
+    private void updateLocalData(@NonNull  Command command, @NonNull ProductDao dao){
+        for(SimpleProduct product: command.getProductMap().values()){
+            dao.insertCommand(new CommandModel(product));
+        }
+
+        for(SimpleMenu menu: command.getMenuMap().values()){
+            dao.insertCommand(new CommandModel(menu));
+            dao.insertMenuDishes(MenuDishesModel.getListByMenu(menu));
+        }
     }
 
 

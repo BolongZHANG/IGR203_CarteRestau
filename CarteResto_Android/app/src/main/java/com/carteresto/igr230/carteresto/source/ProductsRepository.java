@@ -11,6 +11,7 @@ import android.util.Log;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
+import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
 import com.carteresto.igr230.carteresto.Model.SimpleMenu;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -378,11 +380,33 @@ public class ProductsRepository {
 
             @Override
             public void run() {
+                getCommand().updateMenuDataBase(productDao);
                 getCommand().addMenus(smenu);
                 getProductDao().updateMenuDishes(relationList);
                 getProductDao().insertCommand(new CommandModel(smenu.getId()
                         , smenu.getQuantity()
                         , smenu.getComment()));
+            }
+        };
+
+        this.diskIO.execute(updataMenu);
+    }
+
+    public void updateNote(@NonNull  SimpleProduct product) {
+        Runnable updataMenu = new Runnable() {
+
+            @Override
+            public void run() {
+                productDao.updateCommand(new CommandModel(product.getId()
+                ,product.getQuantity()
+                ,product.getComment()));
+
+                if(product.getType().equals(Product.MENU)){
+                    getCommand().updateMenu((SimpleMenu)product);
+                }else{
+                    getCommand().updateProduct(product);
+                }
+
             }
         };
 

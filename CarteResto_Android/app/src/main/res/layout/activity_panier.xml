@@ -4,93 +4,195 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context="com.carteresto.igr230.carteresto.Panier.PanierActivity">
 
-
-
     <android.support.constraint.ConstraintLayout
-        android:layout_width="200dp"
+        android:id="@+id/panier_layout"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#66ffffff">
+        android:background="@color/recycleview_background">
 
         <TextView
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/header_height"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/panier_orange"
+            android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="@string/panier"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id = "@+id/cmd_list"-->
-            <!--android:layout_width="0"-->
-            <!--android:layout_height="0"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/header"-->
-            <!--app:layout_constraintBottom_toTopOf="@id/valide"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"/>-->
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/cmd_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/valide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
 
-
-        <!--<TextView-->
-            <!--android:id="@+id/tx_total"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="0"-->
-            <!--android:background="@color/panier_orange"-->
-            <!--android:fontFamily="sans-serif"-->
-            <!--android:gravity="right|center_vertical"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="Total:"-->
-            <!--android:textColor="@android:color/black"-->
-            <!--android:textStyle="bold"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toStartOf="@+id/tx_price"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/cmd_list" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tx_price"-->
-            <!--android:layout_width="0"-->
-            <!--android:layout_height="0"-->
-            <!--android:background="@color/panier_orange"-->
-            <!--android:fontFamily="sans-serif"-->
-            <!--android:gravity="left|center_vertical"-->
-            <!--android:paddingLeft="4dp"-->
-            <!--android:text="25 €"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textStyle="bold"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toStartOf="@+id/valide"-->
-            <!--app:layout_constraintStart_toEndOf="@+id/tx_total"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/cmd_list" />-->
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="This is command"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/tx_set_meal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/set_meal" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@id/menu_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/command_menu_item" />
+
+                <TextView
+                    android:id="@+id/tx_apero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apero"
+                    android:textColor="@android:color/black" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/apero_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/command_product_item" />
+
+                <TextView
+                    android:id="@+id/tx_starters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/starters"
+                    android:textColor="@android:color/black" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/starter_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/command_product_item" />
+
+                <TextView
+                    android:id="@+id/tx_main_dishes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_dishes"
+                    android:textColor="@android:color/black" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_meal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:id="@+id/deserts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deserts"
+                    android:textColor="@android:color/black" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dessert_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+                <TextView
+                    android:id="@+id/tx_wine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wines"
+                    android:textColor="@android:color/black" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/wine_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+        <TextView
+            android:id="@+id/tx_total"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/panier_orange"
+            android:fontFamily="sans-serif"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="16dp"
+            android:text="Total:"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/valide"
+            app:layout_constraintEnd_toStartOf="@+id/tx_total_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cmd_list"
+            app:layout_constraintTop_toTopOf="@id/valide" />
+
+        <TextView
+            android:id="@+id/tx_total_price"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/panier_orange"
+            android:fontFamily="sans-serif"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="4dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/valide"
+            app:layout_constraintEnd_toStartOf="@+id/valide"
+            app:layout_constraintStart_toEndOf="@+id/tx_total"
+            app:layout_constraintTop_toBottomOf="@id/cmd_list"
+            app:layout_constraintTop_toTopOf="@id/valide"
+            tools:text="25 €" />
+
+        <Button
+            android:id="@+id/valide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/valide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tx_total_price" />
+
 
     </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tx_recommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/recommendation"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toEndOf="@id/panier_layout"
+        app:layout_constraintTop_toTopOf="@id/panier_layout" />
+
+    <LinearLayout
+        android:id="@+id/recommandationList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/panier_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/panier_layout"
+
+        app:layout_constraintTop_toBottomOf="@id/tx_recommendation" />
 
 </android.support.constraint.ConstraintLayout>

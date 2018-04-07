@@ -19,6 +19,20 @@ public class SimpleMenu extends SimpleProduct {
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SimpleMenu that = (SimpleMenu) o;
+
+        return dishesList.equals(that.dishesList);
+    }
+
+    @Override
+    public int hashCode() {
+        return dishesList.hashCode();
+    }
 
     public SimpleMenu(@NonNull  MenuDuCarte menu){
         super.setId(menu.getId());
@@ -44,4 +58,7 @@ public class SimpleMenu extends SimpleProduct {
             dishesList.put(id, simpleProduct);
         }
     }
+
+
+
 }

@@ -208,6 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mLoginViewModel.setCmdId(cmdId);
+                        mLoginViewModel.updateData(cmdId);
                         Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
                         startActivity(intent);
                     }
