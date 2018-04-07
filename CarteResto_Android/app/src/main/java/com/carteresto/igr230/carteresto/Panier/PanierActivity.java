@@ -22,6 +22,7 @@ import com.carteresto.igr230.carteresto.MenuDetail.MenuDetailActivity;
 import com.carteresto.igr230.carteresto.MenuDetail.NoteDialog;
 import com.carteresto.igr230.carteresto.MenuDetail.NoteListener;
 import com.carteresto.igr230.carteresto.MenuPrincipale.ProductListFragment;
+import com.carteresto.igr230.carteresto.MenuPrincipale.ProductShowFragment;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.SimpleMenu;
@@ -33,6 +34,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
@@ -203,6 +205,13 @@ public class PanierActivity extends AppCompatActivity implements CommandItemModi
         intent.putExtra("id", id);
         startActivity(intent);
     }
+
+    @Override
+    public void showProduct(String id, boolean complet){
+            ProductShowFragment fragment = ProductShowFragment.newInstance(id, complet);
+            fragment.show(getSupportFragmentManager(), "prodct-" + id);
+    }
+
 
     @Override
     public void editNote(SimpleProduct product) {

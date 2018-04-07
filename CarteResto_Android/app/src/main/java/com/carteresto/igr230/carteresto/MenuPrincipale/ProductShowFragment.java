@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -31,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ProductShowFragment extends DialogFragment {
@@ -38,6 +40,7 @@ public class ProductShowFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_SHOW = "param2";
     @BindView(R.id.iv_product)
     ImageView ivProduct;
     //    @BindView(R.id.anim_toolbar)
@@ -46,8 +49,7 @@ public class ProductShowFragment extends DialogFragment {
 //    CollapsingToolbarLayout collapsingToolbar;
 //    @BindView(R.id.appbar)
 //    AppBarLayout appbar;
-    @BindView(R.id.description)
-    TextView description;
+
 
 
     Unbinder unbinder;
@@ -67,12 +69,20 @@ public class ProductShowFragment extends DialogFragment {
     FrameLayout fgBtmbar;
     @BindView(R.id.activity_main)
     CoordinatorLayout activityMain;
+    @BindView(R.id.description)
+    TextView description;
+    @BindView(R.id.ingredients)
+    TextView ingredients;
+    @BindView(R.id.bottom_bar)
+    ConstraintLayout bottomBar;
+
     // TODO: Rename and change types of parameters
     @NonNull
     private String mId;
     private OnFragmentInteractionListener mListener;
     private ProductViewModel viewModel;
     private FirebaseStorage storage;
+    private boolean showComplet;
 
 
     public ProductShowFragment() {
@@ -87,10 +97,11 @@ public class ProductShowFragment extends DialogFragment {
      * @return A new instance of fragment show the detail infomation about a product.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProductShowFragment newInstance(String id) {
+    public static ProductShowFragment newInstance(String id, boolean showComplet) {
         ProductShowFragment fragment = new ProductShowFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, id);
+        args.putBoolean(ARG_SHOW, showComplet);
         fragment.setArguments(args);
         return fragment;
     }
@@ -100,8 +111,9 @@ public class ProductShowFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mId = getArguments().getString(ARG_PARAM1);
+            showComplet = getArguments().getBoolean(ARG_SHOW);
         }
-        viewModel = ViewModelProviders.of(this).get(ProductViewModel.class);
+        viewModel = ViewModelProviders.of(  this).get(ProductViewModel.class);
 
     }
 
@@ -118,13 +130,18 @@ public class ProductShowFragment extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_product_show, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        if(!showComplet){
+            fabAdd.hide();
+            fabMinus.hide();
+            tvQuantity.setVisibility(View.INVISIBLE);
+            price.setVisibility(View.INVISIBLE);
+            bottomBar.setVisibility(View.INVISIBLE);
+        }
 
         WindowManager m = getActivity().getWindowManager();
         Display d = m.getDefaultDisplay();
         ViewGroup.LayoutParams param = fgBtmbar.getLayoutParams();
         param.width = d.getWidth();
-
 
         fgBtmbar.setLayoutParams(param);
 
@@ -133,8 +150,13 @@ public class ProductShowFragment extends DialogFragment {
             @Override
             public void onChanged(@Nullable Product product) {
                 if (product != null) {
+                    Log.d(TAG, "onChanged: Get product:" + product);
                     name.setText(product.getName());
                     description.setText(product.getDescription());
+                    ingredients.setText(product.getIngredients());
+                    tvQuantity.setText(String.valueOf(product.getQuantity()));
+                    price.setText(String.valueOf(product.getPrice()) + " €");
+
                     storage = FirebaseStorage.getInstance();
                     Glide.with(getContext() /* context */)
                             .using(new FirebaseImageLoader())
@@ -191,6 +213,16 @@ public class ProductShowFragment extends DialogFragment {
      */
     public interface OnFragmentInteractionListener {
 
+    }
+
+    @OnClick(R.id.fab_add)
+    public void add() {
+        viewModel.add(mId);
+    }
+
+    @OnClick(R.id.fab_minus)
+    public void minus() {
+        viewModel.minus(mId);
     }
 
 }

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.carteresto.igr230.carteresto.MenuPrincipale.ProductShowFragment;
 import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.R;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +46,7 @@ import butterknife.OnClick;
 /**
  * Affichier la presentation du menu du jour et les option associé à ce menu.
  **/
-public class MenuDetailActivity extends AppCompatActivity implements NoteListener {
+public class MenuDetailActivity extends AppCompatActivity implements NoteListener, ShowProductListener {
 
     static final String TAG = MenuDetailActivity.class.getSimpleName();
     @BindView(R.id.appbar)
@@ -99,6 +101,7 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         //TODO
 //        Intent intent = getIntent();
 //        String id = intent.getStringExtra("type");
@@ -151,6 +154,7 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
 
         initeListData();
         listAdapter = new DishesListAdapter(this, listDataHeader, listDataChild);
+        listAdapter.setClickListener(this);
         dishesListView.setAdapter(listAdapter);
         dishesListView.expandGroup(0);
         confirmDialogBuilder = new AlertDialog.Builder(this);
@@ -333,5 +337,9 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
     }
 
 
-
+    @Override
+    public void showDialog(String id) {
+        ProductShowFragment fragment = ProductShowFragment.newInstance(id, false);
+        fragment.show(getSupportFragmentManager(), "prodct-" + id);
+    }
 }

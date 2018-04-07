@@ -72,6 +72,7 @@ public class SimpleProductAdapter extends RecyclerView.Adapter<SimpleProductAdap
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .centerCrop()
                 .into(holder.productImg);
+        holder.productImg.setOnClickListener( v-> mListener.showProduct(product.getId(), complet));
         if(complet){
             holder.btnAdd.setOnClickListener(v -> mListener.add(product.getId()));
             holder.btnMinus.setOnClickListener(v -> mListener.minus(product.getId()));

@@ -9,4 +9,5 @@ public interface CommandItemModifyListener {
         void editNote(SimpleProduct simpleProduct);
         void add(String id);
         void minus(String id);
+    void showProduct(String id, boolean complet);
 }

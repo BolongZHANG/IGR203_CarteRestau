@@ -151,7 +151,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
             intent.putExtra("id", id);
             startActivity(intent);
         } else {
-            ProductShowFragment fragment = ProductShowFragment.newInstance(id);
+            ProductShowFragment fragment = ProductShowFragment.newInstance(id, true);
             fragment.show(Objects.requireNonNull(getFragmentManager()), "product-" + id);
         }
 

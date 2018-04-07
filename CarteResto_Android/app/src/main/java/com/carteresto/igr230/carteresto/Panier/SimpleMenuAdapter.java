@@ -73,6 +73,7 @@ public class SimpleMenuAdapter extends RecyclerView.Adapter<SimpleMenuAdapter.Me
         holder.setDishesList(menu.getDishesList());
         holder.btnEdit.setOnClickListener(v -> mListener.editMenu(menu.getId()));
         holder.btnNote.setOnClickListener(v -> mListener.editNote(menu));
+
     }
 
 

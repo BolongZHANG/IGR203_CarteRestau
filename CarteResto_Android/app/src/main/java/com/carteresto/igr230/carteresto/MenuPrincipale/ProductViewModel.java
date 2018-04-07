@@ -62,4 +62,14 @@ class ProductViewModel extends AndroidViewModel {
     }
 
 
+
+    public void minus(String id){
+        mRepo.minusProductQuantity(id);
+    }
+
+
+    public void add(String id){
+        mRepo.addProductQuantity(id);
+    }
+
 }

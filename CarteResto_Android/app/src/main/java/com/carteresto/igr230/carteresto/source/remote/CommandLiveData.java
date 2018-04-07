@@ -74,6 +74,7 @@ public class CommandLiveData extends FirebaseLiveData<Command> {
                         Map<String, SimpleProduct> list = dataSnapshot.getValue(type);
                         if (list == null) return;
                         for (Map.Entry<String, SimpleProduct> entry : list.entrySet()) {
+                            Log.e(TAG, "run: " + entry.getValue() );
                             dao.insertCommand(new CommandModel(entry.getValue()));
                         }
                     }

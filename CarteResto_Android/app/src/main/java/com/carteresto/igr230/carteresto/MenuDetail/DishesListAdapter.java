@@ -1,5 +1,6 @@
 package com.carteresto.igr230.carteresto.MenuDetail;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.carteresto.igr230.carteresto.MenuPrincipale.ProductShowFragment;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.R;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by paul-elian on 26/03/18.
@@ -44,6 +47,8 @@ public class DishesListAdapter extends BaseExpandableListAdapter
     private AlertDialog.Builder dialogBuilder;
     private MenuDetailActivity parent;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private ShowProductListener mListener;
+
     public DishesListAdapter(Context context
             , List<String> listDataHeader
             , Map<String, List<SimpleProduct>> listDataChild) {
@@ -117,6 +122,12 @@ public class DishesListAdapter extends BaseExpandableListAdapter
                 .get(childPosititon);
     }
 
+
+    public void setClickListener(ShowProductListener listener){
+        mListener = listener;
+    }
+
+
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
@@ -141,6 +152,9 @@ public class DishesListAdapter extends BaseExpandableListAdapter
             viewHolder.dishLessQuantity =  convertView.findViewById(R.id.menu_detail_dish_less_btn);
             viewHolder.dishMoreQuantity =  convertView.findViewById(R.id.menu_detail_dish_more_btn);
             viewHolder.dishValueQuantity = (TextView) convertView.findViewById(R.id.menu_detail_dish_quantity_value);
+            viewHolder.dishPreview.setOnClickListener(v -> { mListener.showDialog(dishData.getId());
+            });
+
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
