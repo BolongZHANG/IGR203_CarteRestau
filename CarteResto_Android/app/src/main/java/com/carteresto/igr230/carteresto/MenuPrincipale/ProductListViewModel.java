@@ -58,7 +58,6 @@ public class ProductListViewModel extends AndroidViewModel {
 
         Log.d(TAG, "getProductsListByType: get old List live data" + productMaps.get(type));
         return productMaps.get(type);
-
     }
 
 

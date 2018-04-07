@@ -3,7 +3,9 @@ package com.carteresto.igr230.carteresto.Model;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -22,8 +24,8 @@ public class Command {
     private String id;
     @NonNull
     private String tableNb;
-    private Map<String, SimpleProduct> productList = new HashMap<>();
-    private Map<String, SimpleMenu> menuList = new HashMap<>();
+    private Map<String, SimpleProduct> productMap = new HashMap<>();
+    private Map<String, SimpleMenu> menuMap = new HashMap<>();
     private double totalPrice;
     private String status;
 
@@ -41,8 +43,8 @@ public class Command {
         return "Command{" +
                 "id='" + id + '\'' +
                 ", tableNb='" + tableNb + '\'' +
-                ", productList=" + productList +
-                ", menuList=" + menuList +
+                ", productMap=" + productMap +
+                ", menuMap=" + menuMap +
                 ", totalPrice=" + totalPrice +
                 ", status='" + status + '\'' +
                 '}';
@@ -64,20 +66,24 @@ public class Command {
         this.tableNb = tableNb;
     }
 
-    public Map<String, SimpleProduct> getProductList() {
-        return productList;
+    public Map<String, SimpleProduct> getProductMap() {
+        return productMap;
     }
 
-    public void setProductList(Map<String, SimpleProduct> productList) {
-        this.productList = productList;
+    public void setProductMap(Map<String, SimpleProduct> productMap) {
+        this.productMap = productMap;
     }
 
-    public Map<String, SimpleMenu> getMenuList() {
-        return menuList;
+    public Map<String, SimpleMenu> getMenuMap() {
+        return menuMap;
     }
 
-    public void setMenuList(Map<String, SimpleMenu> menuList) {
-        this.menuList = menuList;
+    public List<SimpleMenu> transTOMenuList() {
+        return new ArrayList<SimpleMenu>(menuMap.values());
+    }
+
+    public void setMenuMap(Map<String, SimpleMenu> menuMap) {
+        this.menuMap = menuMap;
     }
 
     public double getTotalPrice() {
@@ -91,48 +97,50 @@ public class Command {
     public void addProductQuantity(SimpleProduct simpleProduct) {
         Log.d(TAG, "addProductQuantity: add 1 id:" + id);
         String mID = "ID_" + id;
-        if (productList.containsKey(mID)) {
-            SimpleProduct product = productList.get(mID);
-            int qantity = productList.get(mID).getQuantity();
-            productList.put(mID, product);
+        if (productMap.containsKey(mID)) {
+            SimpleProduct product = productMap.get(mID);
+            int qantity = productMap.get(mID).getQuantity();
+            productMap.put(mID, product);
         } else {
             throw new IllegalArgumentException("The product id is not in the command, please add it firstly!");
         }
     }
 
     public void updateProduct(SimpleProduct product) {
-        Log.d(TAG, "addProductQuantity");
+        Log.d(TAG, "update product quantity");
         String mID = "ID_" + product.getId();
-        if (product.getQuantity() > 0) productList.put(mID, product);
-        else productList.remove(mID);
+        if (product.getQuantity() > 0) productMap.put(mID, product);
+        else productMap.remove(mID);
     }
 
 
     public void minusProduct(SimpleProduct product) {
         String mID = "ID_" + id;
-        if (!productList.containsKey(mID)) return;
+        if (!productMap.containsKey(mID)) return;
         Log.d(TAG, "minusProductQuantity: minus quantity to " + product.getQuantity()
                 + "id:" + id);
         product.minus();
-        if (product.getQuantity() == 0) productList.remove(mID);
-        else productList.put(mID, product);
+        if (product.getQuantity() == 0) productMap.remove(mID);
+        else productMap.put(mID, product);
     }
 
 
     public void updateMenu(@NonNull SimpleMenu menu) {
+        Log.d(TAG, "update menu quantity");
         String mID = "ID_" + menu.getId();
-        menuList.put(mID, menu);
+        if (menu.getQuantity() > 0) menuMap.put(mID, menu);
+        else menuMap.remove(mID);
     }
 
     public void removeMenu(@NonNull MenuDuCarte menu) {
         String mID = "ID_" + menu.getId();
-        menuList.remove(menu.getId());
+        menuMap.remove(menu.getId());
     }
 
     public int getProductQuantity(String id) {
         String mID = "ID_" + id;
-        if (productList.containsKey(mID))
-            return productList.get(mID).getQuantity();
+        if (productMap.containsKey(mID))
+            return productMap.get(mID).getQuantity();
         else
             return 0;
     }

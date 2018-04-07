@@ -5,6 +5,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 
 import com.carteresto.igr230.carteresto.Model.CommandModel;
@@ -12,6 +13,7 @@ import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
+import com.carteresto.igr230.carteresto.Model.SimpleMenu;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 
 import java.util.List;
@@ -20,87 +22,105 @@ import java.util.List;
  * Created by zhufa on 19/03/2018.
  */
 @Dao
-public interface ProductDao {
+public abstract class ProductDao {
+    @Transaction
     @Query("SELECT products.*, commands.* FROM products " +
             "LEFT JOIN commands On products.id = commands.productId " +
             "WHERE products.type =:type")
-    LiveData<List<Product>> getListByType(@Product.Types String type);
+    public abstract LiveData<List<Product>> getListByType(@Product.Types String type);
 
-
+    @Transaction
     @Query("SELECT products.*, commands.* FROM products " +
             "LEFT JOIN commands On products.id = commands.productId " +
             "WHERE products.id = :id")
-    LiveData<Product> getProductById(String id);
+    public abstract LiveData<Product> getProductById(String id);
 
-
+    @Transaction
     @Query("SELECT products.*, commands.* FROM products " +
             "LEFT JOIN commands On products.id = commands.productId " +
             "WHERE products.type = 'menu' AND products.id =:id")
-    LiveData<MenuDuCarte> getMenuById(String id);
+    public abstract LiveData<MenuDuCarte> getMenuById(String id);
 
+    @Transaction
     @Query("SELECT products.id, products.name, products.type, products.price," +
             " menu_dishes.quantity, menu_dishes.comment" +
             " FROM products " +
             "LEFT JOIN menu_dishes On products.id = menu_dishes.productID " +
             "WHERE menu_dishes.menuID = :id")
-    LiveData<List<SimpleProduct>> getMenuDishesById(String id);
+    public abstract LiveData<List<SimpleProduct>> getMenuDishesById(String id);
 
+    @Transaction
     @Query("SELECT * FROM products WHERE id = :id")
-    ProductModel getFixedProductById(String id);
+    public abstract ProductModel getFixedProductById(String id);
 
-
+    @Transaction
     @Query("SELECT * FROM products")
-    List<ProductModel> getAllProducts();
-
+    public abstract List<ProductModel> getAllProducts();
+    @Transaction
     @Query("SELECT products.*, commands.* FROM products LEFT JOIN commands On products.id = commands.productId")
-    List<Product> getProductList();
-
+    public abstract List<Product> getProductList();
+    @Transaction
     @Query("SELECT COUNT(*) FROM products")
-    int getProductsSize();
-
+    public abstract int getProductsSize();
+    @Transaction
     @Query("SELECT COUNT(*) FROM menu_dishes")
-    int getMenuSize();
-
+    public abstract int getMenuSize();
+    @Transaction
     @Query("SELECT * FROM commands")
-    LiveData<List<CommandModel>> getCommandList();
+    public abstract LiveData<List<CommandModel>> getCommandList();
 
-
+    @Transaction
     @Query("SELECT * FROM commands WHERE commands.productId = :id")
-    CommandModel getCommand(String id);
-
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insertProduct(ProductModel product);
+    public abstract CommandModel getCommand(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertProductList(List<ProductModel> productModels);
+    public abstract long insertProduct(ProductModel product);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insertCommand(CommandModel product);
+    public abstract List<Long> insertProductList(List<ProductModel> productModels);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertCommandList(List<CommandModel> product);
+    public abstract Long insertCommand(CommandModel product);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract List<Long> insertCommandList(List<CommandModel> product);
+
 
 
     @Update
-    int updateProduct(ProductModel productsModel);
+    public abstract int updateProduct(ProductModel productsModel);
 
     @Update
-    int updateCommand(CommandModel products);
+    public abstract int updateCommand(CommandModel products);
 
     @Update
-    int updateMenuDish(MenuDishesModel menuDishesModel);
+    public abstract int updateMenuDish(MenuDishesModel menuDishesModel);
 
-    @Insert
-    Long insertMenuDish(MenuDishesModel menuDishesModel);
+    @Update
+    public abstract void updateMenuDishes(List<MenuDishesModel> menuDishesModel);
 
-    @Insert
-    Long[] insertMenuDishes(List<MenuDishesModel> menuDishesModel);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract Long insertMenuDish(MenuDishesModel menuDishesModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract Long[] insertMenuDishes(List<MenuDishesModel> menuDishesModel);
 
 
     @Query("SELECT products.id, products.name, products.type, " +
             " products.price, commands.quantity, commands.comment FROM products " +
             "LEFT JOIN commands On products.id = commands.productId " +
             "WHERE products.id = :id")
-    SimpleProduct getSimpleProductById(String id);
+    public abstract SimpleProduct getSimpleProductById(String id);
+
+
+    @Query("DELETE FROM commands")
+    public abstract void clearCommand();
+
+    @Transaction
+    public void updateMenu(SimpleMenu smenu, List<MenuDishesModel> relationList){
+        updateMenuDishes(relationList);
+        insertCommand(new CommandModel(smenu.getId()
+                , smenu.getQuantity()
+                , smenu.getComment()));
+    }
 }

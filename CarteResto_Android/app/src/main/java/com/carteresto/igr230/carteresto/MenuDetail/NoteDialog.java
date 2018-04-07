@@ -3,6 +3,7 @@ package com.carteresto.igr230.carteresto.MenuDetail;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,23 @@ import com.carteresto.igr230.carteresto.R;
 public class NoteDialog extends DialogFragment {
 
 
-    private MenuDetailActivity parent;
+    private NoteListener parent;
+
+    public NoteDialog(NoteListener listener){
+        super();
+        parent = listener;
+    }
+
+    public NoteDialog(){
+        super();
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.activity_menu_detail_note_dialog, container, false);
-        parent = (MenuDetailActivity) getActivity();
         Button cancelBtn = (Button) v.findViewById(R.id.menu_detail_note_cancel_btn);
         Button saveBtn = (Button) v.findViewById(R.id.menu_detail_note_save_btn);
         final EditText noteEdit = (EditText) v.findViewById(R.id.menu_detail_note_edit);
@@ -38,10 +48,10 @@ public class NoteDialog extends DialogFragment {
                 String note = noteEdit.getText().toString();
                 if (!note.equals("")) {
                     parent.setNote(note);
-                    Toast.makeText(parent, R.string.menu_detail_note_dialog_note_saved, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.menu_detail_note_dialog_note_saved, Snackbar.LENGTH_SHORT).show();
                     dismiss();
                 } else {
-                    Toast.makeText(parent, R.string.menu_detail_note_dialog_void, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v,  R.string.menu_detail_note_dialog_void, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mSignInButton.setOnClickListener(view -> attemptLogin());
         handler = new MyHandler(this);
-        ref = FirebaseDatabase.getInstance().getReference("Table info");
+        ref = FirebaseDatabase.getInstance().getReference("Table Info");
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
     }
 
@@ -208,6 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mLoginViewModel.setCmdId(cmdId);
+                        mLoginViewModel.updateData(cmdId);
                         Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
                         startActivity(intent);
                     }

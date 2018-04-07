@@ -13,6 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="panier">Panier</string>
     <string name="valide">Valide</string>
     <string name="logo">LOGO</string>
     <string name="prompt_table">Table number</string>
@@ -34,9 +35,10 @@
         Un menu rempli de saveurs du monde entier.
         \nBon appétit !
     </string>
-    <string name="menu_detail_starters_header">Entrées</string>
-    <string name="menu_detail_main_dishes_header">Plats principaux</string>
-    <string name="menu_detail_deserts_header">Desserts</string>
+    <string name="starters">Entrées</string>
+    <string name="main_dishes">Plats principaux</string>
+    <string name="deserts">Desserts</string>
+    <string name="apero">Apéro</string>
     <string name="menu_detail_more_impossible">Opération impossible</string>
     <string name="menu_detail_more_impossible_message">Vous n\'avez droit qu\'à un seul plat à chaque étape du menu.
     Si vous le souhaitez, vous pouvez ajouter un menu supplémentaire sur le panneau de gauche. Le nombre actuel est %1$d.</string>
@@ -63,4 +65,8 @@
     <string name="menu_detail_note_dialog_cancel">Annuler</string>
     <string name="menu_detail_note_dialog_void">Votre note est vide.</string>
     <string name="menu_detail_note_dialog_note_saved">Note enregistrée.</string>
+    <string name="see_more">detail</string>
+    <string name="set_meal">Menus</string>
+    <string name="wines">Vins</string>
+    <string name="recommendation">recommandation</string>
 </resources>

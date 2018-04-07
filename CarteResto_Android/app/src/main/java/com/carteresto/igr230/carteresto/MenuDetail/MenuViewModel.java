@@ -5,13 +5,19 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Menu;
 
+import com.carteresto.igr230.carteresto.Model.CommandModel;
+import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
 import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
+import com.carteresto.igr230.carteresto.Model.SimpleMenu;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.carteresto.igr230.carteresto.source.remote.CommandLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MenuViewModel extends AndroidViewModel {
     static String TAG = MenuViewModel.class.getSimpleName();
@@ -53,8 +59,35 @@ public class MenuViewModel extends AndroidViewModel {
             menuLiveData = mRepo.getProductDao().getMenuById(id);
         }
 
+
         return menuLiveData;
     }
 
 
+    public void updateMenu(@NonNull Map<String,List<SimpleProduct>> listDataChild
+            , int lastQuantity
+            , @NonNull String curNote) {
+        MenuDuCarte menu = menuLiveData.getValue();
+        SimpleMenu smenu = new SimpleMenu(menu);
+        smenu.setQuantity(lastQuantity);
+        smenu.setComment(curNote);
+        List<SimpleProduct> productList = new ArrayList<>();
+        List<MenuDishesModel> relationList = new ArrayList<>();
+
+        for(List<SimpleProduct> products: listDataChild.values()){
+            productList.addAll(products);
+        }
+        Log.d(TAG, "updateMenu: Get product list in menus" + productList);
+        Log.d(TAG, "updateMenu: Get product list in menus" + smenu);
+        for(SimpleProduct simpleProduct: productList){
+            smenu.putDish("ID_" + simpleProduct.getId(),simpleProduct);
+            relationList.add(new MenuDishesModel(simpleProduct.getId()
+                                , menu.getId()
+                                , simpleProduct.getQuantity() ));
+        }
+
+        mRepo.updataMenu(smenu, relationList);
+
+
+    }
 }

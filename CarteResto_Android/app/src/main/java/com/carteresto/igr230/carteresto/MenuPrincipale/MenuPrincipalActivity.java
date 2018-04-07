@@ -1,6 +1,7 @@
 package com.carteresto.igr230.carteresto.MenuPrincipale;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Space;
 
 import com.carteresto.igr230.carteresto.Model.Product;
+import com.carteresto.igr230.carteresto.Panier.PanierActivity;
 import com.carteresto.igr230.carteresto.R;
 
 import java.util.HashMap;
@@ -21,6 +24,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Ce Activity affichir tous les list du plat à la cart et la liste du menu du jour
@@ -50,6 +54,12 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
     Map<Button, Fragment> btnMap;
 
     ProductListFragment platFragment;
+    @BindView(R.id.btn_panier)
+    ImageButton btnPanier;
+    @BindView(R.id.btn_waiter)
+    ImageButton btnWaiter;
+    @BindView(R.id.bean_list)
+    LinearLayout beanList;
     private FragmentManager mFragmentMan;
 
 
@@ -111,11 +121,19 @@ public class MenuPrincipalActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         selectButton((Button) v);
-        //TODO change the fragment
     }
 
     @Override
     public void onListFragmentInteraction(Product item) {
 
     }
+
+
+    @OnClick(R.id.btn_panier)
+    public void onPainier() {
+        Intent intent = new Intent(this, PanierActivity.class);
+        startActivity(intent);
+    }
+
+
 }

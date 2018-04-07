@@ -11,8 +11,10 @@ import android.util.Log;
 import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.CommandModel;
 import com.carteresto.igr230.carteresto.Model.MenuDishesModel;
+import com.carteresto.igr230.carteresto.Model.MenuDuCarte;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.Model.ProductModel;
+import com.carteresto.igr230.carteresto.Model.SimpleMenu;
 import com.carteresto.igr230.carteresto.Model.SimpleProduct;
 import com.carteresto.igr230.carteresto.MyApplication;
 import com.carteresto.igr230.carteresto.source.local.ProductDao;
@@ -36,6 +38,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -143,6 +146,7 @@ public class ProductsRepository {
                     List<ProductModel> proList = Arrays.asList(gson.fromJson(fr, ProductModel[].class));
                     Log.d(TAG, "onSuccess: Init database with list size:" + proList.size());
                     new Thread(() -> {
+                        productDao.clearCommand();
                         Log.d(TAG, "onThread: Init database size:" + productDao.getProductsSize());
                         productDao.insertProductList(proList);
                         Log.d(TAG, "onThread: Init database size:" + productDao.getProductsSize());
@@ -321,7 +325,7 @@ public class ProductsRepository {
         editor.putString("cmdID", cmdId);
         editor.commit();
         getCommand().updateProducts(productDao);
-        getCommand().updateMenus(productDao);
+        getCommand().updateMenuDataBase(productDao);
         Log.d(TAG, "setCmdId: Set cmd id：" + cmdId);
     }
 
@@ -370,5 +374,44 @@ public class ProductsRepository {
 
         this.diskIO.execute(minus);
 
+    }
+
+    public void updataMenu(SimpleMenu smenu, List<MenuDishesModel> relationList) {
+        Runnable updataMenu = new Runnable() {
+
+            @Override
+            public void run() {
+                Log.e(TAG, "run: smenu:" + smenu + "\n\t relationList:" + relationList);
+                getProductDao().updateMenu(smenu,relationList);
+                getCommand().addMenus(smenu);
+                getCommand().updateMenuDataBase(productDao);
+
+
+
+            }
+        };
+
+        this.diskIO.execute(updataMenu);
+    }
+
+    public void updateNote(@NonNull  SimpleProduct product) {
+        Runnable updataMenu = new Runnable() {
+
+            @Override
+            public void run() {
+                productDao.updateCommand(new CommandModel(product.getId()
+                ,product.getQuantity()
+                ,product.getComment()));
+
+                if(product.getType().equals(Product.MENU)){
+                    getCommand().updateMenu((SimpleMenu)product);
+                }else{
+                    getCommand().updateProduct(product);
+                }
+
+            }
+        };
+
+        this.diskIO.execute(updataMenu);
     }
 }

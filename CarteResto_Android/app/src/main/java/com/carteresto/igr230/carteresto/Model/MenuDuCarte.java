@@ -9,6 +9,14 @@ public class MenuDuCarte extends ProductModel {
     private int quantity;
     private String comment;
 //    List<SimpleProduct> dishes;
+
+    @Override
+    public String toString() {
+        return "MenuDuCarte{" +
+                "quantity=" + quantity +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 //
 //    public List<SimpleProduct> getDishes() {
 //        return dishes;

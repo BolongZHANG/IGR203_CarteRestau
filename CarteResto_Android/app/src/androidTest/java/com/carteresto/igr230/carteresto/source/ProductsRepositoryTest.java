@@ -102,7 +102,7 @@ public class ProductsRepositoryTest {
             LiveData<Command> cmdLiveData = FirebaseDatabaseService.getCmd(cmdId);
 
             LiveData<List<Product>> outputList = Transformations.map(cmdLiveData, inputCmd -> {
-                Map<String, Integer> quantityMap = inputCmd.getProductList();
+                Map<String, Integer> quantityMap = inputCmd.getProductMap();
                 for (Product product : inputList) {
                     if (quantityMap.containsKey(product.getId())) {
                         product.setQuantity(quantityMap.get(product.getId()));

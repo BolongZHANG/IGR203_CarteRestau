@@ -1,6 +1,7 @@
 package com.carteresto.igr230.carteresto.Model;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by zhufa on 20/03/2018.
@@ -89,6 +90,5 @@ public class SimpleProduct {
     public void minus() {
         quantity = (quantity == 0) ? 0 : quantity - 1;
     }
-
 
 }

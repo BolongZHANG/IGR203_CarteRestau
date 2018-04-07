@@ -21,6 +21,8 @@ import com.carteresto.igr230.carteresto.Model.Command;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 
@@ -91,6 +93,14 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
 
         this.viewModel.getProductsListByType(mType).observe(this, products -> {
             Log.e(TAG, "onCreateView: change plat list " + products.size());
+            Collections.sort(products, new Comparator<Product>() {
+                @Override
+                public int compare(Product lhs, Product rhs) {
+                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    return lhs.getQuantity() > rhs.getQuantity() ? -1 : 0;
+                }
+            });
+
             mAdapter.setData(products);
         });
 
