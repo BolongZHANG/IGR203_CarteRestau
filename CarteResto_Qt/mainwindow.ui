@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1244</width>
+    <height>712</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Restaurant Télécom ParisTech</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="pageLogin">
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QWidget" name="verticalWidget_3" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>450</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QWidget" name="widget_2" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>175</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>175</height>
+              </size>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="0" column="0">
+               <widget class="QWidget" name="widgetLogo" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>300</width>
+                  <height>200</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget" native="true">
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <widget class="QWidget" name="connectionVWidget" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>250</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QLabel" name="labelLogin">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:white;
+</string>
+                   </property>
+                   <property name="text">
+                    <string>Login</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="loginLineEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <kerning>true</kerning>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelPw">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color:white;</string>
+                   </property>
+                   <property name="text">
+                    <string>Password</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="pwLineEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item alignment="Qt::AlignHCenter">
+                  <widget class="QPushButton" name="connectionButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>9</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Connection</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageCommandes">
+       <layout class="QGridLayout" name="gridLayout_9">
+        <item row="0" column="0">
+         <widget class="QWidget" name="horizontalWidget_2" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>1200</width>
+            <height>525</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>1600</width>
+            <height>700</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QWidget" name="verticalWidgetTable" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>500</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>600</height>
+              </size>
+             </property>
+             <property name="autoFillBackground">
+              <bool>true</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="1" column="0">
+               <widget class="QWidget" name="horizontalWidget_5" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QWidget" name="horizontalWidget_1" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item alignment="Qt::AlignRight">
+                  <widget class="QLabel" name="label_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QWidget" name="horizontalWidget_7" native="true">
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QWidget" name="verticalWidgetDessert_3" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <item>
+                     <widget class="QWidget" name="widget_7" native="true">
+                      <layout class="QGridLayout" name="gridLayout_13">
+                       <item row="0" column="0">
+                        <widget class="QListWidget" name="listWidgetApero"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignHCenter">
+                     <widget class="QWidget" name="horizontalWidgetLS1" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>300</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_10">
+                       <item>
+                        <widget class="QPushButton" name="lanceButton3_3">
+                         <property name="text">
+                          <string>Lancé</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="serviButton3_3">
+                         <property name="text">
+                          <string>Servi</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="verticalWidgetDessert_2" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <item>
+                     <widget class="QWidget" name="widget_6" native="true">
+                      <layout class="QGridLayout" name="gridLayout_10">
+                       <item row="0" column="0">
+                        <widget class="QListWidget" name="listWidgetEntrees"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignHCenter">
+                     <widget class="QWidget" name="horizontalWidgetLS2" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>300</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_9">
+                       <item>
+                        <widget class="QPushButton" name="lanceButton3_2">
+                         <property name="text">
+                          <string>Lancé</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="serviButton3_2">
+                         <property name="text">
+                          <string>Servi</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="verticalWidgetEntree" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_5">
+                    <item>
+                     <widget class="QWidget" name="widget_5" native="true">
+                      <layout class="QGridLayout" name="gridLayout_12">
+                       <item row="0" column="0">
+                        <widget class="QListWidget" name="listWidgetPlats"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignHCenter">
+                     <widget class="QWidget" name="horizontalWidgetLS3" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>300</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_13">
+                       <item>
+                        <widget class="QPushButton" name="lanceButton1">
+                         <property name="text">
+                          <string>Lancé</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="serviButton1">
+                         <property name="text">
+                          <string>Servi</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="verticalWidgetPlat" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                    <item>
+                     <widget class="QWidget" name="widget_4" native="true">
+                      <layout class="QGridLayout" name="gridLayout_11">
+                       <item row="0" column="0">
+                        <widget class="QListWidget" name="listWidgetDesserts"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignHCenter">
+                     <widget class="QWidget" name="horizontalWidgetLS4" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>300</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_11">
+                       <item>
+                        <widget class="QPushButton" name="lanceButton2">
+                         <property name="text">
+                          <string>Lancé</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="serviButton2">
+                         <property name="text">
+                          <string>Servi</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="verticalWidgetDessert" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_4">
+                    <item>
+                     <widget class="QWidget" name="widget_3" native="true">
+                      <layout class="QGridLayout" name="gridLayout_7">
+                       <item row="0" column="0">
+                        <widget class="QListWidget" name="listWidgetVins"/>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignHCenter">
+                     <widget class="QWidget" name="horizontalWidgetLS5" native="true">
+                      <property name="maximumSize">
+                       <size>
+                        <width>300</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_8">
+                       <item>
+                        <widget class="QPushButton" name="lanceButton3">
+                         <property name="text">
+                          <string>Lancé</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="serviButton3">
+                         <property name="text">
+                          <string>Servi</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QWidget" name="horizontalWidget_9" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QPushButton" name="buttonApero">
+                   <property name="text">
+                    <string>Apéritifs</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="buttonEntree">
+                   <property name="text">
+                    <string>Entrées</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="buttonPlat">
+                   <property name="text">
+                    <string>Plats</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="buttonDessert">
+                   <property name="text">
+                    <string>Desserts</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="buttonVin">
+                   <property name="text">
+                    <string>Vins</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0" alignment="Qt::AlignHCenter">
+               <widget class="QWidget" name="horizontalWidget_3" native="true">
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QPushButton" name="buttonModifier">
+                   <property name="text">
+                    <string>Modifier</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>50</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QWidget" name="tablesVerticalWidget" native="true">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>300</width>
+               <height>625</height>
+              </size>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QComboBox" name="comboBox"/>
+              </item>
+              <item>
+               <widget class="QListWidget" name="tablesListWidget"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="pageAjouter">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QWidget" name="horizontalWidget" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>800</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QPushButton" name="addEntreeButton">
+             <property name="text">
+              <string>Ajouter une Entrée</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addPlatButton">
+             <property name="text">
+              <string>Ajouter un Plat</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addDessertButton">
+             <property name="text">
+              <string>Ajouter un Dessert</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="addBoissonButton">
+             <property name="text">
+              <string>Ajouter une Boisson</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1244</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

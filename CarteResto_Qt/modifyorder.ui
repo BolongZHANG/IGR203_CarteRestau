@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ModifyOrder</class>
+ <widget class="QDialog" name="ModifyOrder">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>959</width>
+    <height>625</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="modifyOrderTabs">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="aperoTab">
+      <attribute name="title">
+       <string>Apéritifs</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_19">
+       <item row="0" column="0">
+        <widget class="QWidget" name="verticalWidget_9" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_17">
+          <item>
+           <widget class="QWidget" name="horizontalWidget_9" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QListWidget" name="listWidgetEntree_9">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="verticalWidget_10" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_18">
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="addButton1_3">
+                  <property name="text">
+                   <string>Rajouter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="delButton1_3">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Supprimer</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QWidget" name="verticalWidget_27" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>300</width>
+                    <height>625</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_18">
+                   <item>
+                    <widget class="QComboBox" name="comboBox_9"/>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget_9"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="validerButton1_3">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="entreesTab">
+      <attribute name="title">
+       <string>Entrées</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QWidget" name="verticalWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QWidget" name="horizontalWidget" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QListWidget" name="listWidgetEntree">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="verticalWidget_2" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="addButton1">
+                  <property name="text">
+                   <string>Rajouter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="delButton1">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Supprimer</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QWidget" name="verticalWidget_18" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>300</width>
+                    <height>625</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_2">
+                   <item>
+                    <widget class="QComboBox" name="comboBox"/>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="validerButton1">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="platsTab">
+      <attribute name="title">
+       <string>Plats</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="0" column="0">
+        <widget class="QWidget" name="verticalWidget_3" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QWidget" name="horizontalWidget_2" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QListWidget" name="listWidgetEntree_2">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="verticalWidget_4" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="addButton2">
+                  <property name="text">
+                   <string>Rajouter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="delButton2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Supprimer</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QWidget" name="verticalWidget_11" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>300</width>
+                    <height>625</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <item>
+                    <widget class="QComboBox" name="comboBox_2"/>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget_2"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="validerButton2">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="dessertsTab">
+      <attribute name="title">
+       <string>Desserts</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_10">
+       <item row="0" column="0">
+        <widget class="QWidget" name="verticalWidget_12" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QWidget" name="horizontalWidget_5" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QListWidget" name="listWidgetEntree_5">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="verticalWidget_13" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_9">
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="addButton3">
+                  <property name="text">
+                   <string>Rajouter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="delButton3">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Supprimer</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QWidget" name="verticalWidget_14" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>300</width>
+                    <height>625</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_10">
+                   <item>
+                    <widget class="QComboBox" name="comboBox_5"/>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget_5"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="validerButton3">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="boissonsTab">
+      <attribute name="title">
+       <string>Boissons</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_12">
+       <item row="0" column="0">
+        <widget class="QWidget" name="verticalWidget_15" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QWidget" name="horizontalWidget_6" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QListWidget" name="listWidgetEntree_6">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="verticalWidget_16" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_11">
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="addButton4">
+                  <property name="text">
+                   <string>Rajouter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="delButton4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Supprimer</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QWidget" name="verticalWidget_17" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>300</width>
+                    <height>625</height>
+                   </size>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                   <item>
+                    <widget class="QComboBox" name="comboBox_6"/>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidget_6"/>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="validerButton4">
+            <property name="text">
+             <string>Valider</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
