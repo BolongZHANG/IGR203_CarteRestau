@@ -267,12 +267,14 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
             lastQuantity--;
             menuNumberView.setText(String.valueOf(lastQuantity));
         }
+        listAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.menu_detail_number_more)
     public void onMore() {
         lastQuantity++;
         menuNumberView.setText(String.valueOf(lastQuantity));
+        listAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.menu_detail_add_note)
@@ -341,5 +343,9 @@ public class MenuDetailActivity extends AppCompatActivity implements NoteListene
     public void showDialog(String id) {
         ProductShowFragment fragment = ProductShowFragment.newInstance(id, false);
         fragment.show(getSupportFragmentManager(), "prodct-" + id);
+    }
+
+    public void setStartersRemainingNumber(int n) {
+
     }
 }

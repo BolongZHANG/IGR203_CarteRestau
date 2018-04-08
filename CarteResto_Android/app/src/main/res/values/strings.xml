@@ -65,6 +65,7 @@
     <string name="menu_detail_note_dialog_cancel">Annuler</string>
     <string name="menu_detail_note_dialog_void">Votre note est vide.</string>
     <string name="menu_detail_note_dialog_note_saved">Note enregistrée.</string>
+    <string name="menu_detail_remaining_number">(Encore %1$d à choisir)</string>
     <string name="see_more">detail</string>
     <string name="set_meal">Menus</string>
     <string name="wines">Vins</string>

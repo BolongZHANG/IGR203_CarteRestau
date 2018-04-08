@@ -26,7 +26,10 @@ import com.carteresto.igr230.carteresto.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,6 +47,7 @@ public class DishesListAdapter extends BaseExpandableListAdapter
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private Map<String, List<SimpleProduct>> _listDataChild;
+    private Map<String, Integer> mCurQuantity; // stores quantity selected for each category.
     private AlertDialog.Builder dialogBuilder;
     private MenuDetailActivity parent;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -57,6 +61,7 @@ public class DishesListAdapter extends BaseExpandableListAdapter
         this.parent = (MenuDetailActivity) _context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listDataChild;
+        this.mCurQuantity = new HashMap<>();
 
         // DialogBuilder is useful to notify problems in quantity bw number of menus
         // & number of chosen dishes per step.
@@ -97,12 +102,7 @@ public class DishesListAdapter extends BaseExpandableListAdapter
                 break;
             case R.id.menu_detail_dish_more_btn:
                 String currentHeader = _listDataHeader.get(p.getGroupPosition());
-                List<SimpleProduct> currentDishesList = _listDataChild.get(currentHeader);
-                int curQuantity = 0;
-                for (SimpleProduct data : currentDishesList) {
-                    curQuantity += data.getQuantity();
-                }
-                if (curQuantity < maxQuantity) {
+                if (mCurQuantity.get(currentHeader) < maxQuantity) {
                     dataModel.add();
                     notifyDataSetChanged();
                 } else {
@@ -178,7 +178,13 @@ public class DishesListAdapter extends BaseExpandableListAdapter
         viewHolder.dishLessQuantity.setOnClickListener(this);
         viewHolder.dishLessQuantity.setTag(new Position(childPosition, groupPosition));
 
-        //txtListChild.setText(childText);
+        String headerTitle = (String)getGroup(groupPosition) ;
+        int remainingNb = this.parent.getMaxQuantity() - mCurQuantity.get(headerTitle);
+        boolean choicesLeft = remainingNb > 0, noChoice = remainingNb == this.parent.getMaxQuantity();
+        if(choicesLeft) viewHolder.dishMoreQuantity.setEnabled(true);
+        else viewHolder.dishMoreQuantity.setEnabled(false);
+        if(noChoice) viewHolder.dishLessQuantity.setEnabled(false);
+        else viewHolder.dishLessQuantity.setEnabled(true);
         return convertView;
     }
 
@@ -218,6 +224,19 @@ public class DishesListAdapter extends BaseExpandableListAdapter
                 .findViewById(R.id.menu_detail_list_group);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+        TextView remainingChoices = (TextView) convertView.findViewById(R.id.menu_detail_list_group_nb_left);
+        List<SimpleProduct> currentDishesList = _listDataChild.get(headerTitle);
+        int curQuantity = 0;
+        for (SimpleProduct data : currentDishesList)
+            curQuantity += data.getQuantity();
+        mCurQuantity.put(headerTitle, curQuantity);
+        int remainingNb = this.parent.getMaxQuantity() - mCurQuantity.get(headerTitle);
+        if(remainingNb > 0) {
+            String remChoicesString = parent.getResources().getString(R.string.menu_detail_remaining_number, remainingNb);
+            remainingChoices.setText(remChoicesString);
+        }
+        else remainingChoices.setText("");
 
         return convertView;
     }
