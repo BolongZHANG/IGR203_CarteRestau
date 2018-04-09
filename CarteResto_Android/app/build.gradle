@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -76,7 +76,7 @@ dependencies {
 
     implementation 'com.google.guava:guava:24.1-android'
     implementation 'com.idescout.sql:sqlscout-server:4.0'
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
