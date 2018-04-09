@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private static final String TAG = ProductRecyclerViewAdapter.class.getSimpleName();
     private static final int MENU = 0;
@@ -33,12 +35,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private static final int OTHER = 3;
     @NonNull
     private List<Product> mData = new ArrayList<>();
+    private List<Product> filteredList = new ArrayList<>();
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private QuantityModifyListener mListener;
+    private Filter mFilter;
+    private CharSequence mConstraint = "";
 
     public ProductRecyclerViewAdapter(Fragment fragment, QuantityModifyListener listener) {
         this.mListener = listener;
+        mFilter = new ProductFilter(ProductRecyclerViewAdapter.this);
     }
 
     @Override
@@ -55,8 +61,8 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        String type = mData.get(position).getType();
-        final Product product = mData.get(position);
+        String type = filteredList.get(position).getType();
+        final Product product = filteredList.get(position);
 
         if (type.equals(Product.MENU)) {
             MenuViewHolder menuHolder = (MenuViewHolder) holder;
@@ -107,21 +113,19 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return filteredList.size();
     }
 
     public void setData(List<Product> data) {
         Log.d(TAG, "setData: update the list data");
+        mData = data;
+        mFilter.filter(mConstraint);
+    }
 
+    @Override
+    public Filter getFilter() {
+        return mFilter;
 
-        if (this.mData != null) {
-            ProductDiffCallback productDiffCallback = new ProductDiffCallback(this.mData, data);
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(productDiffCallback);
-            mData.clear();
-            mData.addAll(data);
-            diffResult.dispatchUpdatesTo(this);
-            this.mData = data;
-        }
     }
 
 
@@ -208,6 +212,49 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             super(view);
             ButterKnife.bind(this, view);
 
+        }
+    }
+
+    public class ProductFilter extends Filter {
+        private ProductRecyclerViewAdapter mAdapter;
+        DiffUtil.DiffResult diffResult;
+        private ProductFilter(ProductRecyclerViewAdapter mAdapter) {
+            super();
+            this.mAdapter = mAdapter;
+        }
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Product> temps = new ArrayList<>();
+            temps.addAll(filteredList);
+            filteredList.clear();
+
+            mAdapter.mConstraint = constraint;
+            final FilterResults results = new FilterResults();
+            if (constraint.length() == 0) {
+                filteredList.addAll(mData);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+                for (final Product mProduct : mData) {
+                    if (mProduct.getIngredients().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(mProduct);
+                    }
+                }
+            }
+
+            Log.d(TAG, "performFiltering:Count Number:" + filteredList.size() + "\t Key word:" + constraint);
+            results.values = filteredList;
+            results.count = filteredList.size();
+
+            ProductDiffCallback productDiffCallback = new ProductDiffCallback(temps, filteredList);
+            diffResult = DiffUtil.calculateDiff(productDiffCallback);
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            Log.d(TAG, "publishResults: Count Number 2 " + ((List<Product>)results.values).size());
+            diffResult.dispatchUpdatesTo(this.mAdapter);
         }
     }
 }

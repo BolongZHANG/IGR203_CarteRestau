@@ -11,26 +11,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <CheckBox
-            android:layout_width="match_parent"
+        
+        <RadioGroup
+            android:id="@+id/filterGp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="CheckBox" />
+            android:orientation="horizontal">
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="CheckBox" />
+            <RadioButton
+                android:id="@+id/cb_filter1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                tools:text="CheckBox" />
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="CheckBox" />
+            <RadioButton
+                android:id="@+id/cb_filter2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                tools:text="CheckBox" />
 
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="CheckBox" />
+            <RadioButton
+                android:id="@+id/cb_filter3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                tools:text="CheckBox" />
+
+            <RadioButton
+                android:id="@+id/cb_filter4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:textColor="@android:color/white"
+                tools:text="CheckBox" />
+        </RadioGroup>
+
 
 
 
