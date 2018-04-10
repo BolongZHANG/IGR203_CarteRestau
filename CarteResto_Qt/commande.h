@@ -37,6 +37,16 @@ public:
 
     Menu getMenu( int index ) const { return menusCmd.at(index) ; }
 
+    void update( QJsonValue commandeJson )
+    {
+        this->commandeJson = commandeJson;
+        setProduits();
+        setMenus();
+    }
+
+    int containsIdProduit(double id);
+    int containsMenu( QString idMenu );
+
 private:
     int table;
     QString id;
@@ -50,6 +60,9 @@ private:
 
     int nbProduits;
     int nbMenus;
+
+    int previousNbProduits;
+    int previousNbMenus;
 };
 
 #endif // COMMANDE_H

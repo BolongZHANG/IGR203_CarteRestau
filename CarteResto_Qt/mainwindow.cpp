@@ -15,6 +15,10 @@
 #include<QVector>
 #include<QString>
 #include<iostream>
+#include<QTimer>
+
+#include<QEvent>
+#include<QKeyEvent>
 
 // https://youtu.be/wUH_gu2HdQE --> create modal windows
 // http://www.qtcentre.org/threads/49475-QLabel-text-in-multiple-colors
@@ -43,6 +47,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui_setup();
 
     selectedProduct = nullptr;
+
+    refreshTimer = new QTimer(this);
+    QObject::connect(refreshTimer, SIGNAL( timeout() ), this, SLOT ( reloadData() ) );
+    //refreshTimer->start(500);
 }
 
 MainWindow::~MainWindow()
@@ -266,6 +274,7 @@ void MainWindow::displayModifyCardWidget()
 
 void MainWindow::fillTableListWidget()
 {
+    ui->tablesListWidget->clear();
     int nbCommandes = cmds->getNbCommandes();
     for( int i = 0 ; i < nbCommandes ; ++i )
     {
@@ -305,6 +314,8 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
             QString p = QString::number(j);
             QString space(" ");
 
+            QString q = QString::number( currentCmd.getProduitQuantity(j) ) + QString(" x ");
+
             QIcon icon;
 
             if( currentCmd.getProduitState( j ) == 0 )
@@ -322,27 +333,27 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
 
             if( type == "apero" )
             {
-                QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() , ui->listWidgetApero);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetApero);
                 qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "entree" )
             {
-                QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() , ui->listWidgetEntrees);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetEntrees);
                 qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "plat" )
             {
-                QListWidgetItem  * qwi = new QListWidgetItem( icon , currentP.getName() , ui->listWidgetPlats);
+                QListWidgetItem  * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetPlats);
                 qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "dessert" )
             {
-                QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() , ui->listWidgetDesserts);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetDesserts);
                 qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "vin" )
             {
-                QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() , ui->listWidgetVins);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetVins);
                 qwi->setToolTip(t + space + c + space + p);
             }
             else
@@ -392,29 +403,31 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
                 QString s2 = QString::number(k);
                 QString s3(")");
 
+                QString q = QString::number( currentM.getQuantitesP(j) ) + QString(" x ");
+
                 if( type == "apero" )
                 {
-                    QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() + s1 + s2 + s3 , ui->listWidgetApero);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetApero);
                     qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "entree" )
                 {        
-                    QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() + s1 + s2 + s3 , ui->listWidgetEntrees);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetEntrees);
                     qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "plat" )
                 {
-                    QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() + s1 + s2 + s3 , ui->listWidgetPlats);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetPlats);
                     qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "dessert" )
                 {
-                    QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() + s1 + s2 + s3 , ui->listWidgetDesserts);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetDesserts);
                     qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "vin" )
                 {
-                    QListWidgetItem * qwi = new QListWidgetItem( icon , currentP.getName() + s1 + s2 + s3 , ui->listWidgetVins);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetVins);
                     qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else
@@ -562,6 +575,24 @@ void MainWindow::on_lanceButton5_clicked()
 void MainWindow::on_serviButton5_clicked()
 {
     serviButtonCode();
+}
+
+void MainWindow::reloadData()
+{
+    if( isReloading == false )
+    {
+        isReloading = true;
+        std::cout << "reloading data " << std::endl;
+        cmds->retrieveCommandes();
+        produits->retrieveProducts();
+        fillTableListWidget();
+        isReloading = false;
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ev)
+{
+    reloadData();
 }
 
 

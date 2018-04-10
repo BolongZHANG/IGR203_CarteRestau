@@ -9,6 +9,10 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QVector>
+#include <QTimer>
+
+#include<QEvent>
+#include<QKeyEvent>
 
 #include <QListWidgetItem>
 
@@ -39,6 +43,8 @@ public:
 
     void lanceButtonCode();
     void serviButtonCode();
+
+    void keyPressEvent(QKeyEvent *ev);
 
 public slots:
     void logOut();
@@ -76,9 +82,12 @@ public slots:
     void on_lanceButton5_clicked();
     void on_serviButton5_clicked();
 
+    void reloadData();
+
 private:
     Ui::MainWindow *ui;
 
+    QTimer * refreshTimer;
     //geometry
 
     int x,y,w,h;
@@ -88,6 +97,8 @@ private:
     QVector<QListWidgetItem *> tablesItems;
 
     QListWidgetItem * selectedProduct;
+
+    bool isReloading = false;
 };
 
 #endif // MAINWINDOW_H

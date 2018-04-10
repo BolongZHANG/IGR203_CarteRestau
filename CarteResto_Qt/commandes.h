@@ -40,6 +40,15 @@ public:
         commandes[ cmdId ] = c;
     }
 
+    int containsCommandeId(QString id);
+    int containsTable( int id );
+
+    int findTableIndex( int tableNb )
+    {
+        for( int i = 0; i < nbCommandes ; ++i)
+            if( tables.at(i) == tableNb ) return i;
+    }
+
 public slots:
     void onResult(QNetworkReply * reply);
     void onResultTable(QNetworkReply * reply);
@@ -52,6 +61,7 @@ private:
     QVector<QString> commandesId;
     QVector<int> tables;
     int nbCommandes;
+    int previousNbCommandes;
 
     QNetworkAccessManager networkManagerCmds;
     QNetworkAccessManager networkManagerTables;
