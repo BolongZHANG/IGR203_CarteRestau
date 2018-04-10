@@ -5,5 +5,8 @@
         <file>images/quit.png</file>
         <file>images/commandes.png</file>
         <file>images/edit.png</file>
+        <file>images/redButton.png</file>
+        <file>images/greenButton.png</file>
+        <file>images/orangeButton.png</file>
     </qresource>
 </RCC>

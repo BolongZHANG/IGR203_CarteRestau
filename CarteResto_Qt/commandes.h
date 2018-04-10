@@ -26,6 +26,29 @@ public:
     int getTable( int index ) const { return tables.at(index); }
     Commande getCommande( int index ) const { return commandes.at( index ); }
 
+    void setProduitState(int cmdId , int index , int state )
+    {
+        Commande c = commandes.at( cmdId );
+        c.setProduitState( index , state );
+        commandes[ cmdId ] = c;
+    }
+
+    void setMenuProduitState(int cmdId , int menuId , int index , int state )
+    {
+        Commande c = commandes.at( cmdId );
+        c.setMenuProduitState( menuId , index , state );
+        commandes[ cmdId ] = c;
+    }
+
+    int containsCommandeId(QString id);
+    int containsTable( int id );
+
+    int findTableIndex( int tableNb )
+    {
+        for( int i = 0; i < nbCommandes ; ++i)
+            if( tables.at(i) == tableNb ) return i;
+    }
+
 public slots:
     void onResult(QNetworkReply * reply);
     void onResultTable(QNetworkReply * reply);
@@ -38,6 +61,7 @@ private:
     QVector<QString> commandesId;
     QVector<int> tables;
     int nbCommandes;
+    int previousNbCommandes;
 
     QNetworkAccessManager networkManagerCmds;
     QNetworkAccessManager networkManagerTables;

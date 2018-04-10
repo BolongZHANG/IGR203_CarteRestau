@@ -15,6 +15,10 @@
 #include<QVector>
 #include<QString>
 #include<iostream>
+#include<QTimer>
+
+#include<QEvent>
+#include<QKeyEvent>
 
 // https://youtu.be/wUH_gu2HdQE --> create modal windows
 // http://www.qtcentre.org/threads/49475-QLabel-text-in-multiple-colors
@@ -42,7 +46,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui_setup();
 
-    //QObject::connect(ui->tablesListWidget, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(onListMailItemClicked(QListWidgetItem*)));
+    selectedProduct = nullptr;
+
+    refreshTimer = new QTimer(this);
+    QObject::connect(refreshTimer, SIGNAL( timeout() ), this, SLOT ( reloadData() ) );
+    //refreshTimer->start(500);
 }
 
 MainWindow::~MainWindow()
@@ -150,6 +158,7 @@ void MainWindow::on_connectionButton_clicked()
     ui->verticalWidgetTable->setAutoFillBackground(true);
     ui->verticalWidgetTable->setPalette(pal);
 
+    ui->tablesListWidget->clear();
     fillTableListWidget();
 }
 
@@ -265,6 +274,7 @@ void MainWindow::displayModifyCardWidget()
 
 void MainWindow::fillTableListWidget()
 {
+    ui->tablesListWidget->clear();
     int nbCommandes = cmds->getNbCommandes();
     for( int i = 0 ; i < nbCommandes ; ++i )
     {
@@ -283,7 +293,7 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
     ui->listWidgetVins->clear();
 
     int nbCommandes = cmds->getNbCommandes();
-    for( int i = 0 ; i < nbCommandes ; ++i )
+    for( int i = 0 ; i < nbCommandes ; ++i ) // commande
     {
         Commande currentCmd = cmds->getCommande( i );
 
@@ -291,7 +301,7 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
 
         int nbProduitsCmd = currentCmd.getNbProduits();
 
-        for( int j = 0 ; j < nbProduitsCmd ; ++j )
+        for( int j = 0 ; j < nbProduitsCmd ; ++j ) // produit simple
         {
             double currentPId =  currentCmd.getProduitId( j );
 
@@ -299,26 +309,52 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
 
             QString type = currentP.getType();
 
+            QString t("0");
+            QString c = QString::number(i);
+            QString p = QString::number(j);
+            QString space(" ");
+
+            QString q = QString::number( currentCmd.getProduitQuantity(j) ) + QString(" x ");
+
+            QIcon icon;
+
+            if( currentCmd.getProduitState( j ) == 0 )
+            {
+                icon.addFile( ":images/redButton.png" );
+            }
+            else if( currentCmd.getProduitState( j ) == 1 )
+            {
+                icon.addFile( ":images/orangeButton.png" );
+            }
+            else if( currentCmd.getProduitState( j ) == 2 )
+            {
+                icon.addFile( ":images/greenButton.png" );
+            }
+
             if( type == "apero" )
             {
-
-                new QListWidgetItem( currentP.getName() , ui->listWidgetApero);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetApero);
+                qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "entree" )
             {
-                new QListWidgetItem( currentP.getName() , ui->listWidgetEntrees);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetEntrees);
+                qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "plat" )
             {
-                new QListWidgetItem( currentP.getName() , ui->listWidgetPlats);
+                QListWidgetItem  * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetPlats);
+                qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "dessert" )
             {
-                new QListWidgetItem( currentP.getName() , ui->listWidgetDesserts);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetDesserts);
+                qwi->setToolTip(t + space + c + space + p);
             }
             else if( type == "vin" )
             {
-                new QListWidgetItem( currentP.getName() , ui->listWidgetVins);
+                QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() , ui->listWidgetVins);
+                qwi->setToolTip(t + space + c + space + p);
             }
             else
             {
@@ -328,39 +364,71 @@ void MainWindow::fillAEPDVListsWidgets( int tableNb )
 
         int nbMenusCmd = currentCmd.getNbMenus();
 
-        for( int i = 0 ; i < nbMenusCmd ; ++i)
+        for( int k = 0 ; k < nbMenusCmd ; ++k) // menu
         {
-            Menu m = currentCmd.getMenu( i );
+            Menu currentM = currentCmd.getMenu( k );
 
-            int nbProduitsMenu = m.getNbProduits();
+            int nbProduitsMenu = currentM.getNbProduits();
 
-            for( int j = 0 ; j < nbProduitsMenu ; ++j )
+            for( int j = 0 ; j < nbProduitsMenu ; ++j ) // produit simple
             {
-                double currentPId =  m.getIdProduits( j );
+                double currentPId =  currentM.getIdProduits( j );
 
                 Produit currentP = findProduit( currentPId );
 
                 QString type = currentP.getType();
 
+                QString t("1");
+                QString c = QString::number(i);
+                QString m = QString::number(k);
+                QString p = QString::number(j);
+                QString space(" ");
+
+                QIcon icon;
+
+                if( currentM.getProduitState( j ) == 0 )
+                {
+                    icon.addFile( ":images/redButton.png" );
+                }
+                else if( currentM.getProduitState( j ) == 1 )
+                {
+                    icon.addFile( ":images/orangeButton.png" );
+                }
+                else if( currentM.getProduitState( j ) == 2 )
+                {
+                    icon.addFile( ":images/greenButton.png" );
+                }
+
+                QString s1(" (Menu ");
+                QString s2 = QString::number(k);
+                QString s3(")");
+
+                QString q = QString::number( currentM.getQuantitesP(j) ) + QString(" x ");
+
                 if( type == "apero" )
                 {
-                    new QListWidgetItem( currentP.getName() , ui->listWidgetApero);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetApero);
+                    qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "entree" )
-                {
-                    new QListWidgetItem( currentP.getName() , ui->listWidgetEntrees);
+                {        
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetEntrees);
+                    qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "plat" )
                 {
-                    new QListWidgetItem( currentP.getName() , ui->listWidgetPlats);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetPlats);
+                    qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "dessert" )
                 {
-                    new QListWidgetItem( currentP.getName() , ui->listWidgetDesserts);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetDesserts);
+                    qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else if( type == "vin" )
                 {
-                    new QListWidgetItem( currentP.getName() , ui->listWidgetVins);
+                    QListWidgetItem * qwi = new QListWidgetItem( icon , q + currentP.getName() + s1 + s2 + s3 , ui->listWidgetVins);
+                    qwi->setToolTip(t + space + c + space + m + space + p);
                 }
                 else
                 {
@@ -386,6 +454,145 @@ int MainWindow::getTableNumberFrom( QString s )
     QStringList qsl = s.split(" ");
     qsl.removeAt(0);
     return qsl.join("").toInt();
+}
+
+void MainWindow::lanceButtonCode()
+{
+    QString toolTip = selectedProduct->toolTip();
+    QStringList numbers = toolTip.split(" ");
+    int t = numbers.at(0).toInt();
+
+    if( t == 0 ) // produit
+    {
+        int c = numbers.at(1).toInt();
+        int p = numbers.at(2).toInt();
+        cmds->setProduitState( c , p , 1);
+    }
+    else if( t == 1 ) // menu
+    {
+        int c = numbers.at(1).toInt();
+        int m = numbers.at(2).toInt();
+        int p = numbers.at(3).toInt();
+        cmds->setMenuProduitState( c , m , p , 1);
+    }
+
+    selectedProduct->setIcon( QIcon(":images/orangeButton.png") );
+}
+
+void MainWindow::serviButtonCode()
+{
+    QString toolTip = selectedProduct->toolTip();
+    QStringList numbers = toolTip.split(" ");
+    int t = numbers.at(0).toInt();
+
+    if( t == 0 ) // produit
+    {
+        int c = numbers.at(1).toInt();
+        int p = numbers.at(2).toInt();
+        cmds->setProduitState( c , p , 2);
+    }
+    else if( t == 1 ) // menu
+    {
+        int c = numbers.at(1).toInt();
+        int m = numbers.at(2).toInt();
+        int p = numbers.at(3).toInt();
+        cmds->setMenuProduitState( c , m , p , 2);
+    }
+
+    selectedProduct->setIcon( QIcon(":images/greenButton.png") );
+}
+
+void MainWindow::on_listWidgetApero_itemClicked( QListWidgetItem * item )
+{
+    selectedProduct = item;
+}
+
+void MainWindow::on_lanceButton1_clicked()
+{
+    lanceButtonCode();
+}
+
+void MainWindow::on_serviButton1_clicked()
+{
+    serviButtonCode();
+}
+
+void MainWindow::on_listWidgetEntrees_itemClicked( QListWidgetItem * item )
+{
+    selectedProduct = item;
+}
+
+void MainWindow::on_lanceButton2_clicked()
+{
+    lanceButtonCode();
+}
+
+void MainWindow::on_serviButton2_clicked()
+{
+    serviButtonCode();
+}
+
+void MainWindow::on_listWidgetPlats_itemClicked( QListWidgetItem * item )
+{
+    selectedProduct = item;
+}
+
+void MainWindow::on_lanceButton3_clicked()
+{
+    lanceButtonCode();
+}
+
+void MainWindow::on_serviButton3_clicked()
+{
+    serviButtonCode();
+}
+
+void MainWindow::on_listWidgetDesserts_itemClicked( QListWidgetItem * item )
+{
+    selectedProduct = item;
+}
+
+void MainWindow::on_lanceButton4_clicked()
+{
+    lanceButtonCode();
+}
+
+void MainWindow::on_serviButton4_clicked()
+{
+    serviButtonCode();
+}
+
+void MainWindow::on_listWidgetVins_itemClicked( QListWidgetItem * item )
+{
+    selectedProduct = item;
+}
+
+void MainWindow::on_lanceButton5_clicked()
+{
+    lanceButtonCode();
+}
+
+void MainWindow::on_serviButton5_clicked()
+{
+    serviButtonCode();
+}
+
+void MainWindow::reloadData()
+{
+    if( isReloading == false )
+    {
+        isReloading = true;
+        std::cout << "reloading data " << std::endl;
+        cmds->retrieveCommandes();
+        produits->retrieveProducts();
+        fillTableListWidget();
+        isReloading = false;
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ev)
+{
+    reloadData();
 }
 
 
