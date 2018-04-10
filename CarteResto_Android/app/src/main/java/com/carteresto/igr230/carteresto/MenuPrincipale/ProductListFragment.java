@@ -73,7 +73,6 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
         View view = inflater.inflate(R.layout.fragment_plat_list, container, false);
         Context context = view.getContext();
         RecyclerView recyclerView = view.findViewById(R.id.list);
-        TextView textView = view.findViewById(R.id.textView);
         int count = mType.equals(Product.MENU) ? 1 : 4;
         int orientation = mType.equals(Product.MENU) ? StaggeredGridLayoutManager.HORIZONTAL : StaggeredGridLayoutManager.VERTICAL;
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(count, orientation);
@@ -83,13 +82,6 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
         ProductRecyclerViewAdapter mAdapter = new ProductRecyclerViewAdapter(this, this);
 
         recyclerView.setAdapter(mAdapter);
-
-        viewModel.getCMD().observe(this, new Observer<Command>() {
-            @Override
-            public void onChanged(@Nullable Command command) {
-                textView.setText(command.toString());
-            }
-        });
 
         this.viewModel.getProductsListByType(mType).observe(this, products -> {
             Log.e(TAG, "onCreateView: change plat list " + products.size());
