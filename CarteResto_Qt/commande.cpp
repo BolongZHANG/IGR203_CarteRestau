@@ -46,6 +46,7 @@ void Commande::setProduits()
 
             idProduits.push_back( idP.toDouble() );
             quantitesP.push_back( quantity );
+            stateP.push_back(0);
         }
     }
 }

@@ -24,6 +24,16 @@ public:
 
     double getProduitId( int index ) const { return idProduits.at(index) ; }
     double getProduitQuantity( int index ) const { return quantitesP.at(index) ; }
+    int getProduitState( int index ) const { return stateP.at(index) ; }
+
+    void setProduitState( int index , int state ) { stateP[index] = state; }
+
+    void setMenuProduitState(int menuId , int index , int state )
+    {
+        Menu m = menusCmd.at( menuId );
+        m.setProduitState( index , state );
+        menusCmd[ menuId ] = m;
+    }
 
     Menu getMenu( int index ) const { return menusCmd.at(index) ; }
 
@@ -32,6 +42,7 @@ private:
     QString id;
     QVector<double> idProduits;
     QVector<double> quantitesP;
+    QVector<int> stateP; // red for not launched, orange for launched and green for served
 
     QVector<Menu> menusCmd;
 

@@ -37,6 +37,9 @@ public:
 
     int getTableNumberFrom( QString s );
 
+    void lanceButtonCode();
+    void serviButtonCode();
+
 public slots:
     void logOut();
     void displayOrdersWidget();
@@ -52,6 +55,27 @@ public slots:
 
     void on_tablesListWidget_itemClicked( QListWidgetItem * item);
 
+    void on_listWidgetApero_itemClicked( QListWidgetItem * item);
+    void on_listWidgetEntrees_itemClicked( QListWidgetItem * item);
+    void on_listWidgetPlats_itemClicked( QListWidgetItem * item);
+    void on_listWidgetDesserts_itemClicked( QListWidgetItem * item);
+    void on_listWidgetVins_itemClicked( QListWidgetItem * item);
+
+    void on_lanceButton1_clicked();
+    void on_serviButton1_clicked();
+
+    void on_lanceButton2_clicked();
+    void on_serviButton2_clicked();
+
+    void on_lanceButton3_clicked();
+    void on_serviButton3_clicked();
+
+    void on_lanceButton4_clicked();
+    void on_serviButton4_clicked();
+
+    void on_lanceButton5_clicked();
+    void on_serviButton5_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -62,6 +86,8 @@ private:
     Commandes * cmds;
     Produits * produits;
     QVector<QListWidgetItem *> tablesItems;
+
+    QListWidgetItem * selectedProduct;
 };
 
 #endif // MAINWINDOW_H

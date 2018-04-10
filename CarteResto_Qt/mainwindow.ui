@@ -284,14 +284,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_10">
                        <item>
-                        <widget class="QPushButton" name="lanceButton3_3">
+                        <widget class="QPushButton" name="lanceButton1">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="serviButton3_3">
+                        <widget class="QPushButton" name="serviButton1">
                          <property name="text">
                           <string>Servi</string>
                          </property>
@@ -325,14 +325,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_9">
                        <item>
-                        <widget class="QPushButton" name="lanceButton3_2">
+                        <widget class="QPushButton" name="lanceButton2">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="serviButton3_2">
+                        <widget class="QPushButton" name="serviButton2">
                          <property name="text">
                           <string>Servi</string>
                          </property>
@@ -366,14 +366,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_13">
                        <item>
-                        <widget class="QPushButton" name="lanceButton1">
+                        <widget class="QPushButton" name="lanceButton3">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="serviButton1">
+                        <widget class="QPushButton" name="serviButton3">
                          <property name="text">
                           <string>Servi</string>
                          </property>
@@ -407,14 +407,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_11">
                        <item>
-                        <widget class="QPushButton" name="lanceButton2">
+                        <widget class="QPushButton" name="lanceButton5_2">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="serviButton2">
+                        <widget class="QPushButton" name="serviButton4">
                          <property name="text">
                           <string>Servi</string>
                          </property>
@@ -448,14 +448,14 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_8">
                        <item>
-                        <widget class="QPushButton" name="lanceButton3">
+                        <widget class="QPushButton" name="lanceButton5">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="serviButton3">
+                        <widget class="QPushButton" name="serviButton5">
                          <property name="text">
                           <string>Servi</string>
                          </property>

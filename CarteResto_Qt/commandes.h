@@ -26,6 +26,20 @@ public:
     int getTable( int index ) const { return tables.at(index); }
     Commande getCommande( int index ) const { return commandes.at( index ); }
 
+    void setProduitState(int cmdId , int index , int state )
+    {
+        Commande c = commandes.at( cmdId );
+        c.setProduitState( index , state );
+        commandes[ cmdId ] = c;
+    }
+
+    void setMenuProduitState(int cmdId , int menuId , int index , int state )
+    {
+        Commande c = commandes.at( cmdId );
+        c.setMenuProduitState( menuId , index , state );
+        commandes[ cmdId ] = c;
+    }
+
 public slots:
     void onResult(QNetworkReply * reply);
     void onResultTable(QNetworkReply * reply);
