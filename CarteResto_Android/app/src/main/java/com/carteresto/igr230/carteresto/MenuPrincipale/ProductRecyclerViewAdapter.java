@@ -70,7 +70,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .using(new FirebaseImageLoader())
                     .load(storage.getReferenceFromUrl(imageRef))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .fitCenter()
                     .into(menuHolder.mImageView);
             menuHolder.mImageView.setOnClickListener(v -> mListener.showDialogue(product.getId()));
             return;
@@ -120,7 +119,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             mData.clear();
             mData.addAll(data);
             diffResult.dispatchUpdatesTo(this);
-            this.mData = data;
         }
     }
 

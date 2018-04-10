@@ -194,6 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                     ref.child(tableNb).setValue(cmdId);
                     Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
                     startActivity(intent);
+                    finish();
                 });
         alertDialog.show();
     }
@@ -211,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                         mLoginViewModel.updateData(cmdId);
                         Intent intent = new Intent(LoginActivity.this, MenuPrincipalActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
         alertDialog.show();

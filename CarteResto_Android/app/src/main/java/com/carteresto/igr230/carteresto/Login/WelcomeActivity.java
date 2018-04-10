@@ -18,6 +18,7 @@ import com.carteresto.igr230.carteresto.R;
 import com.carteresto.igr230.carteresto.source.ProductsRepository;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -188,6 +189,7 @@ public class WelcomeActivity extends AppCompatActivity {
         protected void onPostExecute(Void voids) {
             Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
 
 

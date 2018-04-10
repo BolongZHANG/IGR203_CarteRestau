@@ -142,6 +142,7 @@ public class PanierActivity extends AppCompatActivity implements CommandItemModi
 
 
 
+
     }
 
     private void updateUI(@NonNull Command command) {
@@ -193,7 +194,7 @@ public class PanierActivity extends AppCompatActivity implements CommandItemModi
 
 
         FragmentManager mFragmentMan = this.getSupportFragmentManager();
-        ProductListFragment fragment = ProductListFragment.getInstance(Product.VIN);
+        ProductListFragment fragment = ProductListFragment.getInstance(Product.VIN,3);
         mFragmentMan.beginTransaction().add(R.id.recommandationList, fragment,Product.VIN).commit();
 
     }
@@ -243,6 +244,7 @@ public class PanierActivity extends AppCompatActivity implements CommandItemModi
         viewModel.minusProductQuantity(id);
 
     }
+
 
     @Override
     public void onListFragmentInteraction(Product item) {

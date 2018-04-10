@@ -8,6 +8,22 @@
     tools:context="com.carteresto.igr230.carteresto.MenuPrincipale.MenuPrincipalActivity">
 
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/menu_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+
     <LinearLayout
         android:id="@+id/top_toolbar"
         android:layout_width="wrap_content"
@@ -17,7 +33,27 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:text="Table No:"
+            android:textColor="@android:color/white" />
 
+
+
+
+
+        <TextView
+            android:id="@+id/tbNb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            tools:text="25" />
 
         <SearchView
             android:layout_width="wrap_content"
@@ -28,25 +64,12 @@
 
         </SearchView>
 
-        <ImageButton
-            android:id="@+id/btn_panier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:elevation="4dp"
-            android:foregroundGravity="center"
-            app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
-            tools:layout_editor_absoluteX="1280dp" />
-
 
         <ImageButton
             android:id="@+id/btn_waiter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="36dp"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
@@ -55,6 +78,37 @@
             android:foregroundGravity="center"
             app:srcCompat="@drawable/ic_waiter"
             tools:layout_editor_absoluteX="56dp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/circle"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="right"
+                android:layout_margin="1dp"
+                android:elevation="4dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_brightness_1_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/btn_panier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:elevation="2dp"
+                android:foregroundGravity="center"
+                app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
+                tools:layout_editor_absoluteX="1280dp" />
+
+        </FrameLayout>
+
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout

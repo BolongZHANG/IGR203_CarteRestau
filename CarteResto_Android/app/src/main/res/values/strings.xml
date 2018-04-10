@@ -70,4 +70,6 @@
     <string name="set_meal">Menus</string>
     <string name="wines">Vins</string>
     <string name="recommendation">recommandation</string>
+    <string name="call_witer">Vous voulez rapeler un serveur?</string>
+    <string name="waiter_comming">Le serveur arrive!</string>
 </resources>

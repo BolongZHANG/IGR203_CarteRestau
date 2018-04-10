@@ -39,7 +39,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/tabele_number"
                     android:layout_width="300dp"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:gravity="center"
                     android:hint="@string/prompt_table"
                     android:inputType="number"
@@ -60,7 +60,7 @@
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="300dp"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:hint="@string/prompt_password"
@@ -80,13 +80,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_margin="16dp"
                 android:background="@drawable/valid_button"
                 android:elevation="4dp"
                 android:outlineProvider="background"
                 android:text="@string/valide"
                 android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+
+                />
 
         </LinearLayout>
     </ScrollView>

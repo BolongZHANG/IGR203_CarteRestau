@@ -20,6 +20,7 @@ public class Command {
     static final String PREPA = "preparation";
     static final String COMPLET = "complete";
     static final String RESERVE = "reserve";
+    static final String VALIDEZ = "valider";
     @NonNull
     private String id;
     @NonNull
@@ -27,7 +28,7 @@ public class Command {
     private Map<String, SimpleProduct> productMap = new HashMap<>();
     private Map<String, SimpleMenu> menuMap = new HashMap<>();
     private double totalPrice;
-    private String status;
+    private String status = INIT;
 
     public Command(@NonNull String cmdID, @NonNull String table) {
         this.id = checkNotNull(cmdID);
@@ -145,5 +146,12 @@ public class Command {
             return 0;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NonNull String status) {
+        this.status = status;
+    }
 }
 
