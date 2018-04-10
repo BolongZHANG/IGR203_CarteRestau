@@ -17,6 +17,11 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
@@ -227,7 +232,7 @@
                  <item>
                   <widget class="QLabel" name="label">
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
@@ -252,7 +257,7 @@
                     </size>
                    </property>
                    <property name="text">
-                    <string>TextLabel</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
@@ -407,7 +412,7 @@
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_11">
                        <item>
-                        <widget class="QPushButton" name="lanceButton5_2">
+                        <widget class="QPushButton" name="lanceButton4">
                          <property name="text">
                           <string>Lancé</string>
                          </property>
@@ -597,43 +602,261 @@
       <widget class="QWidget" name="pageAjouter">
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
-         <widget class="QWidget" name="horizontalWidget" native="true">
+         <widget class="QTabWidget" name="tabWidget">
           <property name="maximumSize">
            <size>
-            <width>800</width>
-            <height>16777215</height>
+            <width>900</width>
+            <height>750</height>
            </size>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QPushButton" name="addEntreeButton">
-             <property name="text">
-              <string>Ajouter une Entrée</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="addPlatButton">
-             <property name="text">
-              <string>Ajouter un Plat</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="addDessertButton">
-             <property name="text">
-              <string>Ajouter un Dessert</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="addBoissonButton">
-             <property name="text">
-              <string>Ajouter une Boisson</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tabAddProduit">
+           <attribute name="title">
+            <string>Ajouter Produit</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="0" column="0">
+             <widget class="QWidget" name="verticalWidget" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <item>
+                <widget class="QWidget" name="horizontalWidget_8" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_15">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>Description</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_4"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_6" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_14">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>Ingrédients</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_3"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_4" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_12">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string> Nom         </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_2"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_10" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Prix           </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_2"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_11" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Type         </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_3"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabAddMenu">
+           <attribute name="title">
+            <string>Ajouter Menu</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="0">
+             <widget class="QWidget" name="verticalWidget_2" native="true">
+              <property name="maximumSize">
+               <size>
+                <width>600</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <item>
+                <widget class="QWidget" name="horizontalWidget_27" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_33">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_24">
+                    <property name="text">
+                     <string>Description</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_14"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_28" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_34">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_25">
+                    <property name="text">
+                     <string>Nom          </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_15"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_12" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>Apéritifs    </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_5"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_13" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Entrées     </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_6"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_29" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_35">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_26">
+                    <property name="text">
+                     <string>Plats         </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_16"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_14" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_20">
+                  <item alignment="Qt::AlignTop">
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Desserts   </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_7"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QWidget" name="horizontalWidget_15" native="true">
+                 <layout class="QHBoxLayout" name="horizontalLayout_21">
+                  <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Prix           </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_4"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
