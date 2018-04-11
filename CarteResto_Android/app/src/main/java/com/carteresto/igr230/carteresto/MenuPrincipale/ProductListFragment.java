@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -15,14 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
 import com.carteresto.igr230.carteresto.MenuDetail.MenuDetailActivity;
 import com.carteresto.igr230.carteresto.Model.Product;
 import com.carteresto.igr230.carteresto.R;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -39,6 +43,8 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     static final String TAG = ProductListFragment.class.getSimpleName();
     private static final String ARG_TYPE = "type";
     private static final String COUNT = "count";
+    @BindView(R.id.refreshLayout)
+    SwipeRefreshLayout refreshLayout;
     private String mType = Product.VIN;
     private OnListFragmentInteractionListener mListener;
     private ProductListViewModel viewModel;
@@ -65,6 +71,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
 
     Unbinder unbinder;
     private int rgFlag;
+    private boolean isRefresh;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -94,6 +101,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
         }
         this.viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ProductListViewModel.class);
 
+
     }
 
     @Override
@@ -112,41 +120,58 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
         recyclerView.setAdapter(mAdapter);
 
         this.viewModel.getProductsListByType(mType).observe(this, products -> {
-            Log.e(TAG, "onCreateView: change " + mType +  " list:" + products.size());
+            Log.e(TAG, "onCreateView: change " + mType + " list:" + products.size());
             this.mProducts.clear();
             this.mProducts.addAll(products);
+
             update(products);
         });
 
 
         initFilter();
 
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!isRefresh){
+                    isRefresh = true;
+                    Collections.sort(mProducts, new Comparator<Product>() {
+                        @Override
+                        public int compare(Product lhs, Product rhs) {
+                            // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                            return lhs.getQuantity() > rhs.getQuantity() ? -1 : 0;
+                        }
+                    });
+
+                    update(mProducts);
+                    isRefresh = false;
+                    refreshLayout.setRefreshing(false);
+                }
+
+
+            }
+        });
         return view;
     }
 
 
-    void  update(final List<Product> products){
+    void update(final List<Product> products) {
         Log.d(TAG, "update: product:" + products.size());
 
-        synchronized (this){
-            Collections.sort(products, new Comparator<Product>() {
-                @Override
-                public int compare(Product lhs, Product rhs) {
-                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                    return lhs.getQuantity() > rhs.getQuantity() ? -1 : 0;
-                }
-            });
+        synchronized (this) {
 
-            if(mConstraint.length() == 0){
+
+            if (mConstraint.length() == 0) {
                 mAdapter.setData(products);
                 return;
             }
 
             ArrayList<Product> filteredList = new ArrayList<>();
 
-            for(Product product: mProducts){
+            for (Product product : mProducts) {
                 Log.i(TAG, "update: product" + product.getIngredients());
-                if(product.getIngredients().toLowerCase().contains(mConstraint)){
+                if (product.getIngredients().toLowerCase().contains(mConstraint)) {
                     filteredList.add(product);
                 }
             }
@@ -211,7 +236,7 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
 
     private void initFilter() {
 
-        if(mType.equals(Product.VIN)){
+        if (mType.equals(Product.VIN)) {
             cbFilter0.setText("All");
             cbFilter0.setTag("");
             cbFilter1.setText("Les rouges");
@@ -224,6 +249,12 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
             cbFilter4.setTag("pétillants");
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -240,16 +271,16 @@ public class ProductListFragment extends DialogFragment implements ProductRecycl
     }
 
 
-    @OnClick({R.id.cb_filter0,R.id.cb_filter1, R.id.cb_filter2, R.id.cb_filter3, R.id.cb_filter4})
+    @OnClick({R.id.cb_filter0, R.id.cb_filter1, R.id.cb_filter2, R.id.cb_filter3, R.id.cb_filter4})
     public void onRadioButtonClicked(View view) {
-        RadioButton radioButton = (RadioButton)view;
-        if(view.getTag() == null){
+        RadioButton radioButton = (RadioButton) view;
+        if (view.getTag() == null) {
             radioButton.setChecked(false);
             return;
         }
 
         rgFlag = view.getId();
-        ((RadioButton)view).setChecked(true);
+        ((RadioButton) view).setChecked(true);
         mConstraint = radioButton.getTag().toString().toLowerCase().trim();
         this.update(mProducts);
 

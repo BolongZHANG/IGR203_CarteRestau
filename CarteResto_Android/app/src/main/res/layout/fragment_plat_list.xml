@@ -62,19 +62,28 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="com.carteresto.igr230.carteresto.MenuPrincipale.PlatFragment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        app:layoutManager="StaggeredGridLayoutManager"
-        tools:context="com.carteresto.igr230.carteresto.MenuPrincipale.ProductListFragment"
-        tools:listitem="@layout/menu_item_cardview">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.carteresto.igr230.carteresto.MenuPrincipale.PlatFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal"
+            app:layoutManager="StaggeredGridLayoutManager"
+            tools:context="com.carteresto.igr230.carteresto.MenuPrincipale.ProductListFragment"
+            tools:listitem="@layout/product_cardview">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
 </LinearLayout>
