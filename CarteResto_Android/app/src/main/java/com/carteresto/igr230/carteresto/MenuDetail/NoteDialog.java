@@ -1,5 +1,6 @@
 package com.carteresto.igr230.carteresto.MenuDetail;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ public class NoteDialog extends DialogFragment {
 
     private NoteListener parent;
 
+    @SuppressLint("ValidFragment")
     public NoteDialog(NoteListener listener){
         super();
         parent = listener;
