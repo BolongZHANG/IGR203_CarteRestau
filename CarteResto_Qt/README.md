@@ -1,20 +1,20 @@
-README programme Qt - côté restaurateur
+# README programme Qt - côté restaurateur
 
-##### Page de connexion #####
+## Page de connexion
 
 A l'ouverture du programme un appui trop rapide sur le bouton
 connexion peut faire planter le programme
 
 Pas besoin de login et mot de passe pour se connecter
 
-##### Actualisation des commandes #####
+## Actualisation des commandes
 
 Pour actualiser la liste des commandes il faut appuyer sur
 la touche entrée. Les nouvelles tables apparaissent après deux appuis.
 
 Deux appuis très proche peuvent parfois faire planter le programme.
 
-######## structure ########
+## structure 
 
 La classe principale, MainWindow contient tous les produits du restaurant 
 stockés dans la classe Produits et toutes les commandes stockées dans la classe
